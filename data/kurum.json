@@ -1,0 +1,38 @@
+[
+ {
+  "id": "nice-ng59-2026-07",
+  "org": "NICE",
+  "date": "2026-07-29",
+  "kind": "Kılavuz güncellemesi · tedavi değişikliği",
+  "area": "k1",
+  "title": "Low back pain and sciatica in over 16s: assessment and management (NG59) – July 2026 update",
+  "title_tr": "16 yaş üstünde bel ağrısı ve siyatik: değerlendirme ve tedavi (NG59) – Temmuz 2026 güncellemesi",
+  "summary_tr": "❌ Yapma: Bel ağrısında psikolojik terapiyi ve fiziksel + psikolojik kombine programı rutin tedavi paketi olarak önerme; bu öneriler geri çekildi (dayandıkları kanıtın bir kısmı geri çekilmişti). ✅ Yap: Egzersiz programı (manuel terapiyle ya da tek başına); manuel terapiyi yalnızca egzersiz içeren bir paketin parçası olarak kullan (1.2.7).\n🔄 Önce: NG59, egzersiz paketinin parçası olarak psikolojik terapi ve kombine program öneriyordu (1.2.13, 1.2.14). Şimdi: bu iki öneri silindi; 1.1.3'te riske göre basamaklı yaklaşım korunuyor ama yüksek riskli hastalara önerilen yoğun destek seçeneklerinden 'psikolojik yaklaşım' çıkarıldı. Siyatik, enjeksiyon ve cerrahi önerileri değişmedi.",
+  "url": "https://www.guidelinecentral.com/insights/aug-2026-nice-lowbackpainsciaticaover16-guideline-spotlight/",
+  "added": "2026-11-17"
+ },
+ {
+  "id": "aaos-ankle-oa-2026",
+  "org": "AAOS",
+  "date": "2026-07-02",
+  "kind": "Klinik uygulama kılavuzu (yeni)",
+  "area": "k1",
+  "title": "Clinical Practice Guideline for the Management of Ankle Osteoarthritis",
+  "title_tr": "Ayak bileği osteoartriti tedavisi klinik uygulama kılavuzu",
+  "summary_tr": "❌ Yapma: Semptomatik ayak bileği OA'da tek başına intraartiküler hyaluronik asit (GÜÇLÜ öneri) ve intraartiküler PRP (ORTA düzey öneri). ➕ Düşünülebilir (konsensus seçenekleri): fizik tedavi, ev egzersiz programı dahil grup eğitimi ve egzersiz. Toplam 2 kanıta dayalı öneri, 11 konsensus seçeneği ve 1 sınırlı düzeyde seçenek.\n🔄 Yeni öneri: AAOS'un ayak bileği OA için ilk kılavuzu; karşılaştırılacak önceki AAOS sürümü yok.",
+  "url": "https://www.aaos.org/aaos-home/newsroom/press-releases/aaos-releases-clinical-practice-guideline-for-management-of-ankle-osteoarthritis/",
+  "added": "2026-11-17"
+ },
+ {
+  "id": "nice-htg766-2026",
+  "org": "NICE",
+  "date": "2026-01-22",
+  "kind": "HealthTech kılavuzu (erken değer değerlendirmesi)",
+  "area": "k1",
+  "title": "Digital technologies for managing mild to moderate symptoms of hip or knee osteoarthritis: early value assessment (HTG766)",
+  "title_tr": "Hafif–orta kalça veya diz osteoartriti semptomlarının yönetiminde dijital teknolojiler: erken değer değerlendirmesi (HTG766)",
+  "summary_tr": "➕ Düşünülebilir: Hafif–orta kalça/diz OA semptomlarının yönetiminde dijital teknolojiler, kanıt üretimi sürerken ve gerekli düzenleyici onaylara (NHS England DTAC dahil) sahip olmaları koşuluyla kullanılabilir.\n🔄 Yeni öneri: erken değer değerlendirmesi; kullanım kanıt üretimi koşuluna bağlı.",
+  "url": "https://www.nice.org.uk/guidance/htg766/resources",
+  "added": "2026-11-17"
+ }
+]

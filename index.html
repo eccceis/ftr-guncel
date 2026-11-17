@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="FTR Güncel: fiziksel tıp ve rehabilitasyon için güncel kılavuzlar, makaleler ve günlük bülten. Sağlık profesyonellerine yöneliktir.">
+<title>FTR Güncel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: clinical, calm, exact — a reference-desk tool for a physiatrist
+   IDEA: a pharmacy label / index card: every article is a labelled card with its type stamped on it
+   PICTURE: the desk itself — feed controls or the search box — large, on a full-width emerald field
+   COLOUR and TYPE: emerald #00704a field, white cards, pale pink #ffd6e0 stamp for guidelines; Schibsted Grotesk
+   LAYOUT: emerald band (title, tabs, controls), then one calm column of cards, "load more" at the end */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#04140d);--ink:light-dark(#0d1a14,#e6f2ec);--mute:light-dark(#4f5f57,#9db5a9);
+--line:light-dark(#dfe7e2,#1d3a2d);--card:light-dark(#ffffff,#0a2018);--soft:light-dark(#eef7f2,#0e2a1f);
+--em:#00704a;--link:light-dark(#00704a,#3fd99a);--pink:#ffd6e0;--pinkInk:#5a1026}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Schibsted Grotesk",system-ui,sans-serif;overflow-x:clip}
+a{color:var(--link);text-underline-offset:2px}
+.top{background:var(--em);color:#fff;padding:clamp(22px,4vw,44px) max(5vw,16px) 24px}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-size:clamp(30px,5vw,44px);line-height:1.05;margin:0 0 14px;font-weight:800;text-wrap:balance}
+.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.tab{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:700;padding:8px 18px}
+.tab[aria-selected=true]{background:#fff;color:var(--em);border-color:#fff}
+.sub{margin:0 0 16px;color:#d4f0e2;max-width:64ch}
+form.q{display:flex;gap:8px;flex-wrap:wrap}
+.q input{flex:1 1 260px;font:inherit;font-size:18px;padding:12px 14px;border-radius:10px;border:0;min-height:54px;color:#0d1a14;background:#fff}
+button{font:inherit;cursor:pointer;border-radius:10px;min-height:44px;padding:8px 16px;border:1px solid transparent}
+.go{background:#0d1a14;color:#fff;font-weight:700;padding:0 26px;min-height:54px}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.32);font-size:15px}
+.seg button[aria-pressed=true]{background:#0d1a14;border-color:#0d1a14}
+.filters{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:14px;align-items:center}
+.filters label{font-size:14px;color:#d4f0e2;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.filters select{font:inherit;font-size:16px;min-height:42px;border-radius:8px;border:0;padding:4px 8px;background:#fff;color:#0d1a14}
+.filters select:disabled{opacity:.5}
+.filters input[type=checkbox]{width:20px;height:20px;accent-color:#0d1a14}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.32);font-size:14px;min-height:38px;padding:4px 12px}
+.chip:hover,.seg button:hover{background:rgba(255,255,255,.22)}
+[hidden]{display:none!important}
+main{padding:22px max(5vw,16px) 64px}
+.status{color:var(--mute);margin:0 0 16px;min-height:1.5em}
+.status b{color:var(--ink)}
+.alert{background:var(--soft);border:1px solid var(--line);border-left:4px solid var(--em);border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.alert button{margin-top:8px;background:var(--em);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.meta{font-size:14px;color:var(--mute);display:flex;flex-wrap:wrap;gap:2px 12px}
+.meta .j{font-weight:700;color:var(--ink)}
+.title{font-size:18px;line-height:1.32;font-weight:700;margin:6px 0 4px}
+.orig{font-size:14px;color:var(--mute);margin:0 0 4px}
+.au{font-size:14px;color:var(--mute)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.tag{font-size:13px;padding:2px 9px;border-radius:999px;background:var(--soft)}
+.tag.g{background:var(--pink);color:var(--pinkInk);font-weight:700}
+.tag.s{background:#cfeedd;color:#003d28;font-weight:700}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.b{background:transparent;border:1px solid var(--line);color:var(--ink);font-size:14px;min-height:42px;padding:6px 14px}
+.b:hover{border-color:var(--em)}
+.b.on{background:var(--em);color:#fff;border-color:var(--em)}
+.links{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;margin-top:10px}
+.panel{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--soft);font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.panel .h{display:block;font-weight:700;font-size:13px;color:var(--mute);margin-bottom:6px;white-space:normal}
+.more{display:block;margin:22px auto 0;background:var(--em);color:#fff;font-weight:700;padding:0 30px;min-height:54px}
+.more[disabled]{opacity:.55;cursor:default}
+.picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:4px 0 6px}
+.pick{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;background:#fff;color:var(--em);border:2px solid #fff;border-radius:14px;padding:18px 18px 16px;min-height:120px}
+.pick b{font-size:clamp(17px,2.4vw,22px);font-weight:800;letter-spacing:.01em;line-height:1.15}
+.pick span{font-size:14px;color:#3d5a4c;font-weight:400}
+.pick:hover{background:#eef7f2}
+.pick[aria-pressed=true]{background:#0d1a14;border-color:#0d1a14;color:#fff}
+.pick[aria-pressed=true] span{color:#cfe3d8}
+@media(max-width:600px){.picks{grid-template-columns:minmax(0,1fr)}.pick{min-height:0}}
+.filters.light{margin:6px 0 4px}
+.filters.light label{color:var(--mute)}
+.filters.light select{border:1px solid var(--line)}
+.sh .yr{color:var(--mute);font-weight:700}
+.sh{font-size:clamp(22px,3vw,28px);line-height:1.15;margin:0 0 4px;font-weight:800}
+.ss{font-size:17px;margin:18px 0 4px;font-weight:700}
+.ss span{display:block;font-size:13px;font-weight:400;color:var(--mute)}
+.card.web{border-left:4px solid var(--pink)}
+.tag.w{background:#0d1a14;color:#fff;font-weight:700}
+.wtog{display:block;margin:4px 0 8px}
+.ref h2{font-size:clamp(20px,2.6vw,24px);margin:30px 0 10px;font-weight:800}
+.ref h2:first-child{margin-top:0}
+.ref table{width:100%;border-collapse:collapse;font-size:15px}
+.ref th{text-align:left;font-size:13px;color:var(--mute);font-weight:700;border-bottom:2px solid var(--em);padding:8px 10px 8px 0}
+.ref td{border-bottom:1px solid var(--line);padding:10px 10px 10px 0;vertical-align:top}
+.ref td:first-child{font-weight:700;width:30%}
+.ref td:first-child span{display:block;font-weight:400;font-size:13px;color:var(--mute)}
+.ref .how{font-size:13px;color:var(--mute)}
+.ref .how b{color:var(--ink);font-weight:600}
+.ref .note{font-size:14px;color:var(--mute);margin:0 0 6px}
+@media(max-width:600px){.ref table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start;width:auto!important}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;white-space:normal;font-size:12px;font-weight:700;color:var(--mute)}.stack td:empty{display:none}}
+.gate{position:fixed;inset:0;background:rgba(4,20,13,.72);display:grid;place-items:center;padding:16px;z-index:50}
+.gbox{background:var(--bg);color:var(--ink);max-width:520px;border-radius:16px;padding:24px;border-top:6px solid var(--em)}
+.gbox h2{margin:0 0 10px;font-size:24px;line-height:1.15}
+.gact{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.gnote{font-size:14px;color:var(--mute)}
+a.b{display:inline-flex;align-items:center;text-decoration:none;border-radius:10px}
+.legal p{max-width:75ch}
+.legal h3{font-size:17px;margin:18px 0 4px}
+.card.bul .title a{color:inherit;text-decoration:none}
+.card.bul .title a:hover{text-decoration:underline}
+.kl{margin:6px 0 0;padding-left:20px;font-size:15px}
+.kl li{margin:2px 0}
+footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:14px;margin-top:30px}
+@media(max-width:600px){.go{flex:1 1 100%}.title{font-size:17px}.card{padding:14px}}
+@media(prefers-reduced-motion:no-preference){.card{animation:rise .25s ease-out both}@keyframes rise{from{opacity:0;transform:translateY(5px)}}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <h1>FTR Güncel</h1>
+  <div class="tabs" role="tablist">
+    <button type="button" class="tab" role="tab" data-tab="guncel" aria-selected="true">Son güncellemeler</button>
+    <button type="button" class="tab" role="tab" data-tab="bultenler" aria-selected="false">Bültenler</button>
+    <button type="button" class="tab" role="tab" data-tab="arama" aria-selected="false">Arama</button>
+    <button type="button" class="tab" role="tab" data-tab="referanslar" aria-selected="false">Referanslar</button>
+  </div>
+
+  <section id="u-ctl">
+    <div class="picks" id="picks">
+      <button type="button" class="pick" data-pick="g" aria-pressed="false"><b>EN GÜNCEL GUIDELINE'LAR</b><span>Bu yıl yayımlanan kılavuz, konsensus ve pozisyon bildirileri</span></button>
+      <button type="button" class="pick" data-pick="n" aria-pressed="false"><b>EN GÜNCEL MAKALELER</b><span>FTR dergilerine PubMed'de en son eklenen makaleler</span></button>
+    </div>
+    <div class="filters">
+      <label><input type="checkbox" id="trt" checked> Başlıkları Türkçe göster</label>
+    </div>
+  </section>
+
+  <section id="b-ctl" hidden>
+    <p class="sub">Her gün 12:30 ve 18:00'de PubMed, ClinicalTrials.gov ve kılavuz yayımlayan kurumların siteleri taranır; yeni kılavuzlar, tedavi değişiklikleri, sistematik derlemeler ve randomize çalışmalar bültende özetlenir.</p>
+  </section>
+
+  <section id="r-ctl" hidden>
+    <p class="sub">Bu sitedeki içerik aşağıdaki kaynaklardan güncellenir. PubMed sorguları sayfa açıldığında doğrudan PubMed'e (NCBI E-utilities) gönderilir. ClinicalTrials.gov, NCBI Bookshelf ve kurum siteleri her gün 12:30 ve 18:00'de FTR Güncel taraması tarafından tek tek kontrol edilir; yeni kılavuzlar "Kurum sitelerinden" bölümüne, bültenler "Bültenler" sekmesine eklenir.</p>
+  </section>
+
+  <section id="s-ctl" hidden>
+    <p class="sub">PubMed'in tamamında arayın. Yaygın Türkçe FTR terimleri otomatik olarak İngilizceye çevrilir; en iyi sonuç için İngilizce terim de yazabilirsiniz.</p>
+    <form class="q" id="f">
+      <input type="search" id="q" placeholder="Örn. lateral epikondilit şok dalga tedavisi" autocomplete="off" aria-label="Arama terimi">
+      <button class="go" type="submit">Ara</button>
+    </form>
+    <div class="filters">
+      <label>Makale türü
+        <select id="type">
+          <option value="all">Tümü</option>
+          <option value="guide">Kılavuz / konsensus</option>
+          <option value="sr">Sistematik derleme / meta-analiz</option>
+          <option value="rct">Randomize kontrollü çalışma</option>
+          <option value="rev">Derleme</option>
+        </select></label>
+      <label>Tarih
+        <select id="date">
+          <option value="0">Tüm yıllar</option>
+          <option value="1">Son 1 yıl</option>
+          <option value="5">Son 5 yıl</option>
+          <option value="10">Son 10 yıl</option>
+        </select></label>
+      <label>Sıralama
+        <select id="sort">
+          <option value="relevance">En ilgili</option>
+          <option value="pub_date">En yeni</option>
+        </select></label>
+      <label><input type="checkbox" id="free"> Ücretsiz tam metin</label>
+      <label><input type="checkbox" id="tr" checked> Türkçe terimleri çevir</label>
+    </div>
+    <div class="chips" id="chips"></div>
+  </section>
+</div></header>
+
+<div id="gate" class="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gate-t">
+  <div class="gbox">
+    <h2 id="gate-t">Sağlık profesyonellerine yönelik içerik</h2>
+    <p>Bu sitedeki bilgiler hekimler ve sağlık meslek mensupları için hazırlanmıştır. Tıbbi tavsiye, tanı ya da tedavi önerisi değildir ve hekim muayenesinin yerini tutmaz.</p>
+    <p>Türkçe başlıklar ve özetler yapay zekâ ile üretilir ve hata içerebilir; klinik karar için makalenin tam metnine ve ilgili kılavuza başvurun.</p>
+    <div class="gact">
+      <button type="button" class="go" id="gate-ok">Sağlık profesyoneliyim, devam et</button>
+      <button type="button" class="b" id="gate-no">Sağlık profesyoneli değilim</button>
+    </div>
+    <p class="gnote" id="gate-msg" hidden>Bu site sağlık profesyonellerine yöneliktir. Sağlıkla ilgili sorularınız için lütfen hekiminize danışın.</p>
+  </div>
+</div>
+
+<main><div class="wrap">
+  <div id="alert"></div>
+  <section id="u-view">
+    <p class="status" id="pick-hint">Yukarıdan bir bölüm seçin.</p>
+    <div class="sec" id="sec-g" hidden>
+      <h2 class="sh">En güncel guideline'lar <span class="yr">(<span id="g-year"></span>)</span></h2>
+      <div class="filters light"><label>Alan <select id="area">
+          <option value="all">Tüm FTR</option>
+          <option value="k1">Kas-iskelet</option>
+          <option value="k2">Nörorehabilitasyon</option>
+          <option value="k3">Romatoloji ve kemik</option>
+          <option value="k4">Genel rehabilitasyon ve ağrı</option>
+          <option value="k5">Girişimsel ve fizik ajanlar</option>
+          <option value="k6">Spor, pediatri ve diğer</option>
+        </select></label></div>
+      <h3 class="ss">Kurum sitelerinden</h3>
+      <p class="status" id="w-status" aria-live="polite">Yükleniyor…</p>
+      <div id="w-list"></div>
+      <button type="button" class="b wtog" id="w-more" hidden>Tümünü göster</button>
+      <h3 class="ss">PubMed'den</h3>
+      <p class="status" id="g-status" aria-live="polite">Yükleniyor…</p>
+      <div id="g-list"></div>
+      <button class="more" id="g-more" hidden>Daha fazla kılavuz yükle</button>
+    </div>
+    <div class="sec" id="sec-n" hidden>
+      <h2 class="sh">En güncel makaleler</h2>
+      <p class="status" id="n-status" aria-live="polite">Yükleniyor…</p>
+      <div id="n-list"></div>
+      <button class="more" id="n-more" hidden>10 makale daha yükle</button>
+    </div>
+  </section>
+  <section id="b-view" hidden>
+    <p class="status" id="b-status" aria-live="polite">Yükleniyor…</p>
+    <div id="b-list"></div>
+    <button class="more" id="b-more" hidden>Daha eski bültenler</button>
+  </section>
+  <section id="r-view" hidden>
+    <div id="r-body"></div>
+  </section>
+  <section id="s-view" hidden>
+    <p class="status" id="s-status" aria-live="polite">Bir terim yazın ya da yukarıdaki konulardan birine dokunun.</p>
+    <div id="s-list"></div>
+    <button class="more" id="s-more" hidden>20 makale daha yükle</button>
+  </section>
+  <footer>
+    <p><b>Sağlık profesyonellerine yöneliktir; tıbbi tavsiye değildir.</b> Türkçe başlıklar ve özetler yapay zekâ ile üretilir ve hata içerebilir. Klinik karar için makalenin tam metnine ve ilgili kılavuza başvurun. <a href="#referanslar" id="f-legal">Yasal uyarı, gizlilik ve kaynaklar</a></p>
+    <p>Bu site ABD Ulusal Tıp Kütüphanesi'nin (NLM, NIH) kamuya açık verilerini (PubMed, PubMed Central, ClinicalTrials.gov) kullanır. NLM bu siteden sorumlu değildir ve bu siteyi onaylamaz ya da önermez. Makale başlıkları ve özetlerinin telif hakkı yazarlarına ve yayıncılarına aittir; her kayıtta orijinal kaynağa DOI ve PubMed bağlantısı verilir.</p>
+  </footer>
+</div></main>
+
+<script>
+{
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const alertBox = $('#alert');
+
+/* ---------- PubMed via NCBI E-utilities (public, no key; max ~3 requests/s) ---------- */
+const EUTILS = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
+let nextSlot = 0;
+async function ncbi(path, params) {
+  const wait = Math.max(0, nextSlot - Date.now());
+  nextSlot = Date.now() + wait + 380;
+  if (wait) await sleep(wait);
+  const u = new URL(EUTILS + path);
+  Object.entries(Object.assign({ db: 'pubmed', retmode: 'json', tool: 'ftr-guncel' }, params))
+    .forEach(([k, v]) => { if (v !== undefined && v !== null && v !== '') u.searchParams.set(k, v); });
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const r = await fetch(u.toString());
+      if (r.status === 429 || r.status >= 500) { lastErr = new Error('HTTP ' + r.status); await sleep(900 + attempt * 700); continue; }
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch (e) { lastErr = e; await sleep(700 + attempt * 600); }
+  }
+  throw lastErr || new Error('PubMed yanıt vermedi');
+}
+async function esearch(p) {
+  const j = await ncbi('esearch.fcgi', { term: p.term, sort: p.sort, datetype: p.datetype, mindate: p.mindate, maxdate: p.maxdate, retstart: p.retstart, retmax: p.retmax });
+  const r = j.esearchresult || {};
+  if (r.ERROR) throw new Error(r.ERROR);
+  const ids = r.idlist || [], count = +r.count || 0;
+  return { ids, count, more: (+r.retstart || 0) + ids.length < count };
+}
+async function esummary(ids) {
+  if (!ids.length) return [];
+  const j = await ncbi('esummary.fcgi', { id: ids.join(',') });
+  const res = j.result || {};
+  return ids.map(id => res[id]).filter(r => r && !r.error).map(r => {
+    const aid = t => ((r.articleids || []).find(a => a.idtype === t) || {}).value;
+    const sp = String(r.sortpubdate || '').slice(0, 10).split('/');
+    return {
+      pmid: String(r.uid), doi: aid('doi'), pmc: aid('pmc'),
+      title: String(r.title || '').replace(/<[^>]+>/g, ''),
+      journal: r.source || r.fulljournalname || '',
+      date: sp.length === 3 ? `${sp[2]}.${sp[1]}.${sp[0]}` : (r.pubdate || ''),
+      authors: (r.authors || []).map(a => a.name).filter(Boolean),
+      types: r.pubtype || []
+    };
+  });
+}
+
+/* ---------- query building ---------- */
+const fld = (a, tag) => '(' + a.map(t => (t.includes(' ') ? `"${t}"` : t) + `[${tag}]`).join(' OR ') + ')';
+const FILT = {
+  guide: '(guideline[pt] OR practice guideline[pt] OR "practice guideline"[ti] OR "practice guidelines"[ti] OR "guideline for"[ti] OR "guidelines for"[ti] OR "recommendations for"[ti] OR "consensus statement"[ti] OR "position statement"[ti] OR "expert consensus"[ti])',
+  sr: '(systematic review[pt] OR meta-analysis[pt] OR "systematic review"[ti] OR meta-analysis[ti] OR "Cochrane Database Syst Rev"[ta])',
+  rct: '(randomized controlled trial[pt] OR randomized[ti] OR randomised[ti])',
+  rev: 'review[pt]'
+};
+const AREA = {
+  all: ['rehabilitation', 'physiotherapy', 'physical therapy', 'exercise', 'musculoskeletal', 'osteoarthritis', 'back pain', 'neck pain', 'osteoporosis', 'spasticity'],
+  k1: ['osteoarthritis', 'back pain', 'neck pain', 'shoulder pain', 'tendinopathy', 'epicondylitis', 'rotator cuff', 'fibromyalgia', 'carpal tunnel', 'plantar fasciitis'],
+  k2: ['stroke', 'spinal cord injury', 'brain injury', 'spasticity', 'multiple sclerosis', 'Parkinson', 'cerebral palsy', 'neuropathy', 'dysphagia', 'botulinum toxin'],
+  k3: ['osteoporosis', 'sarcopenia', 'rheumatoid arthritis', 'spondyloarthritis', 'ankylosing spondylitis', 'psoriatic arthritis', 'gout', 'fragility fracture', 'falls', 'frailty'],
+  k4: ['rehabilitation', 'physiotherapy', 'physical therapy', 'exercise therapy', 'cardiac rehabilitation', 'pulmonary rehabilitation', 'lymphedema', 'amputation', 'prosthesis', 'chronic pain'],
+  k5: ['shock wave', 'platelet-rich plasma', 'hyaluronic acid', 'corticosteroid injection', 'radiofrequency', 'transcranial magnetic stimulation', 'dry needling', 'ultrasound-guided', 'balneotherapy', 'electrical stimulation'],
+  k6: ['sports injury', 'anterior cruciate ligament', 'concussion', 'ankle sprain', 'scoliosis', 'developmental dysplasia', 'juvenile idiopathic arthritis', 'hypermobility', 'vestibular', 'pelvic floor']
+};
+const GJOURNALS = ['J Orthop Sports Phys Ther', 'Phys Ther', 'J Am Acad Orthop Surg', 'Arthritis Care Res (Hoboken)', 'Ann Rheum Dis', 'Osteoarthritis Cartilage', 'Spine J', 'Br J Sports Med', 'Eur J Phys Rehabil Med', 'Arch Phys Med Rehabil', 'Stroke', 'Eur J Neurol', 'Neurology', 'Eur J Pain', 'Spinal Cord', 'J Cardiopulm Rehabil Prev', 'Eur Respir J', 'Med Sci Sports Exerc', 'Dev Med Child Neurol', 'Osteoporos Int'];
+const JOURNALS = ['Arch Phys Med Rehabil', 'Am J Phys Med Rehabil', 'PM R', 'Eur J Phys Rehabil Med', 'J Rehabil Med', 'Ann Phys Rehabil Med', 'Turk J Phys Med Rehabil', 'Clin Rehabil', 'Disabil Rehabil', 'Neurorehabil Neural Repair', 'Spinal Cord', 'Top Stroke Rehabil', 'J Orthop Sports Phys Ther', 'Br J Sports Med', 'Phys Ther', 'J Physiother', 'Musculoskelet Sci Pract'];
+const ymd = d => `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+const ago = (n, unit) => { const d = new Date(); unit === 'y' ? d.setFullYear(d.getFullYear() - n) : d.setDate(d.getDate() - n); return ymd(d); };
+const YEAR = new Date().getFullYear();
+
+/* ---------- Turkish -> English search terms (common FTR vocabulary) ---------- */
+const TR_EN = {
+  'ekstrakorporeal şok dalga tedavisi': 'extracorporeal shock wave therapy', 'kompleks bölgesel ağrı sendromu': 'complex regional pain syndrome',
+  'gelişimsel kalça displazisi': 'developmental dysplasia of the hip', 'jüvenil idiyopatik artrit': 'juvenile idiopathic arthritis',
+  'transkraniyal manyetik stimülasyon': 'transcranial magnetic stimulation', 'transkraniyal doğru akım stimülasyonu': 'transcranial direct current stimulation',
+  'trombositten zengin plazma': 'platelet-rich plasma', 'travmatik beyin hasarı': 'traumatic brain injury', 'karpal tünel sendromu': 'carpal tunnel syndrome',
+  'kortikosteroid enjeksiyonu': 'corticosteroid injection', 'ayak bileği burkulması': 'ankle sprain', 'omurilik yaralanması': 'spinal cord injury',
+  'kardiyak rehabilitasyon': 'cardiac rehabilitation', 'pulmoner rehabilitasyon': 'pulmonary rehabilitation', 'kanser rehabilitasyonu': 'cancer rehabilitation',
+  'aksiyel spondiloartrit': 'axial spondyloarthritis', 'ankilozan spondilit': 'ankylosing spondylitis', 'aşil tendinopatisi': 'achilles tendinopathy',
+  'lateral epikondilit': 'lateral epicondylitis', 'medial epikondilit': 'medial epicondylitis', 'steroid enjeksiyonu': 'corticosteroid injection',
+  'elektrik stimülasyonu': 'electrical stimulation', 'egzersiz tedavisi': 'exercise therapy', 'kırılganlık kırığı': 'fragility fracture',
+  'periferik nöropati': 'peripheral neuropathy', 'botulinum toksini': 'botulinum toxin', 'multipl skleroz': 'multiple sclerosis', 'serebral palsi': 'cerebral palsy',
+  'romatoid artrit': 'rheumatoid arthritis', 'psoriatik artrit': 'psoriatic arthritis', 'diz osteoartriti': 'knee osteoarthritis', 'kalça osteoartriti': 'hip osteoarthritis',
+  'el osteoartriti': 'hand osteoarthritis', 'miyofasyal ağrı': 'myofascial pain', 'nöropatik ağrı': 'neuropathic pain', 'adeziv kapsülit': 'adhesive capsulitis',
+  'sıkışma sendromu': 'impingement syndrome', 'hipermobilite spektrum bozukluğu': 'hypermobility spectrum disorder', 'beyin hasarı': 'brain injury',
+  'tenisçi dirseği': 'lateral epicondylitis', 'rotator manşet': 'rotator cuff', 'donuk omuz': 'frozen shoulder', 'karpal tünel': 'carpal tunnel',
+  'plantar fasiit': 'plantar fasciitis', 'topuk dikeni': 'plantar fasciitis', 'kronik ağrı': 'chronic pain', 'kalça kırığı': 'hip fracture',
+  'hyaluronik asit': 'hyaluronic acid', 'kuru iğneleme': 'dry needling', 'ultrason eşliğinde': 'ultrasound-guided', 'kaplıca tedavisi': 'balneotherapy',
+  'kinezyo bantlama': 'kinesio taping', 'ön çapraz bağ': 'anterior cruciate ligament', 'beyin sarsıntısı': 'concussion', 'pelvik taban': 'pelvic floor',
+  'manuel terapi': 'manual therapy', 'fizik tedavi': 'physical therapy', 'bel ağrısı': 'low back pain', 'boyun ağrısı': 'neck pain', 'omuz ağrısı': 'shoulder pain',
+  'diz ağrısı': 'knee pain', 'kalça ağrısı': 'hip pain', 'şok dalga': 'shock wave', 'spinal stenoz': 'spinal stenosis', 'disk hernisi': 'disc herniation',
+  'osteoartrit': 'osteoarthritis', 'gonartroz': 'knee osteoarthritis', 'koksartroz': 'hip osteoarthritis', 'epikondilit': 'epicondylitis', 'tendinopati': 'tendinopathy',
+  'tendinit': 'tendinitis', 'fibromiyalji': 'fibromyalgia', 'inme': 'stroke', 'felç': 'stroke', 'hemipleji': 'hemiplegia', 'spastisite': 'spasticity',
+  'parkinson': 'parkinson disease', 'disfaji': 'dysphagia', 'afazi': 'aphasia', 'osteoporoz': 'osteoporosis', 'sarkopeni': 'sarcopenia', 'spondiloartrit': 'spondyloarthritis',
+  'gut': 'gout', 'düşme': 'falls', 'kırılganlık': 'frailty', 'lenfödem': 'lymphedema', 'amputasyon': 'amputation', 'protez': 'prosthesis', 'ortez': 'orthosis',
+  'rehabilitasyon': 'rehabilitation', 'fizyoterapi': 'physiotherapy', 'egzersiz': 'exercise', 'radyofrekans': 'radiofrequency', 'balneoterapi': 'balneotherapy',
+  'hidroterapi': 'hydrotherapy', 'skolyoz': 'scoliosis', 'hipermobilite': 'hypermobility', 'vestibüler': 'vestibular', 'mobilizasyon': 'mobilization',
+  'manipülasyon': 'manipulation', 'enjeksiyon': 'injection', 'lazer': 'laser', 'ultrason': 'ultrasound', 'kılavuz': 'guideline', 'tedavisi': 'treatment',
+  'tedavi': 'treatment', 'tanı': 'diagnosis', 'yaşlı': 'older adults', 'çocuk': 'children', 'ağrı': 'pain', 'diz': 'knee', 'kalça': 'hip', 'omuz': 'shoulder',
+  'boyun': 'neck', 'dirsek': 'elbow', 'bilek': 'wrist', 'ayak': 'foot', 'el': 'hand', 'bel': 'low back', 've': '', 'ile': '', 'için': '', 'de': '', 'da': ''
+};
+const TR_KEYS = Object.keys(TR_EN).sort((a, b) => b.length - a.length);
+function toEnglish(q) {
+  if (!$('#tr').checked || /\[|"|\bAND\b|\bOR\b/.test(q)) return q;
+  let s = ' ' + q.toLocaleLowerCase('tr').replace(/\s+/g, ' ') + ' ';
+  for (const k of TR_KEYS) s = s.split(' ' + k + ' ').join(' ' + TR_EN[k] + ' ');
+  return s.replace(/\s+/g, ' ').trim() || q;
+}
+
+/* ---------- pre-generated Turkish titles and summaries (data/ozet/<pmid>.json, written by the daily bulletin) ---------- */
+const OZ = new Map();
+function ozet(pmid) {
+  if (!OZ.has(pmid)) OZ.set(pmid, fetch(`data/ozet/${pmid}.json`, { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null));
+  return OZ.get(pmid);
+}
+async function enrich(F, from, arts) {
+  await Promise.all(arts.map(async (a, k) => {
+    const o = await ozet(a.pmid);
+    const c = F.list.querySelector(`.card[data-i="${from + k}"]`);
+    if (!c || !o) return;
+    a.oz = o;
+    if (o.t) {
+      c.querySelector('.title').dataset.tr = o.t;
+      if ($('#trt').checked) setTitle(c, a, true);
+    }
+    const acts = c.querySelector('.acts');
+    const btns = (o.tr ? '<button type="button" class="b" data-act="tr">Türkçe özet</button>' : '') + (o.en ? '<button type="button" class="b" data-act="en">English summary</button>' : '');
+    if (btns) acts.insertAdjacentHTML('afterbegin', btns);
+  }));
+}
+function setTitle(c, a, tr) {
+  const t = c.querySelector('.title'), o = c.querySelector('.orig');
+  if (tr && t.dataset.tr) { t.textContent = t.dataset.tr; if (!o) t.insertAdjacentHTML('afterend', `<p class="orig">${esc(a.title)}</p>`); }
+  else { t.textContent = a.title; if (o) o.remove(); }
+}
+
+/* ---------- feeds ---------- */
+function makeFeed(p, size, moreTxt, unit) {
+  return { key: p, size, moreTxt, unit, list: $(`#${p}-list`), status: $(`#${p}-status`), more: $(`#${p}-more`), items: [], start: 0, total: 0, busy: false, gen: 0, input: null, note: '' };
+}
+const G = makeFeed('g', 10, 'Daha fazla kılavuz yükle', 'kılavuz'),
+      N = makeFeed('n', 10, '10 makale daha yükle', 'makale'),
+      S = makeFeed('s', 20, '20 makale daha yükle', 'makale');
+const FEEDS = { g: G, n: N, s: S };
+
+function showAlert(msg, retry) {
+  alertBox.innerHTML = `<div class="alert">${esc(msg)}${retry ? '<br><button type="button" id="retry">Tekrar dene</button>' : ''}</div>`;
+  if (retry) $('#retry').onclick = () => { alertBox.innerHTML = ''; retry(); };
+}
+
+async function load(F, reset) {
+  if (F.busy && !reset) return;
+  const gen = reset ? ++F.gen : F.gen;
+  F.busy = true; alertBox.innerHTML = '';
+  if (reset) { F.start = 0; F.items = []; F.list.innerHTML = ''; F.status.textContent = 'PubMed\'den getiriliyor…'; F.more.hidden = true; }
+  F.more.disabled = true; F.more.textContent = 'Yükleniyor…';
+  try {
+    const s = await esearch(Object.assign({}, F.input, { retstart: F.start, retmax: F.size }));
+    if (gen !== F.gen) return;
+    F.total = s.count;
+    if (!s.ids.length && reset) { F.status.innerHTML = `<b>Bu seçimde makale bulunamadı.</b>${F.note}`; return; }
+    const arts = await esummary(s.ids);
+    if (gen !== F.gen) return;
+    const from = F.items.length;
+    F.items.push(...arts);
+    F.list.insertAdjacentHTML('beforeend', arts.map((a, k) => card(a, from + k, F.key)).join(''));
+    F.start += s.ids.length;
+    F.status.innerHTML = `<b>${F.items.length.toLocaleString('tr-TR')}</b> / ${F.total.toLocaleString('tr-TR')} ${F.unit} gösteriliyor${F.note}`;
+    F.more.hidden = !s.more;
+    enrich(F, from, arts);
+  } catch (e) {
+    if (gen !== F.gen) return;
+    showAlert('PubMed\'e şu anda ulaşılamadı (' + (e && e.message || 'bağlantı hatası') + '). İnternet bağlantınızı kontrol edip tekrar deneyin.', () => load(F, reset));
+    if (reset) F.status.textContent = '';
+  } finally {
+    if (gen === F.gen) { F.busy = false; F.more.disabled = false; F.more.textContent = F.moreTxt; }
+  }
+}
+
+function card(a, i, v) {
+  const au = a.authors.slice(0, 3).join(', ') + (a.authors.length > 3 ? ' ve ark.' : '');
+  const tags = a.types.filter(t => t !== 'Journal Article').map(t => {
+    const c = /guideline|consensus/i.test(t) ? 'g' : /systematic|meta-analysis|randomized/i.test(t) ? 's' : '';
+    return `<span class="tag ${c}">${esc(t)}</span>`;
+  }).join('');
+  return `<article class="card" data-i="${i}" data-v="${v}">
+    <div class="meta"><span class="j">${esc(a.journal)}</span><span>${esc(a.date)}</span>${a.pmc ? '<span>Ücretsiz tam metin</span>' : ''}</div>
+    <h2 class="title">${esc(a.title)}</h2>
+    ${au ? `<div class="au">${esc(au)}</div>` : ''}
+    ${tags ? `<div class="tags">${tags}</div>` : ''}
+    <div class="acts"><a class="b lnk" href="https://pubmed.ncbi.nlm.nih.gov/${esc(a.pmid)}/" target="_blank" rel="noopener">Orijinal özet PubMed'de</a></div>
+    <div class="out"></div>
+    <div class="links">
+      ${a.doi ? `<a href="https://doi.org/${esc(a.doi)}" target="_blank" rel="noopener">DOI: ${esc(a.doi)}</a>` : ''}
+      <a href="https://pubmed.ncbi.nlm.nih.gov/${esc(a.pmid)}/" target="_blank" rel="noopener">PubMed ${esc(a.pmid)}</a>
+      ${a.pmc ? `<a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(a.pmc)}/" target="_blank" rel="noopener">Tam metin (PMC)</a>` : ''}
+    </div>
+  </article>`;
+}
+
+function onCardClick(e) {
+  const btn = e.target.closest('button[data-act]'); if (!btn) return;
+  const c = btn.closest('.card');
+  const a = FEEDS[c.dataset.v].items[+c.dataset.i];
+  const out = c.querySelector('.out');
+  const wasOn = btn.classList.contains('on');
+  c.querySelectorAll('button[data-act]').forEach(b => b.classList.remove('on'));
+  if (wasOn || !a.oz) { out.innerHTML = ''; return; }
+  btn.classList.add('on');
+  const lang = btn.dataset.act;
+  const label = lang === 'tr' ? 'Türkçe özet · yapay zekâ (Claude) ile PubMed özetinden üretildi, hata içerebilir' : 'English summary · AI-generated (Claude) from the PubMed abstract; may contain errors';
+  out.innerHTML = `<div class="panel"><span class="h">${label}</span>${esc(a.oz[lang])}</div>`;
+}
+[G, N, S].forEach(F => { F.list.addEventListener('click', onCardClick); F.more.addEventListener('click', () => load(F, false)); });
+
+$('#trt').addEventListener('change', () => {
+  try { localStorage.setItem('ftr-trt', $('#trt').checked ? '1' : '0'); } catch (e) {}
+  [G, N].forEach(F => F.list.querySelectorAll('.card').forEach(c => setTitle(c, F.items[+c.dataset.i], $('#trt').checked)));
+  renderWeb();
+});
+
+/* ---------- home: guidelines and newest ---------- */
+$('#g-year').textContent = YEAR;
+function refreshGuides() {
+  const area = $('#area').value;
+  const topic = area === 'all' ? `(${fld(AREA.all, 'ti')} OR ${fld(GJOURNALS, 'ta')})` : fld(AREA[area], 'ti');
+  G.input = { term: `${FILT.guide} AND ${topic} NOT published erratum[pt]`, sort: 'pub_date', datetype: 'pdat', mindate: `${YEAR}/01/01`, maxdate: ymd(new Date()) };
+  G.note = ` · ${YEAR} yayın tarihli kılavuz, konsensus ve pozisyon bildirileri`;
+  load(G, true);
+  renderWeb();
+}
+function refreshNewest() {
+  N.input = { term: fld(JOURNALS, 'ta'), sort: 'pub_date', datetype: 'edat', mindate: ago(14), maxdate: ymd(new Date()) };
+  N.note = ' · son 14 günde PubMed\'e eklenen, FTR / rehabilitasyon / spor dergileri';
+  load(N, true);
+}
+$('#area').addEventListener('change', () => { try { localStorage.setItem('ftr-area', $('#area').value); } catch (e) {} refreshGuides(); });
+
+/* ---------- institutional guidelines (data/kurum.json, written by the daily bulletin) ---------- */
+let WEB = [], webAll = false, webLoaded = false;
+const AREA_TR = { k1: 'Kas-iskelet', k2: 'Nörorehabilitasyon', k3: 'Romatoloji ve kemik', k4: 'Genel rehabilitasyon ve ağrı', k5: 'Girişimsel ve fizik ajanlar', k6: 'Spor, pediatri ve diğer' };
+async function startWeb() {
+  try {
+    const r = await fetch('data/kurum.json', { cache: 'no-cache' });
+    WEB = r.ok ? await r.json() : [];
+    if (!Array.isArray(WEB)) WEB = [];
+  } catch (e) { WEB = []; }
+  WEB.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  webLoaded = true; renderWeb();
+}
+function renderWeb() {
+  if (!webLoaded) return;
+  const st = $('#w-status'), box = $('#w-list'), tog = $('#w-more');
+  const area = $('#area').value, yr = String(YEAR), tr = $('#trt').checked;
+  const rows = WEB.filter(w => String(w.date || '').startsWith(yr) && (area === 'all' || w.area === area || w.area === 'all'));
+  const shown = webAll ? rows : rows.slice(0, 5);
+  st.innerHTML = rows.length ? `<b>${rows.length}</b> kurum kılavuzu · her gün 12:30 ve 18:00'de güncellenir` : 'Bu yıl için kayıtlı kurum kılavuzu yok; günlük tarama bulduğu buraya eklenir.';
+  box.innerHTML = shown.map(w => {
+    const d = String(w.date || '').split('-').reverse().join('.');
+    const t = tr && w.title_tr ? w.title_tr : w.title;
+    return `<article class="card web">
+      <div class="meta"><span class="j">${esc(w.org)}</span><span>${esc(d)}</span></div>
+      <h2 class="title">${esc(t)}</h2>
+      ${tr && w.title_tr && w.title ? `<p class="orig">${esc(w.title)}</p>` : ''}
+      <div class="tags"><span class="tag w">Kurum sitesi</span>${w.kind ? `<span class="tag g">${esc(w.kind)}</span>` : ''}${AREA_TR[w.area] ? `<span class="tag">${esc(AREA_TR[w.area])}</span>` : ''}</div>
+      ${w.summary_tr ? `<div class="panel"><span class="h">Klinik mesaj · kurumun yayımladığı metinden yapay zekâ ile hazırlandı</span>${esc(w.summary_tr)}</div>` : ''}
+      <div class="links">
+        ${/^https?:\/\//.test(w.url || '') ? `<a href="${esc(w.url)}" target="_blank" rel="noopener">Kurum sayfasını aç</a>` : ''}
+        ${w.doi ? `<a href="https://doi.org/${esc(w.doi)}" target="_blank" rel="noopener">DOI: ${esc(w.doi)}</a>` : ''}
+        ${w.pmid ? `<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(w.pmid)}/" target="_blank" rel="noopener">PubMed ${esc(w.pmid)}</a>` : ''}
+      </div>
+    </article>`;
+  }).join('');
+  tog.hidden = rows.length <= 5;
+  tog.textContent = webAll ? 'Daha az göster' : `Tümünü göster (${rows.length})`;
+}
+$('#w-more').addEventListener('click', () => { webAll = !webAll; renderWeb(); });
+
+/* ---------- bulletins archive (data/bultenler.json) ---------- */
+let bLoaded = false, BUL = [], bShown = 20;
+async function loadBulletins() {
+  if (bLoaded) return; bLoaded = true;
+  const st = $('#b-status');
+  try {
+    const r = await fetch('data/bultenler.json', { cache: 'no-cache' });
+    BUL = r.ok ? await r.json() : [];
+    if (!Array.isArray(BUL)) BUL = [];
+  } catch (e) { BUL = []; }
+  BUL.sort((a, b) => String(b.date + (b.tip === 'Akşam' ? '2' : '1')).localeCompare(String(a.date + (a.tip === 'Akşam' ? '2' : '1'))));
+  renderBulletins();
+  if (!BUL.length) st.textContent = 'Henüz yayımlanmış bülten yok. İlk bülten bir sonraki taramada (12:30 veya 18:00) burada görünecek.';
+}
+function renderBulletins() {
+  const st = $('#b-status');
+  st.innerHTML = BUL.length ? `<b>${BUL.length}</b> bülten · her gün 12:30 ve 18:00` : st.innerHTML;
+  $('#b-list').innerHTML = BUL.slice(0, bShown).map(b => {
+    const d = String(b.date || '').split('-').reverse().join('.');
+    const k = Array.isArray(b.kilavuzlar) ? b.kilavuzlar.slice(0, 4) : [];
+    return `<article class="card bul">
+      <div class="meta"><span class="j">${esc(d)} · ${esc(b.tip || '')}</span>${b.ozet ? `<span>${esc(b.ozet)}</span>` : ''}</div>
+      <h2 class="title"><a href="${esc(b.dosya)}">${esc(b.baslik || ('FTR Güncel – ' + d + ' ' + (b.tip || '')))}</a></h2>
+      ${k.length ? `<ul class="kl">${k.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '<p class="au">Bu taramada yeni kılavuz veya tedavi değişikliği saptanmadı.</p>'}
+    </article>`;
+  }).join('');
+  $('#b-more').hidden = BUL.length <= bShown;
+}
+$('#b-more').addEventListener('click', () => { bShown += 20; renderBulletins(); });
+
+/* ---------- search ---------- */
+const CHIPS = ['Diz osteoartriti egzersiz', 'Lateral epikondilit şok dalga', 'İnme spastisite botulinum toksini', 'Bel ağrısı kılavuz', 'Fibromiyalji tedavisi', 'Osteoporoz egzersiz', 'Rotator manşet tendinopati', 'Hipermobilite spektrum bozukluğu'];
+let raw = '';
+function runSearch() {
+  if (!raw) return;
+  const pq = toEnglish(raw);
+  let q = pq;
+  const t = FILT[$('#type').value];
+  if (t) q = `(${q}) AND ${t}`;
+  if ($('#free').checked) q = `(${q}) AND free full text[sb]`;
+  const input = { term: q, sort: $('#sort').value };
+  const y = +$('#date').value;
+  if (y) { input.mindate = ago(y, 'y'); input.maxdate = ymd(new Date()); input.datetype = 'pdat'; }
+  S.input = input;
+  S.note = pq !== raw ? ` · PubMed sorgusu: <i>${esc(pq)}</i>` : '';
+  try { localStorage.setItem('ftr-arama', JSON.stringify({ q: raw, type: $('#type').value, date: $('#date').value, sort: $('#sort').value, free: $('#free').checked })); } catch (e) {}
+  load(S, true);
+}
+$('#chips').innerHTML = CHIPS.map(c => `<button type="button" class="chip">${esc(c)}</button>`).join('');
+$('#f').addEventListener('submit', e => { e.preventDefault(); raw = $('#q').value.trim(); if (!raw) { $('#q').focus(); return; } runSearch(); });
+$('#chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; $('#q').value = c.textContent; raw = c.textContent; runSearch(); });
+['type', 'date', 'sort', 'free'].forEach(id => $('#' + id).addEventListener('change', runSearch));
+
+/* ---------- references page ---------- */
+const W = 'Kurum sitesi (günde 2 kez, bülten)';
+const REFS = [
+  ['FTR ve fizyoterapi çatı kuruluşları', [
+    ['TFTR / TSFTR', 'Türkiye Fiziksel Tıp ve Rehabilitasyon Derneği', 'Ulusal (Türkiye)', 'Ulusal FTR uzmanlık standartları, tanı-tedavi rehberleri ve konsensus raporları', W + ' · Turk J Phys Med Rehabil (PubMed)'],
+    ['TSPRM', 'Türkiye FTR Uzman Hekimleri Derneği', 'Ulusal (Türkiye)', 'Rehabilitasyon protokolleri, klinik uygulama standartları ve eğitim rehberleri', W],
+    ['ISPRM', 'International Society of Physical and Rehabilitation Medicine', 'Küresel', 'Küresel FTR standartları, engellilik ve rehabilitasyon politikaları', W],
+    ['ESPRM ve UEMS-PRM', 'European Society / Union of PRM', 'Avrupa', 'Avrupa FTR "White Book", board standartları ve kanıta dayalı kılavuzlar', W + ' · Eur J Phys Rehabil Med (PubMed)'],
+    ['AAPM&R', 'American Academy of Physical Medicine and Rehabilitation', 'ABD / Uluslararası', 'Rehabilitasyon kılavuzları ve dış kılavuzların metodolojik (AGREE II) onayları', W + ' · PM&R (PubMed)'],
+    ['APTA ve akademileri', 'American Physical Therapy Association (JOSPT, Phys Ther)', 'ABD', 'Ortopedik, nörolojik, kardiyopulmoner, geriatrik, pediatrik ve onkolojik fizyoterapi CPG kütüphanesi', W + ' · J Orthop Sports Phys Ther, Phys Ther (PubMed)'],
+    ['World Physiotherapy', 'eski adıyla WCPT', 'Küresel', 'Küresel fizyoterapi ve rehabilitasyon uygulama standartları', W],
+    ['ACRM', 'American Congress of Rehabilitation Medicine', 'ABD', 'Rehabilitasyon araştırması ve uygulama kılavuzları', W + ' · Arch Phys Med Rehabil (PubMed)'],
+    ['Cochrane Rehabilitation', 'Cochrane', 'Küresel', 'Rehabilitasyon alanındaki sistematik derlemeler ve kanıt sentezleri', W + ' · Cochrane Database Syst Rev (PubMed)']
+  ]],
+  ['Kas-iskelet, romatoloji ve osteoporoz', [
+    ['EULAR', 'European Alliance of Associations for Rheumatology', 'Avrupa', 'Romatoid artrit, spondiloartrit, osteoartrit, fibromiyalji farmakolojik ve non-farmakolojik önerileri', W + ' · Ann Rheum Dis (PubMed)'],
+    ['ACR', 'American College of Rheumatology', 'ABD / Uluslararası', 'Romatolojik hastalıklar ve osteoartrit yönetimi kılavuzları', W + ' · Arthritis Care Res, Arthritis Rheumatol (PubMed)'],
+    ['TRASD ve Türk Romatoloji Derneği', 'Romatizmal Hastalıklar Derneği', 'Ulusal (Türkiye)', 'Ulusal romatolojik hastalık ve rehabilitasyon uzlaşı raporları', W],
+    ['IOF ve BHOF', 'International Osteoporosis Foundation / Bone Health & Osteoporosis Foundation', 'Küresel / ABD', 'Osteoporoz tanı, takip, kırık riski ve egzersiz kılavuzları', W + ' · Osteoporos Int (PubMed)'],
+    ['Türkiye Osteoporoz Derneği', '', 'Ulusal (Türkiye)', 'Ulusal osteoporoz tanı, tedavi ve rehabilitasyon kılavuzları', W],
+    ['OARSI', 'Osteoarthritis Research Society International', 'Küresel', 'Osteoartritin cerrahi dışı ve rehabilitasyon temelli tedavi kılavuzları', W + ' · Osteoarthritis Cartilage (PubMed)'],
+    ['AAOS', 'American Academy of Orthopaedic Surgeons', 'ABD / Uluslararası', 'Ortopedik durumlar (artroplasti, ÖÇB, rotator manşet, OA vb.) ve cerrahi öncesi/sonrası rehabilitasyon; CPG ve AUC', W + ' · J Am Acad Orthop Surg (PubMed)'],
+    ['ASBMR', 'American Society for Bone and Mineral Research', 'ABD', 'Kemik metabolizması ve osteoporoz tedavisi', W]
+  ]],
+  ['Nörorehabilitasyon ve ağrı', [
+    ['AHA / ASA', 'American Heart Association / American Stroke Association', 'ABD / Uluslararası', 'İnme sonrası akut ve uzun dönem nörorehabilitasyon kılavuzları', W + ' · Stroke (PubMed)'],
+    ['EAN ve AAN', 'European / American Academy of Neurology', 'Avrupa / ABD', 'MS, Parkinson, spastisite ve nöromüsküler hastalıkların rehabilitasyonu', W + ' · Eur J Neurol, Neurology (PubMed)'],
+    ['WFNR', 'World Federation for NeuroRehabilitation', 'Küresel', 'Küresel nörorehabilitasyon klinik uygulama standartları', W],
+    ['IASP ve EFIC', 'International Association for the Study of Pain / European Pain Federation', 'Küresel / Avrupa', 'Kronik ağrı, nöropatik ağrı ve bel/boyun ağrısı yönetimi', W + ' · Pain, Eur J Pain (PubMed)'],
+    ['NASS', 'North American Spine Society', 'Kuzey Amerika', 'Bel ağrısı, disk hernisi, spinal stenoz ve omurga rehabilitasyonu', W + ' · Spine J (PubMed)'],
+    ['ISCoS ve CSCM', 'International Spinal Cord Society / Consortium for Spinal Cord Medicine', 'Küresel / ABD', 'Omurilik yaralanması sonrası tıbbi bakım ve rehabilitasyon', W + ' · Spinal Cord (PubMed)'],
+    ['ASRA Pain Medicine', 'American Society of Regional Anesthesia and Pain Medicine', 'ABD', 'Girişimsel ağrı uygulamaları ve konsensus kılavuzları', W + ' · Reg Anesth Pain Med (PubMed)']
+  ]],
+  ['Kardiyopulmoner, spor ve diğer', [
+    ['ESC ve AACVPR', 'European Society of Cardiology / American Association of Cardiovascular and Pulmonary Rehabilitation', 'Avrupa / ABD', 'Kardiyak rehabilitasyon ve kalp yetmezliğinde egzersiz', W + ' · J Cardiopulm Rehabil Prev (PubMed)'],
+    ['ERS ve ATS', 'European Respiratory Society / American Thoracic Society', 'Avrupa / ABD', 'KOAH ve kronik solunum hastalıklarında pulmoner rehabilitasyon', W + ' · Eur Respir J (PubMed)'],
+    ['ACSM', 'American College of Sports Medicine', 'ABD / Uluslararası', 'Sağlıklı bireyler ve kronik hastalıklarda egzersiz reçeteleme (FITT), pozisyon bildirileri', W + ' · Med Sci Sports Exerc (PubMed)'],
+    ['ISL', 'International Society of Lymphology', 'Küresel', 'Lenfödem tanısı ve kompleks boşaltıcı fizyoterapi konsensusu', W],
+    ['AACPDM ve EACD', 'American / European Academy of Childhood Disability', 'ABD / Avrupa', 'Serebral palsi ve gelişimsel bozukluklarda pediatrik rehabilitasyon', W + ' · Dev Med Child Neurol (PubMed)']
+  ]],
+  ['Sağlık otoriteleri, kanıt merkezleri ve düzenleyiciler', [
+    ['WHO', 'Dünya Sağlık Örgütü', 'Küresel', '"Rehabilitation 2030" kapsamında küresel rehabilitasyon müdahale paketleri', W],
+    ['NICE', 'National Institute for Health and Care Excellence', 'İngiltere', 'Bel ağrısı, osteoartrit, inme ve kronik ağrı klinik ve maliyet-etkinlik kılavuzları; güncellemeler ve geri çekilen öneriler', W + ' · NCBI Bookshelf'],
+    ['VA/DoD', 'U.S. Department of Veterans Affairs / Defense', 'ABD', 'Amputasyon, travmatik beyin hasarı, kronik ağrı ve bel ağrısı rehabilitasyonu', W],
+    ['T.C. Sağlık Bakanlığı', '', 'Ulusal (Türkiye)', 'Klinik Kalite Standartları ve ulusal hastalık yönetim rehberleri', W],
+    ['SGK', 'Sosyal Güvenlik Kurumu', 'Ulusal (Türkiye)', 'Sağlık Uygulama Tebliği (SUT) FTR kuralları ve değişiklikleri', W],
+    ['TİTCK', 'Türkiye İlaç ve Tıbbi Cihaz Kurumu', 'Ulusal (Türkiye)', 'FTR ile ilgili ilaç ve tıbbi cihaz kararları', W],
+    ['FDA ve EMA', 'ABD ve Avrupa ilaç düzenleyicileri', 'ABD / Avrupa', 'Osteoartrit, osteoporoz, spastisite, ağrı, nöromüsküler hastalık ilaçları ve rehabilitasyon/nöromodülasyon cihazları: onay ve güvenlik bildirimleri', W]
+  ]]
+];
+const DBS = [
+  ['PubMed', 'U.S. National Library of Medicine', 'Sitede doğrudan (NCBI E-utilities): arama, en güncel guideline\'lar ve en güncel makaleler; bültende günde 2 kez tarama'],
+  ['PubMed Central (PMC)', 'U.S. National Library of Medicine', 'Açık erişimli makalelerin tam metni; bültende kılavuz önerileri ve kanıt düzeyleri buradan okunur'],
+  ['ClinicalTrials.gov', 'U.S. National Library of Medicine', 'Sonucu yeni yayımlanan FTR klinik çalışmaları; bültende günde 2 kez'],
+  ['NCBI Bookshelf', 'U.S. National Library of Medicine', 'NICE kılavuzları ve AHRQ kanıt raporları; bültende günde 2 kez'],
+  ['UpToDate "What\'s New"', 'Wolters Kluwer', 'Romatoloji, spor hekimliği, nöroloji, ağrı ve geriatri güncellemeleri; erişilebildiği ölçüde kontrol edilir'],
+  ['Haber ve özet kaynakları', 'Medscape, Healio, Guideline Central, MDedge, The Rheumatologist, Physitrack Insights', 'Yalnızca yeni kılavuzları fark etmek için; içerik her zaman birincil kaynaktan doğrulanır']
+];
+const CORE_J = ['Arch Phys Med Rehabil', 'Am J Phys Med Rehabil', 'PM&R', 'Eur J Phys Rehabil Med', 'J Rehabil Med', 'Ann Phys Rehabil Med', 'Turk J Phys Med Rehabil', 'Clin Rehabil', 'Disabil Rehabil', 'Neurorehabil Neural Repair', 'Spinal Cord', 'Top Stroke Rehabil', 'J Orthop Sports Phys Ther', 'Br J Sports Med', 'Phys Ther', 'J Physiother', 'Musculoskelet Sci Pract'];
+const GUIDE_J = ['J Orthop Sports Phys Ther', 'Phys Ther', 'J Am Acad Orthop Surg', 'Arthritis Care Res', 'Ann Rheum Dis', 'Osteoarthritis Cartilage', 'Spine J', 'Br J Sports Med', 'Eur J Phys Rehabil Med', 'Arch Phys Med Rehabil', 'Stroke', 'Eur J Neurol', 'Neurology', 'Eur J Pain', 'Spinal Cord', 'J Cardiopulm Rehabil Prev', 'Eur Respir J', 'Med Sci Sports Exerc', 'Dev Med Child Neurol', 'Osteoporos Int'];
+let refsDone = false;
+function renderRefs() {
+  if (refsDone) return; refsDone = true;
+  const orgTable = rows => `<table class="stack"><thead><tr><th>Kuruluş</th><th>Kapsam</th><th>Temel FTR kılavuzları ve odak alanları</th><th>Nasıl takip ediliyor</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td>${esc(r[0])}${r[1] ? `<span>${esc(r[1])}</span>` : ''}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td class="how">${esc(r[4])}</td></tr>`).join('') + '</tbody></table>';
+  $('#r-body').innerHTML = `<div class="ref">
+    <h2>Veri tabanları</h2>
+    <table class="stack"><thead><tr><th>Kaynak</th><th>Sağlayıcı</th><th>Sitede ve bültende kullanımı</th></tr></thead><tbody>${DBS.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td class="how">${esc(r[2])}</td></tr>`).join('')}</tbody></table>
+    ${REFS.map(g => `<h2>${esc(g[0])}</h2>${orgTable(g[1])}`).join('')}
+    <h2>Takip edilen dergiler</h2>
+    <p class="note"><b>En yeni makaleler</b> bölümündeki 17 çekirdek dergi (PubMed'e eklenen her makale):</p>
+    <p>${CORE_J.map(esc).join(' · ')}</p>
+    <p class="note"><b>Bu yılın kılavuzları</b> bölümündeki kılavuz yayımlayan dergiler (yalnızca kılavuz, konsensus ve pozisyon bildirileri):</p>
+    <p>${GUIDE_J.map(esc).join(' · ')}</p>
+    <p class="note">Ek olarak FTR konularında (kas-iskelet, nörorehabilitasyon, romatoloji-kemik, genel rehabilitasyon ve ağrı, girişimsel ve fizik ajanlar, spor-pediatri) başlığında kılavuz/konsensus ifadesi geçen tüm PubMed kayıtları taranır.</p>
+    <div class="legal" id="yasal">
+      <h2>Yasal uyarı, kullanım koşulları ve gizlilik</h2>
+      <h3>Hedef kitle ve tıbbi sorumluluk</h3>
+      <p>Bu site fiziksel tıp ve rehabilitasyon alanında çalışan hekimler ve sağlık meslek mensupları için bilgilendirme amacıyla hazırlanmıştır. İçerik tıbbi tavsiye, tanı ya da tedavi önerisi değildir ve hekim muayenesinin yerini tutmaz. Hastaya özgü kararlar, hekimin klinik değerlendirmesine, makalenin tam metnine ve güncel kılavuzlara dayanmalıdır.</p>
+      <h3>Yapay zekâ kullanımı</h3>
+      <p>Türkçe makale başlıkları, Türkçe ve İngilizce özetler, klinik mesajlar (yap / yapma) ve önceki önerilerle karşılaştırmalar, günlük tarama sırasında yapay zekâ (Anthropic Claude) ile önceden üretilir. Bunlar yalnızca kaynakta yazan bilgiye dayanacak şekilde hazırlanır, ancak hata veya eksik içerebilir. Önemli bir bilgiyi kullanmadan önce birincil kaynakla doğrulayın.</p>
+      <h3>Kaynaklar ve telif hakları</h3>
+      <p>Makale künyeleri PubMed'den alınır. Bu site ABD Ulusal Tıp Kütüphanesi'nin (NLM, NIH) kamuya açık verilerini (PubMed, PubMed Central, ClinicalTrials.gov, NCBI Bookshelf) kullanır; NLM bu siteden sorumlu değildir ve bu siteyi onaylamaz ya da önermez. Makale başlıkları, özetleri ve tam metinlerinin telif hakkı yazarlarına ve yayıncılarına aittir. Bu sitede özgün özetler çoğaltılmaz; her kayıtta DOI ve PubMed bağlantısıyla orijinal kaynağa yönlendirilir. Kılavuzların telif hakkı yayımlayan kuruma aittir; sitede yalnızca kendi cümlelerimizle yazılmış kısa özetler ve resmi kaynağın bağlantısı yer alır.</p>
+      <h3>Kurumlarla ilişki ve çıkar beyanı</h3>
+      <p>Referanslar sayfasında adı geçen kurum ve derneklerin adları yalnızca kaynak göstermek amacıyla kullanılır. Bu sitenin söz konusu kurumlarla, ilaç ya da tıbbi cihaz firmalarıyla bir bağlantısı, sponsorluğu ya da ticari ilişkisi yoktur. Sitede reklam ve ürün tanıtımı yer almaz.</p>
+      <h3>Güncellik</h3>
+      <p>Literatür ve kılavuzlar her gün otomatik olarak taranır; buna rağmen bir yayının siteye yansıması gecikebilir veya gözden kaçabilir. Sitedeki bilginin eksiksiz ve güncel olduğu garanti edilmez.</p>
+      <h3>Gizlilik (KVKK)</h3>
+      <p>Bu site ziyaretçilerden ad, e-posta veya benzeri kişisel veri toplamaz, üyelik ve çerez tabanlı takip kullanmaz. Son aramanız, filtre seçimleriniz ve sağlık profesyoneli onayınız yalnızca kendi tarayıcınızda (yerel depolama) saklanır ve başka bir yere gönderilmez; tarayıcı verilerini silerek kaldırabilirsiniz. Arama sorgularınız sonuç getirmek için tarayıcınızdan doğrudan PubMed'e (NLM/NCBI) gönderilir. Site GitHub Pages üzerinde barındırılır; GitHub, hizmetin işleyişi için IP adresi gibi teknik erişim kayıtları tutabilir.</p>
+      <h3>Hata bildirimi</h3>
+      <p>Bir özette veya kılavuz bilgisinde hata fark ederseniz site yöneticisine bildirmeniz rica olunur; düzeltmeler en kısa sürede yapılır.</p>
+    </div>
+  </div>`;
+}
+
+
+/* ---------- tabs ---------- */
+let gLoaded = false, nLoaded = false;
+function pick(which) {
+  document.querySelectorAll('#picks .pick').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.pick === which)));
+  $('#sec-g').hidden = which !== 'g'; $('#sec-n').hidden = which !== 'n'; $('#pick-hint').hidden = !!which;
+  if (which === 'g' && !gLoaded) { gLoaded = true; startWeb(); refreshGuides(); }
+  if (which === 'n' && !nLoaded) { nLoaded = true; refreshNewest(); }
+}
+$('#picks').addEventListener('click', e => {
+  const b = e.target.closest('.pick'); if (!b) return;
+  pick(b.dataset.pick);
+  const sec = $('#sec-' + b.dataset.pick);
+  if (sec && window.innerWidth < 700) setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+});
+const TABS = ['guncel', 'bultenler', 'arama', 'referanslar'];
+const PANES = { guncel: ['u-ctl', 'u-view'], bultenler: ['b-ctl', 'b-view'], arama: ['s-ctl', 's-view'], referanslar: ['r-ctl', 'r-view'] };
+const tabFromHash = () => { const h = location.hash.slice(1); return TABS.includes(h) ? h : 'guncel'; };
+function show(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === tab)));
+  Object.entries(PANES).forEach(([k, ids]) => ids.forEach(id => { $('#' + id).hidden = k !== tab; }));
+  alertBox.innerHTML = '';
+  if (tab === 'bultenler') loadBulletins();
+  if (tab === 'referanslar') renderRefs();
+  if (tab === 'arama') setTimeout(() => $('#q').focus(), 0);
+}
+document.querySelector('.tabs').addEventListener('click', e => {
+  const t = e.target.closest('.tab'); if (!t) return;
+  try { history.replaceState(null, '', '#' + t.dataset.tab); } catch (x) { location.hash = t.dataset.tab; }
+  show(t.dataset.tab);
+});
+window.addEventListener('hashchange', () => show(tabFromHash()));
+
+try {
+  const tr = localStorage.getItem('ftr-trt'); if (tr !== null) $('#trt').checked = tr === '1';
+  const ar = localStorage.getItem('ftr-area'); if (ar) $('#area').value = ar;
+  const s = JSON.parse(localStorage.getItem('ftr-arama') || 'null');
+  if (s) { $('#q').value = s.q || ''; $('#type').value = s.type || 'all'; $('#date').value = s.date || '0'; $('#sort').value = s.sort || 'relevance'; $('#free').checked = !!s.free; }
+} catch (e) {}
+
+show(tabFromHash());
+
+/* ---------- health-professional gate ---------- */
+{
+  let ok = false;
+  try { ok = localStorage.getItem('ftr-hcp-ok') === '1'; } catch (e) {}
+  const gate = $('#gate');
+  if (!ok) { gate.hidden = false; setTimeout(() => $('#gate-ok').focus(), 0); }
+  $('#gate-ok').addEventListener('click', () => { try { localStorage.setItem('ftr-hcp-ok', '1'); } catch (e) {} gate.hidden = true; });
+  $('#gate-no').addEventListener('click', () => { $('#gate-msg').hidden = false; });
+}
+$('#f-legal').addEventListener('click', e => {
+  e.preventDefault();
+  try { history.replaceState(null, '', '#referanslar'); } catch (x) {}
+  show('referanslar');
+  setTimeout(() => { const y = $('#yasal'); if (y) y.scrollIntoView({ behavior: 'smooth' }); }, 50);
+});
+}
+</script>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</body>
+</html>
