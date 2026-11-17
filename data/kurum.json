@@ -34,5 +34,70 @@
   "summary_tr": "➕ Düşünülebilir: Hafif–orta kalça/diz OA semptomlarının yönetiminde dijital teknolojiler, kanıt üretimi sürerken ve gerekli düzenleyici onaylara (NHS England DTAC dahil) sahip olmaları koşuluyla kullanılabilir.\n🔄 Yeni öneri: erken değer değerlendirmesi; kullanım kanıt üretimi koşuluna bağlı.",
   "url": "https://www.nice.org.uk/guidance/htg766/resources",
   "added": "2026-11-17"
+ },
+ {
+  "id": "acr-oa-2026",
+  "org": "ACR",
+  "date": "2026-09-14",
+  "kind": "Kılavuz güncellemesi · tedavi değişikliği",
+  "area": "k1",
+  "title": "2026 Update of the American College of Rheumatology Recommendations for the Management of Osteoarthritis of the Knee, Hip, and Hand",
+  "title_tr": "ACR 2026: diz, kalça ve el osteoartriti yönetimi önerileri (2019 ACR/AF güncellemesi)",
+  "summary_tr": "✅ Yap: Diz/kalça OA'da egzersiz (güçlü, orta kesinlik) ve fazla kilolu/obezde kilo verme (güçlü); diz/kalçada IA kortikosteroid (güçlü, düşük kesinlik), kalçada US eşliğinde (güçlü). ❌ Yapma: Diz/kalçada PRP ve kök hücre enjeksiyonu (güçlü aleyhte); IA hyaluronik asit ve TENS (koşullu aleyhte); glukozamin/kondroitin (güçlü aleyhte). ➕ Düşünülebilir: Yoga (diz), tai chi, akupunktur, masaj, breysler, diz OA'da radyofrekans ablasyon (koşullu lehte).\n🔄 Önce (2019 ACR/AF): masaj, erozif el OA'da metotreksat ve glukozamin/kondroitin için farklı öneri yönü. Şimdi: masaj ve metotreksat koşullu lehte, glukozamin/kondroitin güçlü aleyhte; obez diz OA'da diyet ve egzersizle birlikte GLP-1 RA yeni koşullu öneri. Kaynak: ACR öneri özeti PDF'i; tam makale henüz yayımlanmadı.",
+  "url": "https://rheumatology.org/osteoarthritis-guideline",
+  "added": "2026-11-17"
+ },
+ {
+  "id": "aha-asa-stroke-rehab-2026",
+  "org": "AHA/ASA",
+  "date": "2026-08-27",
+  "kind": "Kılavuz güncellemesi",
+  "area": "k2",
+  "title": "2026 Guideline for Adult Stroke Rehabilitation and Recovery",
+  "title_tr": "AHA/ASA 2026: erişkin inme rehabilitasyonu ve iyileşmesi kılavuzu",
+  "summary_tr": "✅ Yap: Multidisipliner rehabilitasyon akut dönemde başlasın; inmeden 24 saat sonra orta-yüksek yoğunlukta egzersiz ve görev pratiği; bakım veren eğitimi; depresyon taraması ve tekrar taraması. Üst ve alt ekstremite spastisitesinde BoNT-A (Sınıf 1, A), enjeksiyonda US/ES/EMG rehberliği (Sınıf 1, B-R); herkese düşme önleme programı (Sınıf 1); disfaji taraması ilk 24 saatte (Sınıf 1). ❌ Yapma: Hemiplejik omuzda overhead pulley (Sınıf 3: Zarar); bilek/parmak spastisitesini önlemek için atel ve bant (Sınıf 3: Yarar yok); yorgunlukta fluoksetin (Sınıf 3: Yarar yok).\n🔄 Önce: AHA/ASA 2016 kılavuzu. Şimdi: düşme, ruh sağlığı, ağrı, kemik sağlığı ve bakım veren bölümleri genişledi, uyku/yorgunluk yeni bölüm, erken destekli taburculuk artık öneriliyor. Sınıf/kanıt düzeyleri NeurologyLive özetinden; tam metinde doğrulanmadı.",
+  "url": "https://professional.heart.org/en/science-news/2026-guideline-for-adult-stroke-rehabilitation-and-recovery/top-things-to-know",
+  "doi": "10.1161/STR.0000000000000536",
+  "added": "2026-11-17"
+ },
+ {
+  "id": "esc-cardiac-rehab-2026",
+  "org": "ESC",
+  "date": "2026-08-28",
+  "kind": "Klinik uygulama kılavuzu (yeni)",
+  "area": "k4",
+  "title": "2026 ESC Guidelines on Cardiac Rehabilitation",
+  "title_tr": "ESC 2026: kardiyak rehabilitasyon kılavuzu",
+  "summary_tr": "➕ Düşünülebilir: Faz II kardiyak rehabilitasyon programı merkez temelli, ev temelli ya da hibrit olabilir; klinik risk, hasta ihtiyacı ve tercihine göre seçilmeli. Kapsam: kalp hastalığı olan erişkinler ve kardiyotoksik tedavi alan/almış kanser hastaları; MI ve kalp yetmezliğinin ötesine (konjenital kalp hastalığı, AF, kapak replasmanı, kardiyo-onkoloji) genişliyor. Öneri sınıfları okunan sayfalarda yer almıyor; tam metin European Heart Journal'da.\n🔄 Önce: ESC'nin kardiyak rehabilitasyona özel kılavuzu yoktu. Şimdi: ESC'nin bu konudaki ilk kılavuzu.",
+  "url": "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cardiac-rehabilitation/",
+  "doi": "10.1093/eurheartj/ehag099",
+  "added": "2026-11-17"
+ },
+ {
+  "id": "apta-cts-2026",
+  "org": "APTA (JOSPT)",
+  "date": "2026-02-12",
+  "kind": "Kılavuz güncellemesi (CPG revizyonu)",
+  "area": "k1",
+  "title": "Hand Pain and Sensory Deficits: Carpal Tunnel Syndrome: Revision 2026",
+  "title_tr": "El ağrısı ve duyu kaybı: karpal tünel sendromu CPG revizyonu 2026",
+  "summary_tr": "✅ Yap: Hafif-orta KTS'de gece, nötre yakın bilek ortezi (Derece B). ❌ Yapma: Kortikosteroid iyontoforezi/fonoforezi (Derece A aleyhte), magnet tedavisi (Derece B aleyhte). ➕ Düşünülebilir: Servikal/üst ekstremite manuel terapi, lazer, radyal ESWT, kinezyolojik bant, interferansiyel akım, yüzeyel ısı: kısa dönem için Derece C.\n🔄 Önce (2019 CPG). Şimdi: ESWT ve kinezyolojik bant eklendi, nöral mobilizasyon kanıtı çelişkili; tanıda Semmes-Weinstein monofilament Derece A, CTS-6 eklendi. Dereceler ikincil özetten (Physiotutors); JOSPT tam metninde doğrulanmadı.",
+  "url": "https://www.apta.org/patient-care/evidence-based-practice-resources/cpgs/hand-pain-and-sensory-deficits-carpal-tunnel-syndrome-clinical-practice-guidelines",
+  "doi": "10.2519/jospt.2026.0301",
+  "added": "2026-11-17"
+ },
+ {
+  "id": "apta-tka-2026",
+  "org": "APTA (Phys Ther)",
+  "date": "2026-07-27",
+  "kind": "Kılavuz güncellemesi (CPG revizyonu)",
+  "area": "k1",
+  "title": "Clinical practice guideline for physical therapist management of total knee arthroplasty: revision 2026",
+  "title_tr": "Total diz artroplastisinde fizyoterapist yönetimi CPG revizyonu 2026",
+  "summary_tr": "✅ Yap: Cerrahiden sonraki 24 saatte erken mobilizasyon (orta); kuadrisepse en az günlük NMES (orta); erken postakut dönemden progresif kuvvet eğitimi (güçlü); denge ve hareket eğitimi dahil motor fonksiyon eğitimi (güçlü); ameliyat öncesi egzersiz (orta); kriyoterapi ve elevasyon (orta). ❌ Yapma: Primer, komplike olmayan TDA'da CPM (güçlü aleyhte); erken dönemde ROM için rutin breys/atel (orta aleyhte). ➕ Düşünülebilir: Dijital sağlık/telerehabilitasyon (orta), TENS ve kinezyolojik bant (zayıf).\n🔄 Önce (2020 CPG). Şimdi: CPM önerisi aynı; dijital sağlık için 3 yüksek kaliteli çalışma eklendi.",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13403188/",
+  "doi": "10.1093/ptj/pzag058",
+  "pmid": "42506877",
+  "added": "2026-11-17"
  }
 ]
