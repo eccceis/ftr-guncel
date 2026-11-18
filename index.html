@@ -247,6 +247,7 @@ footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding
   </footer>
 </div></main>
 
+<script src="fmt.js?v=2"></script>
 <script>
 {
 const $ = s => document.querySelector(s);
@@ -474,7 +475,7 @@ function onCardClick(e) {
   btn.classList.add('on');
   const lang = btn.dataset.act;
   const label = lang === 'tr' ? 'Türkçe özet · yapay zekâ (Claude) ile PubMed özetinden üretildi, hata içerebilir' : 'English summary · AI-generated (Claude) from the PubMed abstract; may contain errors';
-  out.innerHTML = `<div class="panel"><span class="h">${label}</span>${esc(a.oz[lang])}</div>`;
+  out.innerHTML = lang === 'tr' ? fmtSum(a.oz.tr, label) : `<div class="panel"><span class="h">${label}</span>${esc(a.oz[lang])}</div>`;
 }
 [G, N, S].forEach(F => { F.list.addEventListener('click', onCardClick); F.more.addEventListener('click', () => load(F, false)); });
 
@@ -519,7 +520,7 @@ function renderWeb() {
   const area = $('#area').value, yr = String(YEAR), tr = $('#trt').checked;
   const rows = WEB.filter(w => String(w.date || '').startsWith(yr) && (area === 'all' || w.area === area || w.area === 'all'));
   const shown = webAll ? rows : rows.slice(0, 5);
-  st.innerHTML = rows.length ? `<b>${rows.length}</b> kurum kılavuzu · her gün 12:30 ve 18:00'de güncellenir` : 'Bu yıl için kayıtlı kurum kılavuzu yok; günlük tarama buldukca buraya eklenir.';
+  st.innerHTML = rows.length ? `<b>${rows.length}</b> kurum kılavuzu · her gün 12:30 ve 18:00'de güncellenir` : 'Bu yıl için kayıtlı kurum kılavuzu yok; günlük tarama bulduğkça buraya eklenir.';
   box.innerHTML = shown.map(w => {
     const d = String(w.date || '').split('-').reverse().join('.');
     const t = tr && w.title_tr ? w.title_tr : w.title;
@@ -528,7 +529,7 @@ function renderWeb() {
       <h2 class="title">${esc(t)}</h2>
       ${tr && w.title_tr && w.title ? `<p class="orig">${esc(w.title)}</p>` : ''}
       <div class="tags"><span class="tag w">Kurum sitesi</span>${w.kind ? `<span class="tag g">${esc(w.kind)}</span>` : ''}${AREA_TR[w.area] ? `<span class="tag">${esc(AREA_TR[w.area])}</span>` : ''}</div>
-      ${w.summary_tr ? `<div class="panel"><span class="h">Klinik mesaj · kurumun yayımladığı metinden yapay zekâ ile hazırlandı</span>${esc(w.summary_tr)}</div>` : ''}
+      ${w.summary_tr ? fmtSum(w.summary_tr, 'Klinik mesaj · kurumun yayımladığı metinden yapay zekâ ile hazırlandı') : ''}
       <div class="links">
         ${/^https?:\/\//.test(w.url || '') ? `<a href="${esc(w.url)}" target="_blank" rel="noopener">Kurum sayfasını aç</a>` : ''}
         ${w.doi ? `<a href="https://doi.org/${esc(w.doi)}" target="_blank" rel="noopener">DOI: ${esc(w.doi)}</a>` : ''}
