@@ -67,6 +67,13 @@ main{padding:22px max(5vw,16px) 64px}
 .links{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;margin-top:10px}
 .panel{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--soft);font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
 .panel .h{display:block;font-weight:700;font-size:13px;color:var(--mute);margin-bottom:6px;white-space:normal}
+.msg{margin-top:10px;padding:10px 12px;border-radius:10px;border-left:5px solid;font-size:15.5px;line-height:1.5;font-weight:500}
+.msg.yap{background:light-dark(#e6f4ea,#12301d);border-color:#17703a}
+.msg.yapma{background:light-dark(#fdecec,#3a1616);border-color:#a11d1d}
+.msg.plus{background:light-dark(#e9effb,#16233d);border-color:#1d4f9e}
+.msg.dur{background:light-dark(#eef1f0,#232e2c);border-color:#6a7573}
+.msg.bil{background:light-dark(#fff5d1,#33290d);border-color:#a07a00}
+.noz{font-size:13px;color:var(--mute);margin:8px 0 0}
 .more{display:block;margin:22px auto 0;background:var(--em);color:#fff;font-weight:700;padding:0 30px;min-height:54px}
 .more[disabled]{opacity:.55;cursor:default}
 .picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:4px 0 6px}
@@ -372,9 +379,19 @@ async function enrich(F, from, arts) {
       if ($('#trt').checked) setTitle(c, a, true);
     }
     const acts = c.querySelector('.acts');
-    const btns = (o.tr ? '<button type="button" class="b" data-act="tr">Türkçe özet</button>' : '') + (o.en ? '<button type="button" class="b" data-act="en">English summary</button>' : '');
+    const first = String(o.tr || '').split('\n')[0].trim();
+    if (first) acts.insertAdjacentHTML('beforebegin', `<div class="msg ${msgClass(first)}">${esc(first)}</div>`);
+    const more = String(o.tr || '').split('\n').length > 1;
+    const btns = (o.tr && more ? '<button type="button" class="b" data-act="tr">Ayrıntılı Türkçe özet</button>' : '') + (o.en ? '<button type="button" class="b" data-act="en">English summary</button>' : '');
     if (btns) acts.insertAdjacentHTML('afterbegin', btns);
   }));
+  arts.forEach((a, k) => {
+    const c = F.list.querySelector(`.card[data-i="${from + k}"]`);
+    if (c && !a.oz && !c.querySelector('.noz')) c.querySelector('.acts').insertAdjacentHTML('beforebegin', '<p class="noz">Bu makale için henüz klinik özet hazırlanmadı.</p>');
+  });
+}
+function msgClass(s) {
+  return /^✅/.test(s) ? 'yap' : /^❌/.test(s) ? 'yapma' : /^➕/.test(s) ? 'plus' : /^⏸/.test(s) ? 'dur' : 'bil';
 }
 function setTitle(c, a, tr) {
   const t = c.querySelector('.title'), o = c.querySelector('.orig');
@@ -502,7 +519,7 @@ function renderWeb() {
   const area = $('#area').value, yr = String(YEAR), tr = $('#trt').checked;
   const rows = WEB.filter(w => String(w.date || '').startsWith(yr) && (area === 'all' || w.area === area || w.area === 'all'));
   const shown = webAll ? rows : rows.slice(0, 5);
-  st.innerHTML = rows.length ? `<b>${rows.length}</b> kurum kılavuzu · her gün 12:30 ve 18:00'de güncellenir` : 'Bu yıl için kayıtlı kurum kılavuzu yok; günlük tarama bulduğu buraya eklenir.';
+  st.innerHTML = rows.length ? `<b>${rows.length}</b> kurum kılavuzu · her gün 12:30 ve 18:00'de güncellenir` : 'Bu yıl için kayıtlı kurum kılavuzu yok; günlük tarama buldukca buraya eklenir.';
   box.innerHTML = shown.map(w => {
     const d = String(w.date || '').split('-').reverse().join('.');
     const t = tr && w.title_tr ? w.title_tr : w.title;
