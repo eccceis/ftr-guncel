@@ -99,5 +99,17 @@
   "doi": "10.1093/ptj/pzag058",
   "pmid": "42506877",
   "added": "2026-11-17"
+ },
+ {
+  "id": "fda-zolgensma-malignancy-2026",
+  "org": "FDA",
+  "date": "2026-11-06",
+  "kind": "Düzenleyici karar · güvenlik bildirimi",
+  "area": "k2",
+  "title": "FDA Investigating Serious Risk of Malignancy Linked to Zolgensma Gene Therapy (FDA Safety Communication)",
+  "title_tr": "FDA, Zolgensma gen tedavisiyle ilişkili ciddi malignite riskini araştırıyor (güvenlik bildirimi)",
+  "summary_tr": "📌 Bilmekte yarar: Zolgensma (onasemnogen abeparvovek) almış SMA'lı hastaları tümör gelişimi açısından izle; tümör saptanırsa üreticiye ve MedWatch'a bildir (FDA önerisi). Pazarlama sonrası dönemde sinir sistemi, spinal/paraspinal bölge ve böbrekte tümörler bildirildi; üçü GLI1 onkogeniyle ilişkili, ikisinde tümör DNA'sında GLI1 yakınında AAV vektör entegrasyonu gösterildi. Aynı vektörü taşıyan intratekal Itvisma için de risk geçerli kabul ediliyor (Itvisma'da henüz olgu yok). FDA'ya göre yarar hâlâ riskten büyük; tedavi kararını bu bildirim tek başına değiştirmiyor.\n🔄 Önce: Etikette yalnızca \"teorik tümörijenisite riski\" yer alıyordu. Şimdi: FDA pazarlama sonrası malignite bildirimlerini araştırıyor; etiket ve üreticinin uzun dönem izlem çalışmalarının yeterliliği gözden geçiriliyor.",
+  "url": "https://www.fda.gov/vaccines-blood-biologics/safety-availability-biologics/fda-investigating-serious-risk-malignancy-linked-zolgensma-gene-therapy",
+  "added": "2026-11-18"
  }
 ]
