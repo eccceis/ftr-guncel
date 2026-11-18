@@ -111,5 +111,18 @@
   "summary_tr": "📌 Bilmekte yarar: Zolgensma (onasemnogen abeparvovek) almış SMA'lı hastaları tümör gelişimi açısından izle; tümör saptanırsa üreticiye ve MedWatch'a bildir (FDA önerisi). Pazarlama sonrası dönemde sinir sistemi, spinal/paraspinal bölge ve böbrekte tümörler bildirildi; üçü GLI1 onkogeniyle ilişkili, ikisinde tümör DNA'sında GLI1 yakınında AAV vektör entegrasyonu gösterildi. Aynı vektörü taşıyan intratekal Itvisma için de risk geçerli kabul ediliyor (Itvisma'da henüz olgu yok). FDA'ya göre yarar hâlâ riskten büyük; tedavi kararını bu bildirim tek başına değiştirmiyor.\n🔄 Önce: Etikette yalnızca \"teorik tümörijenisite riski\" yer alıyordu. Şimdi: FDA pazarlama sonrası malignite bildirimlerini araştırıyor; etiket ve üreticinin uzun dönem izlem çalışmalarının yeterliliği gözden geçiriliyor.",
   "url": "https://www.fda.gov/vaccines-blood-biologics/safety-availability-biologics/fda-investigating-serious-risk-malignancy-linked-zolgensma-gene-therapy",
   "added": "2026-11-18"
+ },
+ {
+  "id": "iof-plo-2026",
+  "org": "IOF (IAPM, ECTS, ESCEO, IMS, EMAS ile)",
+  "date": "2026-07-31",
+  "kind": "Pozisyon bildirisi",
+  "area": "k3",
+  "title": "Pregnancy- and lactation-associated osteoporosis: A position statement of the IAPM, IOF, ECTS, ESCEO, IMS, and EMAS",
+  "title_tr": "Gebelik ve laktasyonla ilişkili osteoporoz (PLO): uluslararası pozisyon bildirisi",
+  "summary_tr": "✅ Yap: Kapsamlı klinik değerlendirme: öykü, ilaç gözden geçirmesi ve sekonder nedenleri dışlamak için laboratuvar (derecesiz, uzlaşı). ✅ Yap: Görüntülemeyi hastanın gebe ya da postpartum olmasına göre seç (derecesiz). ✅ Yap: Konservatif tedavi: yeterli kalsiyum ve D vitamini, ağrı yönetimi, klinik olarak uygunsa emzirmeyi kesme (derecesiz; doz verilmemiş). ➕ Düşünülebilir: Kemiğe özgü ilaçlar bireysel değerlendirilmeli; PLO'da kullanımları endikasyon dışı ve etkili kontrasepsiyonla birlikte verilmeli. Tercih: teriparatid/abaloparatid ya da romosozumab; ikinci seçenek: denosumab sonrası bisfosfonat ya da yalnız bisfosfonat (derecesiz). Öneriler GRADE ile derecelendirilmemiş; en iyi klinik kanıt ve uzman uzlaşısına dayanıyor.\n🔄 Önce: Önceki öneriyle karşılaştırma doğrulanamadı; IOF duyurusu bildiriyi \"yeni\" olarak tanımlıyor ve önceki bir sürümden söz etmiyor. Şimdi: Altı kuruluşun ortak bildirisi, PLO'da değerlendirme, görüntüleme ve tedavi sırasını tanımlıyor.",
+  "url": "https://www.osteoporosis.foundation/news/new-international-position-statement-provides-practical-guidance-pregnancy-and-lactation",
+  "doi": "10.1002/ijgo.71203",
+  "added": "2026-11-18"
  }
 ]
