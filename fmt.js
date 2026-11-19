@@ -57,3 +57,62 @@
     return `<div class="sum">${head ? `<span class="h">${esc(head)}</span>` : ''}${html}</div>`;
   };
 })();
+
+/* FTR Güncel – son güncelleme saati (ana sayfa alt başlığı) ve bülten kartlarında siteye eklenme saati.
+   Saatler GitHub'daki son değişikliklerden alınır ve İstanbul saatiyle gösterilir. */
+(function () {
+  const API = 'https://api.github.com/repos/eccceis/ftr-guncel/commits';
+  const TZ = 'Europe/Istanbul';
+  const st = document.createElement('style');
+  st.textContent = '.upd{margin:-6px 0 16px;font-size:13px;color:#d4f0e2}.upd b{color:#fff;font-weight:700}.bt{color:var(--mute)}';
+  document.head.appendChild(st);
+  const fmtFull = d => new Intl.DateTimeFormat('tr-TR', { timeZone: TZ, day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(d);
+  const fmtTime = d => new Intl.DateTimeFormat('tr-TR', { timeZone: TZ, hour: '2-digit', minute: '2-digit' }).format(d);
+  const getJSON = async (url, key) => {
+    try { const c = sessionStorage.getItem(key); if (c) { const o = JSON.parse(c); if (Date.now() - o.t < 600000) return o.v; } } catch (e) {}
+    const r = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const v = await r.json();
+    try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), v })); } catch (e) {}
+    return v;
+  };
+
+  function start() {
+    const h1 = document.querySelector('header.top h1');
+    if (!h1 || document.querySelector('.upd')) return;
+    const p = document.createElement('p');
+    p.className = 'upd';
+    p.textContent = 'Bültenler her gün 12:30 ve 18:00\'de hazırlanır.';
+    h1.insertAdjacentElement('afterend', p);
+
+    getJSON(API + '?per_page=1', 'ftr-upd').then(v => {
+      const d = v && v[0] && v[0].commit && new Date(v[0].commit.committer.date);
+      if (d && !isNaN(d)) p.innerHTML = `Son güncelleme: <b>${fmtFull(d)}</b> · Bültenler her gün 12:30 ve 18:00'de hazırlanır.`;
+    }).catch(() => {});
+
+    let times = null;
+    const pending = getJSON(API + '?per_page=60&path=data/bultenler.json', 'ftr-bul-times').then(v => {
+      times = {};
+      (v || []).forEach(c => {
+        const m = /^Bülten:\s*(\d{4}-\d{2}-\d{2})\s+(Öğle|Akşam)/.exec(c.commit && c.commit.message || '');
+        if (m && !times[m[1] + ' ' + m[2]]) times[m[1] + ' ' + m[2]] = new Date(c.commit.committer.date);
+      });
+      mark();
+    }).catch(() => {});
+    function mark() {
+      if (!times) return;
+      document.querySelectorAll('#b-list .card.bul').forEach(c => {
+        if (c.querySelector('.bt')) return;
+        const j = c.querySelector('.meta .j');
+        const m = j && /(\d{2})\.(\d{2})\.(\d{4})\s*·\s*(Öğle|Akşam)/.exec(j.textContent);
+        if (!m) return;
+        const d = times[`${m[3]}-${m[2]}-${m[1]} ${m[4]}`];
+        if (d) j.insertAdjacentHTML('afterend', `<span class="bt">Siteye eklendi: ${fmtTime(d)}</span>`);
+      });
+    }
+    const list = document.getElementById('b-list');
+    if (list) new MutationObserver(mark).observe(list, { childList: true });
+    return pending;
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
