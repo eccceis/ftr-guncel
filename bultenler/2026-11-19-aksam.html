@@ -1,0 +1,362 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><p style="margin:12px 16px;font:14px system-ui"><a href="../index.html#bultenler">← FTR Güncel ana sayfa</a></p>
+<title>FTR Güncel – 19 Kasım 2026 Akşam</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: tek sütunlu klinik bülten; üstte künye + sayaçlar, sonra günün mesajları, filtre çubuğu, katman kartları, kapsam notu */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --fg:#17242b; --muted:#5a6b73; --line:#d6dee2; --accent:#0e6b74;
+  --yap-bg:#e3f4e8; --yap-fg:#145c2c; --yapma-bg:#fbe5e3; --yapma-fg:#8c1d14;
+  --dus-bg:#e3eefb; --dus-fg:#1a4a86; --deg-bg:#eceff1; --deg-fg:#3c4a52; --bil-bg:#fbf3d6; --bil-fg:#6b5300;
+  --chg-bg:#f5f1fa; --chg-line:#7b5ea7; --once:#7d8a91;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11181c; --surface:#182227; --fg:#e4ecef; --muted:#9aabb3; --line:#2c3a41; --accent:#5cc3cc;
+  --yap-bg:#173524; --yap-fg:#9ee2b3; --yapma-bg:#3d1c1a; --yapma-fg:#f4aaa2;
+  --dus-bg:#182c45; --dus-fg:#a8c9f4; --deg-bg:#253037; --deg-fg:#c3cfd5; --bil-bg:#3a3214; --bil-fg:#f0d77c;
+  --chg-bg:#231d2e; --chg-line:#b49ae0; --once:#8d9aa1; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11181c; --surface:#182227; --fg:#e4ecef; --muted:#9aabb3; --line:#2c3a41; --accent:#5cc3cc;
+  --yap-bg:#173524; --yap-fg:#9ee2b3; --yapma-bg:#3d1c1a; --yapma-fg:#f4aaa2;
+  --dus-bg:#182c45; --dus-fg:#a8c9f4; --deg-bg:#253037; --deg-fg:#c3cfd5; --bil-bg:#3a3214; --bil-fg:#f0d77c;
+  --chg-bg:#231d2e; --chg-line:#b49ae0; --once:#8d9aa1; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--f-body)}
+.wrap{max-width:860px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+h1{font-size:2rem;letter-spacing:-.01em}
+h2{font-size:1.35rem;display:flex;align-items:baseline;gap:10px}
+h2 .n{font-family:var(--f-mono);font-size:.95rem;color:var(--muted)}
+h4{margin:12px 0 2px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+p{margin:0}
+.kunye{display:flex;flex-direction:column;gap:6px;border-bottom:2px solid var(--fg);padding-bottom:14px}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.window{color:var(--muted);font-size:.9rem}
+.counts{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.9rem}
+.counts b{font-size:1.15rem;color:var(--fg)}
+.counts span{color:var(--muted)}
+.today{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.today h2{font-size:1.1rem;margin-bottom:8px}
+.today ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.today a{color:var(--fg);text-decoration:none;display:flex;gap:8px;align-items:baseline}
+.today a:hover{text-decoration:underline}
+.today .none{margin-top:10px;color:var(--muted);font-size:.9rem}
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.filters input,.filters select{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px 8px;min-width:0}
+.filters input[type=search]{flex:1 1 200px}
+.filters label{display:flex;align-items:center;gap:6px;font-size:.9rem}
+section{display:flex;flex-direction:column;gap:12px}
+.lead{color:var(--muted);font-size:.92rem}
+.grp{font-size:1rem;color:var(--muted);margin-top:8px;display:flex;gap:8px;align-items:baseline}
+.grp span{font-family:var(--f-mono);font-size:.85rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.L1{border:2px solid var(--accent)}
+.card h3{font-size:1.12rem;line-height:1.3}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.78rem}
+.chip{border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--muted)}
+.chip.area{color:var(--accent);border-color:var(--accent)}
+.src{color:var(--muted);font-size:.82rem}
+.msg{border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:.98rem}
+.msg .lbl{font-family:var(--f-display);font-weight:700;letter-spacing:.03em;font-size:.95rem}
+.m-yap{background:var(--yap-bg);color:var(--yap-fg)}
+.m-yapma{background:var(--yapma-bg);color:var(--yapma-fg)}
+.m-dus{background:var(--dus-bg);color:var(--dus-fg)}
+.m-degistirme{background:var(--deg-bg);color:var(--deg-fg)}
+.m-bilgi{background:var(--bil-bg);color:var(--bil-fg)}
+.msg p{color:var(--fg)}
+.mini{display:inline-block;border-radius:4px;padding:0 5px;margin-right:6px;font-size:.85rem;line-height:1.5}
+.chg{background:var(--chg-bg);border-left:3px solid var(--chg-line);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+.chg-h{color:var(--chg-line)}
+.chg-row{display:grid;grid-template-columns:76px 1fr;gap:8px}
+.chg-row span{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.05em;padding-top:2px}
+.chg-row p{min-width:0}
+.once p,.once span{color:var(--once)}
+.now p{font-weight:600}
+.prat span{color:var(--chg-line)}
+.items{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.foot{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;overflow-wrap:anywhere}
+.l3{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.card3{padding:10px 0;border-bottom:1px solid var(--line);font-size:.93rem;overflow-wrap:anywhere}
+.found{color:var(--fg)}
+.lk{font-size:.8rem}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+summary{cursor:pointer;font-family:var(--f-display);font-weight:600}
+details ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:.9rem;overflow-wrap:anywhere}
+.note{font-size:.88rem;color:var(--muted);display:flex;flex-direction:column;gap:8px}
+.note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.note b{color:var(--fg)}
+.attr{font-size:.85rem;color:var(--muted);border-top:2px solid var(--fg);padding-top:12px}
+.empty{color:var(--muted);font-style:italic}
+@media (max-width:480px){h1{font-size:1.6rem}.chg-row{grid-template-columns:1fr;gap:0}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+<div class="wrap">
+<header class="kunye">
+  <span class="eyebrow">FTR Güncel · Akşam bülteni · 18:00</span>
+  <h1>19 Kasım 2026, Perşembe</h1>
+  <p class="window">PubMed giriş tarihi (edat) yalnızca 19 Kasım 2026 · ClinicalTrials.gov'da sonuçları 19 Kasım'da ilk kez yayımlanan girişimsel çalışmalar · kurum siteleri son 12 saat · bugünün Öğle bülteninde ve dünün Akşam bülteninde yer alanlar çıkarıldı</p>
+  <div class="counts">
+    <span><b>1</b> kılavuz/tedavi değişikliği</span>
+    <span><b>9</b> SR/RKÇ</span>
+    <span><b>1</b> yeni çalışma sonucu</span>
+    <span><b>3</b> diğer</span>
+    <span><b>1</b> değişen öneri</span>
+  </div>
+</header>
+
+<section class="today" aria-labelledby="t-today">
+  <h2 id="t-today">Günün klinik mesajları</h2>
+  <ul>
+    <li><a href="#c-43053507"><span class="mini m-bilgi">🔄</span>Önce AHA/ASA 2026 inme rehabilitasyonu kılavuzu el ve kol için evreye özgü bir protokol vermeden yeterli yoğunlukta göreve yönelik pratik öneriyordu; şimdi 15 uzmanlı bir Delphi uzlaşısı Brunnstrom 3. evrede parmak ekstansörlerinin güçlendirilmesini öne çıkarıyor, ancak bu uzman görüşü mevcut pratiği değiştirmeye yetmiyor.</a></li>
+    <li><a href="#c-43052686"><span class="mini m-dus">➕</span>Diyabetik ayak ülseri, venöz bacak ülseri ve bası yarası gibi kronik ülserlerde standart yara bakımına PRP ya da benzeri otolog kan ürünleri eklemek tam iyileşme olasılığını yaklaşık 2,7 kat artırdı.</a></li>
+    <li><a href="#c-43052835"><span class="mini m-bilgi">📌</span>Kemoterapiye bağlı periferik nöropatisi olan hastaların yaklaşık dörtte biri en az bir kez düşüyor; nöropati belirtileri ağır ve fiziksel işlevi bozuk hastalarda düşme riskini mutlaka değerlendirin.</a></li>
+    <li><a href="#c-43053040"><span class="mini m-degistirme">⏸</span>Akut iskemik inmede bir hafta uygulanan uzak iskemik koşullandırma, 90. gündeki işlevsel bağımsızlığı değiştirmedi; bu yöntemi rehabilitasyon sonucunu iyileştirmek için önermeyin.</a></li>
+    <li><a href="#c-iof-mgus"><span class="mini m-yap">✅</span>(Arşiv, pencere dışı) IOF'un yeni bildirisine göre kırılganlık kırığıyla gelen hastada MGUS'u araştırın; özellikle teriparatid başlamadan önce bu taramayı atlamayın, çünkü MGUS'ta teriparatidin güvenliği gösterilmemiştir.</a></li>
+  </ul>
+  <p class="none">Bu pencerede pratiği değiştiren bir yayın yok. Son 12 saatte hiçbir kurum FTR ile ilgili yeni kılavuz, onay, güvenlik uyarısı ya da SUT değişikliği yayımlamadı. Taramada sitede henüz bulunmayan iki önemli belge (IOF MGUS bildirisi ve EULAR 2025 fiziksel aktivite önerileri) doğrulandı ve arşive eklendi; bunlar sayaçlara katılmadı.</p>
+</section>
+
+<div class="filters" role="search">
+  <input type="search" id="q" placeholder="Bültende ara (ör. inme, PRP, MGUS)" aria-label="Bültende ara">
+  <select id="fl" aria-label="Katman"><option value="">Tüm katmanlar</option><option value="1">1 · Kılavuz/tedavi</option><option value="2">2 · SR/RKÇ</option><option value="3">3 · Diğer</option></select>
+  <select id="fa" aria-label="Alan"><option value="">Tüm alanlar</option><option value="k1">Kas-iskelet</option><option value="k2">Nörorehabilitasyon</option><option value="k3">Romatoloji-kemik</option><option value="k4">Genel rehabilitasyon ve ağrı</option><option value="k5">Girişimsel ve fizik ajanlar</option></select>
+  <select id="fm" aria-label="Klinik mesaj"><option value="">Tüm mesajlar</option><option value="yap">✅ Yap</option><option value="yapma">❌ Yapma</option><option value="dus">➕ Düşünülebilir</option><option value="degistirme">⏸ Pratiği değiştirme</option><option value="bilgi">📌 Bilmekte yarar</option></select>
+  <label><input type="checkbox" id="fc"> Yalnızca 🔄 değişenler</label>
+</div>
+
+<section id="katman1" aria-labelledby="t-k1">
+  <h2 id="t-k1">Katman 1 · Kılavuz ve tedavi değişiklikleri <span class="n">1</span></h2>
+  <p class="lead">Kurum sitelerinde son 12 saatte FTR ile ilgili yeni kılavuz, konsensus, düzenleyici karar ya da SUT değişikliği saptanmadı; kontrol edilen kurumlar en alttaki kapsam notunda. İlk kart PubMed'den gelen bir uzman uzlaşısıdır. Altındaki iki kart pencere dışında yayımlanmış, ancak FTR Güncel sitesinde henüz bulunmayan belgelerdir; doğrulanıp arşive eklendi ve sayaçlara katılmadı.</p>
+
+  <article class="card L1" id="c-43053507" data-layer="1" data-area="k2" data-msg="degistirme" data-change="evet">
+    <div class="meta"><span class="chip area">Nörorehabilitasyon</span><span class="chip">Uzman uzlaşısı (modifiye e-Delphi)</span><span class="src">J Hand Ther · 2026</span></div>
+    <h3>İnme sonrası el fonksiyonunun iyileşmesini engelleyen etkenler: Brunnstrom 3. evrede katkıda bulunan etkenler ve rehabilitasyon stratejileri üzerine Delphi uzman uzlaşısı</h3>
+    <div class="msg m-degistirme"><span class="lbl">⏸ PRATİĞİ DEĞİŞTİRME</span><p>Brunnstrom 3. evredeki inmeli hastada parmak ekstansörlerindeki güçsüzlüğü ayrıca değerlendirip programa güçlendirme hedefi ekleyebilirsiniz; uzmanlar bunu el işlevinin önündeki en önemli engel olarak gördü. Ancak bu sonuçlar Hindistan'dan yalnızca 15 uzmanın görüşüne dayanıyor; göreve yönelik ve yeterli yoğunlukta pratiğe dayanan mevcut programınızı değiştirmeyin.</p></div>
+    <div class="chg"><div class="chg-h">🔄 Ne değişti · <b>Yeni öneri (daha önce yoktu)</b></div>
+      <div class="chg-row once"><span>ÖNCE</span><p>AHA/ASA 2026 erişkin inme rehabilitasyonu kılavuzu, işlevsel kısıtlılığı azaltmak için yeterli miktarda ve yoğunlukta çeşitli görev pratiği yapılmasını ve inmeden 24 saat sonra orta-yüksek yoğunlukta egzersiz ve görev pratiğine başlanmasını öneriyor; kılavuzun özet sayfalarında Brunnstrom evresine özgü bir el protokolü yer almıyor. <a href="https://professional.heart.org/en/science-news/2026-guideline-for-adult-stroke-rehabilitation-and-recovery/top-things-to-know">AHA/ASA 2026, öne çıkan noktalar</a></p></div>
+      <div class="chg-row now"><span>ŞİMDİ</span><p>Bu uzlaşı, Brunnstrom 3. evre için parmak ekstansör güçsüzlüğünü başlıca engel; motor yeniden öğrenme programını ve nörogelişimsel tedaviyi öncelikli yöntemler olarak belirledi. Öneriler derecelendirilmemiş uzman görüşüdür.</p></div>
+      <div class="chg-row prat"><span>PRATİKTE</span><p>Göreve yönelik yoğun pratiği temel almaya devam edin; 3. evredeki hastada parmak ekstansör güçlendirmesini ek bir hedef olarak düşünebilirsiniz.</p></div>
+    </div>
+    <h4>Ne yayımlandı</h4>
+    <p>Hindistan'dan 50 davetliden 15 nörorehabilitasyon uzmanı (8 akademisyen ve 7 klinisyen) üç turlu bir e-Delphi çalışmasına katıldı. İlk turda açık uçlu sorulardan 42 tema çıkarıldı ve bunlar 28 maddeye indirildi; en az %70 katılım güçlü uzlaşı olarak kabul edildi. Parmak ekstansör güçsüzlüğü %81,2 ortalama katılımla başlıca engel seçildi; motor yeniden öğrenme programı %80,5, nörogelişimsel tedavi %76,4 katılım aldı. Sinerjik taşma ve hareketi başlatma güçlüğü orta düzeyde (%67,2), robotik tedavi ise kaynak kısıtları nedeniyle düşük uzlaşı (%38,7) aldı.</p>
+    <h4>Pratikte yap / yapma</h4>
+    <ul class="items">
+      <li>➕ Brunnstrom 3. evrede parmak ekstansör güçsüzlüğünü ayrıca değerlendirin ve evreye özgü güçlendirme hedefi koyun (uzman görüşü, %81 katılım).</li>
+      <li>📌 Uzmanların en çok desteklediği yöntemler motor yeniden öğrenme programı ve nörogelişimsel tedavi oldu; bu sıralama karşılaştırmalı çalışmalara değil, görüş birliğine dayanır.</li>
+      <li>📌 Robotik tedavi etkisizlik nedeniyle değil, kaynak kısıtları nedeniyle düşük uzlaşı aldı; bu bulgu robotik tedavinin değeri hakkında bir hüküm değildir.</li>
+    </ul>
+    <p class="foot">Özgün başlık: Barriers to post-stroke hand function recovery: A Delphi-based expert consensus on contributing factors and rehabilitation strategies.<br><a href="https://doi.org/10.1016/j.jht.2026.09.024">DOI 10.1016/j.jht.2026.09.024</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43053507/">PubMed 43053507</a><br>Okunan: yalnızca özet (PMC kaydı yok)</p>
+  </article>
+
+  <article class="card L1" id="c-iof-mgus" data-layer="1" data-area="k3" data-msg="yap" data-change="evet">
+    <div class="meta"><span class="chip area">Romatoloji-kemik</span><span class="chip">Pozisyon bildirisi · pencere dışı, sayılmadı</span><span class="src">IOF · Osteoporos Int · çevrim içi 8 Eylül 2026, IOF duyurusu 2 Kasım 2026</span></div>
+    <h3>MGUS'lu hastalarda kemik kırılganlığının değerlendirilmesi ve yönetimi: IOF pozisyon bildirisi</h3>
+    <div class="msg m-yap"><span class="lbl">✅ YAP</span><p>Kırılganlık kırığıyla gelen hastanın tetkikine serum protein elektroforezi ve serum serbest hafif zincir ölçümünü ekleyin; IOF, önemi belirsiz monoklonal gamopatiyi (MGUS) ikincil osteoporoz nedeni sayıyor. Teriparatid başlamadan önce MGUS'u mutlaka araştırın, çünkü MGUS'lu hastada teriparatidin güvenliği gösterilmemiştir.</p></div>
+    <div class="chg"><div class="chg-h">🔄 Ne değişti · <b>Yeni öneri (daha önce yoktu)</b></div>
+      <div class="chg-row once"><span>ÖNCE</span><p>Bildirinin yöntem bölümüne göre konuda 2010 tarihli bir uzlaşı bildirisi vardı, ancak MGUS'ta kemik kırılganlığı için risk temelli bir klinik algoritma yoktu. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13751719/">Bildirinin tam metni (PMC)</a></p></div>
+      <div class="chg-row now"><span>ŞİMDİ</span><p>IOF, klinik MGUS'lu her hastada kemik değerlendirmesi, kırılganlık kırığında MGUS taraması ve tercih edilen ilaç olarak bisfosfonat içeren risk temelli bir algoritma öneriyor. Öneriler derecelendirilmemiş uzman görüşüdür.</p></div>
+      <div class="chg-row prat"><span>PRATİKTE</span><p>Vertebral kırıkla gelen hastada tedaviye başlamadan önce MGUS'u araştırın ve MGUS saptanırsa osteoporoz dozunda bisfosfonatı tercih edin.</p></div>
+    </div>
+    <h4>Ne yayımlandı</h4>
+    <p>Uluslararası Osteoporoz Vakfı (IOF) Kemik ve Kanser Çalışma Grubu, MGUS ile kırık riski arasındaki ilişkiyi anlatısal bir literatür derlemesiyle değerlendirdi ve günlük pratikte kullanılacak bir algoritma önerdi. Derlemeye göre MGUS'lu hastalarda vertebral kırık riski yaklaşık iki kat, kalça kırığı riski yaklaşık 1,5 kat artmıştır. Tedavi verileri çok sınırlıdır: Yalnızca bir yıllık, tek kollu bir zoledronik asit çalışması ve küçük bir alendronat çalışması bulunuyor.</p>
+    <h4>Pratikte yap / yapma</h4>
+    <ul class="items">
+      <li>✅ Kırılganlık kırığı olan erişkinin tetkikine serum protein elektroforezi ve serum serbest hafif zincir ölçümünü ekleyin (uzman uzlaşısı).</li>
+      <li>✅ Klinik MGUS tanısı yeni konan hastada kırık risk etkenlerini, eşlik eden hastalıkları, sabah aç karnına serum CTX düzeyini ve kalça ile omurga DXA ölçümünü içeren kapsamlı bir kemik değerlendirmesi yapın (uzman uzlaşısı).</li>
+      <li>✅ Tedavi gerekiyorsa bisfosfonatı tercih edin ve dozu onkoloji şemasına göre değil osteoporoz kılavuzlarına göre belirleyin; MGUS'ta veri bulunan tek ilaç zoledronik asittir (uzman uzlaşısı).</li>
+      <li>❌ MGUS'lu hastada teriparatidi güvenli kabul etmeyin; teriparatid sonrasında miyelom gelişen olgular bildirilmiştir ve güvenliği kanıtlanmamıştır.</li>
+      <li>📌 Yeni kırık olmazsa MGUS'u yılda bir izleyin ve kemik değerlendirmesini üç yıl sonra tekrarlayın. Denosumab ve romosozumab için MGUS'ta veri yoktur.</li>
+      <li>📌 MGUS'a eşlik eden otonom nöropati ve kronik inflamatuvar demiyelinizan polinöropati düşme riskini artırabilir; düşme değerlendirmesini ihmal etmeyin.</li>
+    </ul>
+    <p class="foot">Özgün başlık: Clinical guidance on evaluation and management of bone fragility in patients with monoclonal gammopathy of undetermined significance (MGUS): an IOF position statement.<br><a href="https://doi.org/10.1007/s00198-026-08178-0">DOI 10.1007/s00198-026-08178-0</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/42709184/">PubMed 42709184</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13751719/">PMC13751719</a> · <a href="https://www.eurekalert.org/news-releases/1150056">IOF duyurusu</a><br>Okunan: tam metin (PMC); izlem aralığı IOF duyurusundan alındı</p>
+  </article>
+
+  <article class="card L1" id="c-eular-pa" data-layer="1" data-area="k3" data-msg="yap" data-change="evet">
+    <div class="meta"><span class="chip area">Romatoloji-kemik</span><span class="chip">EULAR önerileri (güncelleme) · pencere dışı, sayılmadı</span><span class="src">Ann Rheum Dis · çevrim içi 26 Nisan 2026</span></div>
+    <h3>İnflamatuvar artrit ve osteoartritli kişilerde fiziksel aktivite için EULAR önerileri: 2025 güncellemesi</h3>
+    <div class="msg m-yap"><span class="lbl">✅ YAP</span><p>Romatoid artrit, spondiloartrit ve kalça veya diz osteoartriti olan hastaya fiziksel aktiviteyi tedavinin standart bir parçası olarak reçete edin. Bunun yanında hastaya gün boyunca oturarak geçirdiği süreyi bölmesini ayrıca önerin; bu, güncellemeyle eklenen yeni bir öneridir.</p></div>
+    <div class="chg"><div class="chg-h">🔄 Ne değişti · <b>Kapsam genişledi</b></div>
+      <div class="chg-row once"><span>ÖNCE</span><p>EULAR 2018 önerileri 4 genel ilke ve 10 öneriyle fiziksel aktiviteyi hastalığın tüm seyri boyunca standart bakımın parçası olarak öneriyordu; oturarak geçen süreye özgü bir öneri yoktu. <a href="https://doi.org/10.1136/annrheumdis-2018-213585">EULAR 2018</a></p></div>
+      <div class="chg-row now"><span>ŞİMDİ</span><p>2025 güncellemesi 4 genel ilke ve 11 öneri içeriyor; oturarak geçen süreyi azaltmayı ayrı bir öneri olarak ekliyor, aktivitenin ölçülmesini ve teknoloji destekli davranış değiştirme tekniklerini öneriyor. Görev gücünün önerilere katılım düzeyi 10 üzerinden 9,0 ile 9,8 arasındaydı.</p></div>
+      <div class="chg-row prat"><span>PRATİKTE</span><p>Artrit hastasının egzersiz reçetesine oturma süresini bölmeye yönelik somut bir hedef ekleyin ve aktiviteyi adım sayar ya da giyilebilir bir cihazla ölçmeyi düşünün.</p></div>
+    </div>
+    <h4>Ne yayımlandı</h4>
+    <p>EULAR'ın çok disiplinli görev gücü, 2018 önerilerini Ağustos 2024'te yapılan 13 sistematik literatür taramasına dayanarak güncelledi. Güncelleme, Dünya Sağlık Örgütü'nün 2020 fiziksel aktivite rehberindeki oturarak geçen süreyi azaltma vurgusunu da yansıtıyor. Görev gücünde Türkiye'den bir FTR uzmanı da yer aldı.</p>
+    <h4>Pratikte yap / yapma</h4>
+    <ul class="items">
+      <li>✅ Fiziksel aktiviteyi teşvik etmek, inflamatuvar artrit ve osteoartritte standart bakımın bir parçasıdır.</li>
+      <li>✅ Oturarak geçen süreyi azaltmak, aktivite düzeyinden bağımsız olarak yarar sağlar; hastaya bunu ayrıca önerin.</li>
+      <li>✅ Programı kardiyorespiratuvar uygunluk, kas kuvveti, esneklik ve nöromotor performans alanlarını kapsayacak biçimde, hastanın tercihleri ve kapasitesiyle ortak karar vererek planlayın.</li>
+      <li>➕ İkincil özetlere göre hedef doz, Dünya Sağlık Örgütü önerisiyle aynıdır: haftada en az 150 dakika orta ya da 75 dakika yüksek şiddette aerobik aktivite ve haftada en az 2 gün kas güçlendirme. Ağrısı ya da yorgunluğu olan hasta aktiviteyi kısa bölümler halinde biriktirebilir.</li>
+    </ul>
+    <p class="foot">Özgün başlık: EULAR recommendations for physical activity in people with inflammatory arthritis and osteoarthritis: 2025 update.<br><a href="https://doi.org/10.1016/j.ard.2026.03.006">DOI 10.1016/j.ard.2026.03.006</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/42036268/">PubMed 42036268</a> · <a href="https://www.healio.com/news/rheumatology/20260714/eular-updates-physical-activity-recommendations-for-inflammatory-arthritis-oa">Healio özeti</a><br>Okunan: yalnızca özet (PubMed); doz bilgisi ve "yeni öneri" ayrıntısı ikincil haber özetlerinden (Healio, Epocrates) alındı, tam metin okunmadı</p>
+  </article>
+</section>
+
+<section id="katman2" aria-labelledby="t-k2">
+  <h2 id="t-k2">Katman 2 · Sistematik derleme, meta-analiz ve RKÇ <span class="n">9</span></h2>
+  <p class="lead">Kartlar alt alana göre gruplandı; her grupta önce ✅ ve ❌, sonra ➕, ⏸ ve 📌 etiketliler yer alıyor. Bu pencerede hiçbir çalışma bir kılavuz önerisini değiştirmiyor, bu yüzden 🔄 kutusu yok. Hiçbir makalenin PubMed Central'da açık erişim tam metni bulunmadı; tümünde yalnızca özet okundu.</p>
+
+  <h3 class="grp" data-grp="k1">Kas-iskelet <span>2</span></h3>
+  <article class="card L2" id="c-43053043" data-layer="2" data-area="k1" data-msg="degistirme" data-change="hayir">
+    <div class="meta"><span class="chip area">Kas-iskelet</span><span class="chip">Randomize kontrollü çalışma (değerlendirici kör, 150 hasta)</span><span class="src">Head Face Med · 2026</span></div>
+    <h3>Servikojenik baş ağrısı ve temporomandibular bozukluğu olanlarda manuel terapi, kulak bölgesine elektrik uyarımlı iğneleme ve stabilizasyon egzersizlerinden oluşan çok bileşenli programın etkinliği</h3>
+    <div class="msg m-degistirme"><span class="lbl">⏸ PRATİĞİ DEĞİŞTİRME</span><p>Servikojenik baş ağrısına çiğneme kası kaynaklı temporomandibular bozukluğun eşlik ettiği hastada, manuel terapiye kulak bölgesine elektrik uyarımlı iğneleme ve stabilizasyon egzersizi ekleyen 4 haftalık program klasik fizyoterapiden daha iyi sonuç verdi. Ancak özette gruplar arası farklar sayıyla verilmemiş ve sonuçlar yalnızca tedavi bitiminde ölçülmüş; kulak iğnelemesini rutin programınıza eklemeden önce daha uzun izlemli çalışmaları bekleyin.</p></div>
+    <h4>Bulgu</h4><p>Toplam 150 hasta, çok bileşenli program ya da klasik fizyoterapi grubuna eşit olarak randomize edildi. Deney grubunda ağrı şiddeti, baş ağrısına bağlı özürlülük, basınç ağrı eşiği, en büyük ağız açıklığı, çene işlevi ve boyun özürlülüğü daha fazla düzeldi (tümünde p&lt;0,001); yazarlara göre tüm farklar klinik olarak anlamlı en küçük farkı aştı. Yan etki bildirilmedi.</p>
+    <h4>Kanıt notu</h4><p>Değerlendiricinin kör olduğu tek merkezli bir randomize kontrollü çalışmadır ve izlem 4 haftalık tedavinin bitimiyle sınırlıdır. Program çok bileşenli olduğu için etkinin hangi bileşenden geldiği ayırt edilemiyor ve kontrol grubundaki "klasik fizyoterapinin" içeriği özette tanımlanmamış.</p>
+    <p class="foot">Özgün başlık: Effectiveness of a multimodal rehabilitation program incorporating manual therapy, electrically stimulated auricular needling, and stabilization exercises in individuals with cervicogenic headache and temporomandibular disorders: a randomized controlled trial.<br><a href="https://doi.org/10.1186/s13005-026-00652-8">DOI 10.1186/s13005-026-00652-8</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43053043/">PubMed 43053043</a><br>Okunan: yalnızca özet</p>
+  </article>
+  <article class="card L2" id="c-43052915" data-layer="2" data-area="k1" data-msg="bilgi" data-change="hayir">
+    <div class="meta"><span class="chip area">Kas-iskelet</span><span class="chip">Sistematik derleme ve meta-analiz (7 karşılaştırmalı çalışma)</span><span class="src">BMC Musculoskelet Disord · 2026</span></div>
+    <h3>Artroskopik tamir sonrası katmanlı (delamine) ve katmansız rotator manşet yırtıklarının sonuçlarının karşılaştırılması</h3>
+    <div class="msg m-bilgi"><span class="lbl">📌 BİLMEKTE YARAR</span><p>Artroskopik tek katlı (en masse) tamirden sonra katmanlı rotator manşet yırtıklarında tendonun tam iyileşmesi daha az, yeniden yırtılma ise yaklaşık 1,8 kat daha sıktı; buna karşın hasta bildirimli işlev puanları ve hareket açıklığı farklı değildi. Ameliyat notunda delaminasyon yazan hastayı yeniden yırtılma riski konusunda bilgilendirin; işlevsel beklentiyi düşürmeniz gerekmiyor.</p></div>
+    <h4>Bulgu</h4><p>Yedi karşılaştırmalı çalışmada 882 katmanlı ve 1099 katmansız yırtıklı omuz incelendi. Katmanlı yırtıklarda tam iyileşme olasılığı daha düşüktü (risk oranı 0,86) ve yeniden yırtılma riski daha yüksekti (risk oranı 1,81; %95 GA 1,40–2,33). İşlevsel sonuç puanlarında fark bulunmadı.</p>
+    <h4>Kanıt notu</h4><p>Gözlemsel karşılaştırmalı çalışmaların meta-analizidir; yalnızca İngilizce yayınlar alınmış ve kanıt kesinliği özette değerlendirilmemiştir.</p>
+    <p class="foot">Özgün başlık: Outcomes comparison of delaminated and nondelaminated rotator cuff tears after arthroscopic repair: a systematic review and meta-analysis.<br><a href="https://doi.org/10.1186/s12891-026-10273-6">DOI 10.1186/s12891-026-10273-6</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43052915/">PubMed 43052915</a><br>Okunan: yalnızca özet</p>
+  </article>
+
+  <h3 class="grp" data-grp="k2">Nörorehabilitasyon <span>4</span></h3>
+  <article class="card L2" id="c-43053040" data-layer="2" data-area="k2" data-msg="degistirme" data-change="hayir">
+    <div class="meta"><span class="chip area">Nörorehabilitasyon</span><span class="chip">Randomize kontrollü çalışma (sahte uygulamalı, 120 hasta)</span><span class="src">BMC Med · 2026</span></div>
+    <h3>İskemik inmeli hastalarda uzak iskemik koşullandırmanın beyin kan akımı düzenlenmesine etkisi</h3>
+    <div class="msg m-degistirme"><span class="lbl">⏸ PRATİĞİ DEĞİŞTİRME</span><p>Akut iskemik inmede kola manşonla uygulanan uzak iskemik koşullandırma (7 gün boyunca günde iki kez, 200 mmHg), beyin kan akımının kendi kendini düzenlemesine ilişkin bir göstergeyi iyileştirdi, ancak 90. gündeki işlevsel bağımsızlığı (modifiye Rankin skalası) değiştirmedi. Bu yöntemi rehabilitasyon sonucunu iyileştirmek amacıyla önermeyin.</p></div>
+    <h4>Bulgu</h4><p>Akut iskemik inmeli 120 hasta, gerçek ya da 60 mmHg basınçla yapılan sahte uygulamaya eşit olarak randomize edildi. Birincil sonlanım olan faz farkı, gerçek uygulama grubunda etkilenen tarafta yaklaşık 11 derece daha yüksekti (düzeltilmiş β 11,3; %95 GA 4,5–18,1). Kan basıncı, kalp hızı, orta serebral arter akım hızı ve 90. gün modifiye Rankin puanı farklı değildi; yan etki artmadı.</p>
+    <h4>Kanıt notu</h4><p>Katılımcıların ve sonlanım değerlendirmesinin kör olduğu tek merkezli bir randomize çalışmadır. Birincil sonlanım bir ara (fizyolojik) göstergedir ve çalışma klinik sonuç için yeterli güçte değildir.</p>
+    <p class="foot">Özgün başlık: Effect of remote ischemic conditioning on cerebral blood flow regulation in patients with ischemic stroke: a randomized, controlled trial.<br><a href="https://doi.org/10.1186/s12916-026-05126-x">DOI 10.1186/s12916-026-05126-x</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43053040/">PubMed 43053040</a> · <a href="https://clinicaltrials.gov/study/NCT05915832">NCT05915832</a><br>Okunan: yalnızca özet</p>
+  </article>
+  <article class="card L2" id="c-43053256" data-layer="2" data-area="k2" data-msg="degistirme" data-change="hayir">
+    <div class="meta"><span class="chip area">Nörorehabilitasyon</span><span class="chip">Randomize kontrollü çalışmanın ikincil analizi (üçlü kör, 64 hasta)</span><span class="src">BMC Nutr · 2026</span></div>
+    <h3>Akut iskemik inmeli hastalarda arı sütü kullanımının kan şekeri, lipit profili ve kan basıncına etkisi</h3>
+    <div class="msg m-degistirme"><span class="lbl">⏸ PRATİĞİ DEĞİŞTİRME</span><p>Akut iskemik inmeli hastada 12 hafta boyunca günde bir kez arı sütü takviyesi, ortalama arter basıncını yaklaşık 4 mmHg ve açlık kan şekerini yaklaşık 14 mg/dL düşürdü; kolesterol ve trigliserit değerleri değişmedi. Bu küçük çalışmanın ikincil analizi takviye önermek için yeterli değildir; ikincil korunmada standart tedaviyi sürdürün.</p></div>
+    <h4>Bulgu</h4><p>Toplam 64 hasta arı sütü (1000 mg taze arı sütüne eşdeğer) ya da bal tozu içeren plasebo grubuna randomize edildi. Ortalama arter basıncındaki düzeltilmiş fark −4,12 mmHg (%95 GA −7,95 ile −0,29), açlık kan şekerindeki fark −13,64 mg/dL idi. Diğer metabolik sonuçlarda anlamlı fark yoktu.</p>
+    <h4>Kanıt notu</h4><p>Küçük ve tek merkezli bir çalışmanın ikincil analizidir; güven aralıkları sıfıra yakındır ve işlevsel sonuç değerlendirilmemiştir.</p>
+    <p class="foot">Özgün başlık: The effects of royal jelly consumption on glycemia indices, lipid profile, and blood pressure in patients with acute ischemic stroke: a randomized, triple-blind trial.<br><a href="https://doi.org/10.1186/s40795-026-01457-3">DOI 10.1186/s40795-026-01457-3</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43053256/">PubMed 43053256</a><br>Okunan: yalnızca özet</p>
+  </article>
+  <article class="card L2" id="c-43052835" data-layer="2" data-area="k2" data-msg="bilgi" data-change="hayir">
+    <div class="meta"><span class="chip area">Nörorehabilitasyon</span><span class="chip">Sistematik derleme ve meta-analiz (11 gözlemsel çalışma)</span><span class="src">BMC Cancer · 2026</span></div>
+    <h3>Kemoterapiye bağlı periferik nöropatisi olan hastalarda düşme yükü</h3>
+    <div class="msg m-bilgi"><span class="lbl">📌 BİLMEKTE YARAR</span><p>Kemoterapiye bağlı periferik nöropatisi olan hastaların yaklaşık dörtte biri en az bir kez düşüyor; 6 ay ve daha uzun izlemde bu oran %36'ya çıkıyor. Nöropati belirtileri ağır ve fiziksel işlevi bozuk hastalarda düşme riskini mutlaka değerlendirin, çünkü bu iki özellik düşmeyle ilişkili bulundu.</p></div>
+    <h4>Bulgu</h4><p>Kemoterapiye bağlı nöropatisi olan 2274 hastayı içeren 11 gözlemsel çalışmada birleşik düşme oranı %26 (%95 GA %17–37) bulundu. İzlem süresi 6 aydan kısa olan çalışmalarda oran %16, 6 ay ve daha uzun olanlarda %36 idi. Ağır nöropati belirtileri ve bozulmuş fiziksel işlev düşmeyle ilişkili bulundu, ancak bu kanıtın kesinliği çok düşüktü.</p>
+    <h4>Kanıt notu</h4><p>Gözlemsel çalışmaların meta-analizidir ve çalışmalar arası farklılık çok yüksektir (I² %95). Risk etkenleri tanımlar farklı olduğu için yalnızca anlatısal olarak sentezlenmiştir.</p>
+    <p class="foot">Özgün başlık: Fall burden among patients with chemotherapy-induced peripheral neuropathy: a systematic review and meta-analysis.<br><a href="https://doi.org/10.1186/s12885-026-16826-1">DOI 10.1186/s12885-026-16826-1</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43052835/">PubMed 43052835</a><br>Okunan: yalnızca özet</p>
+  </article>
+  <article class="card L2" id="c-43052360" data-layer="2" data-area="k2" data-msg="bilgi" data-change="hayir">
+    <div class="meta"><span class="chip area">Nörorehabilitasyon</span><span class="chip">Sistematik derleme (40 çalışma)</span><span class="src">Spinal Cord · 2026</span></div>
+    <h3>Omurilik yaralanmasına eşlik eden travmatik beyin hasarının sıklığı ve işlevsel sonuçlara etkisi</h3>
+    <div class="msg m-bilgi"><span class="lbl">📌 BİLMEKTE YARAR</span><p>Travmatik omurilik yaralanmalı hastalarda eşlik eden travmatik beyin hasarı sıklığı çalışmalarda %7,4 ile %75 arasında bildiriliyor ve özellikle hafif beyin hasarı sık gözden kaçıyor. Orta-ağır beyin hasarı motor ve duyusal iyileşmeyi belirgin etkilemedi, ancak rehabilitasyon sırasında hafif bilişsel kayıplara yol açtı; rehabilitasyona kabulde eşlik eden beyin hasarını sistematik olarak sorgulayın.</p></div>
+    <h4>Bulgu</h4><p>Kırk çalışma derlendi; 32'si sıklık, 18'i işlevsel sonuç bildirdi. Orta-ağır beyin hasarı hastane içi ölümü ve pnömoni ile sepsis gibi komplikasyonları artırdı, ancak rehabilitasyon seyrini çok az etkiledi. Bir yıldan uzun izlem yapan çalışma çok azdı.</p>
+    <h4>Kanıt notu</h4><p>Meta-analiz içermeyen bir sistematik derlemedir. Çalışmaların çoğu geriye dönüktür ve beyin hasarı tanı ölçütleri tutarsızdır.</p>
+    <p class="foot">Özgün başlık: Double Trouble – The frequency of concomitant traumatic brain injury in individuals with spinal cord injury and its impact on functional outcomes: a systematic review.<br><a href="https://doi.org/10.1038/s41393-026-01295-x">DOI 10.1038/s41393-026-01295-x</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43052360/">PubMed 43052360</a><br>Okunan: yalnızca özet</p>
+  </article>
+
+  <h3 class="grp" data-grp="k3">Romatoloji-kemik <span>1</span></h3>
+  <article class="card L2" id="c-43053290" data-layer="2" data-area="k3" data-msg="dus" data-change="hayir">
+    <div class="meta"><span class="chip area">Romatoloji-kemik</span><span class="chip">Randomize kontrollü çalışmaya dayalı maliyet-etkililik analizi (175 hasta)</span><span class="src">Rheumatology (Oxford) · 2026</span></div>
+    <h3>Romatoid artritte dijital hasta eğitiminin maliyet-etkililiği</h3>
+    <div class="msg m-dus"><span class="lbl">➕ DÜŞÜNÜLEBİLİR</span><p>Yeni tanı romatoid artritli hastanın eğitiminde dijital eğitimi yüz yüze eğitime eşdeğer bir seçenek olarak düşünebilirsiniz. Dijital eğitim 12 ayda biraz daha düşük maliyetle benzer, hatta çok az daha iyi yaşam kalitesi sağladı; maliyet-etkili olma olasılığı yaklaşık %72 idi.</p></div>
+    <h4>Bulgu</h4><p>Yeni tanı romatoid artritli 175 erişkin dijital ya da yüz yüze hasta eğitimine randomize edildi. Dijital eğitim grubunda sağlık harcamaları daha düşüktü (9322 avroya karşı 9886 avro) ve kaliteye göre düzeltilmiş yaşam yılı kazancı çok küçüktü (0,013). Öz yeterlik üzerindeki etki küçük ve tutarsızdı.</p>
+    <h4>Kanıt notu</h4><p>Danimarka'daki WebRA çalışmasının ekonomik analizidir; sonuçlar model seçimine duyarlıdır ve başka sağlık sistemlerine genellenmesi sınırlıdır.</p>
+    <p class="foot">Özgün başlık: Cost-Effectiveness of Digital Patient Education in Rheumatoid Arthritis: An economic evaluation from a randomised controlled trial.<br><a href="https://doi.org/10.1093/rheumatology/keag651">DOI 10.1093/rheumatology/keag651</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43053290/">PubMed 43053290</a><br>Okunan: yalnızca özet</p>
+  </article>
+
+  <h3 class="grp" data-grp="k5">Girişimsel ve fizik ajanlar <span>2</span></h3>
+  <article class="card L2" id="c-43052686" data-layer="2" data-area="k5" data-msg="dus" data-change="hayir">
+    <div class="meta"><span class="chip area">Girişimsel ve fizik ajanlar</span><span class="chip">Randomize çalışmaların meta-analizi (9 çalışma, 662 hasta)</span><span class="src">Wound Repair Regen · 2026</span></div>
+    <h3>Kronik deri ülserlerinin tam iyileşmesinde otolog trombosit konsantreleri ve kan kaynaklı ürünlerin etkinliği</h3>
+    <div class="msg m-dus"><span class="lbl">➕ DÜŞÜNÜLEBİLİR</span><p>Diyabetik ayak ülseri, venöz bacak ülseri ya da bası yarası olan hastada standart yara bakımına PRP, trombositten zengin fibrin veya benzeri otolog kan ürünleri eklemeyi düşünebilirsiniz; bu ürünler tam iyileşme olasılığını yaklaşık 2,7 kat artırdı. Sonuç yalnızca bu ülser türleri için geçerlidir.</p></div>
+    <h4>Bulgu</h4><p>Dokuz randomize çalışmadan on karşılaştırma (662 hasta) birleştirildi. Otolog kan kaynaklı ürünler standart bakım, serum fizyolojik pansuman ya da plaseboya göre tam iyileşme olasılığını artırdı (olasılık oranı 2,70; %95 GA 1,65–4,40) ve çalışmalar arası farklılık düşüktü (I² %20). Tek tek ürünler çıkarıldığında da sonuç anlamlı kaldı.</p>
+    <h4>Kanıt notu</h4><p>Randomize çalışmaların meta-analizidir; küçük çalışma etkisi saptanmadı, ancak kanıt kesinliği GRADE ile değerlendirilmemiş ve ürün hazırlama yöntemleri farklıdır.</p>
+    <p class="foot">Özgün başlık: Efficacy of Autologous Platelet Concentrates and Blood-Derived Products on Complete Healing of Chronic Cutaneous Ulcers: A Systematic Review and Meta-Analysis of Randomised Controlled Trials.<br><a href="https://doi.org/10.1111/wrr.70225">DOI 10.1111/wrr.70225</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43052686/">PubMed 43052686</a><br>Okunan: yalnızca özet</p>
+  </article>
+  <article class="card L2" id="c-43053196" data-layer="2" data-area="k5" data-msg="degistirme" data-change="hayir">
+    <div class="meta"><span class="chip area">Girişimsel ve fizik ajanlar</span><span class="chip">Randomize kontrollü çalışma (5 kollu, 90 katılımcı)</span><span class="src">BMC Sports Sci Med Rehabil · 2026</span></div>
+    <h3>Toplumda yaşayan yaşlılarda transkraniyal doğru akım uyarımı (tDCS) ile dengesiz zeminde direnç egzersizinin diz kas kuvveti ve nöromüsküler kontrole etkisi</h3>
+    <div class="msg m-degistirme"><span class="lbl">⏸ PRATİĞİ DEĞİŞTİRME</span><p>Yaşlıda diz kuvvetini artırmak için haftada 3 gün, 8 hafta direnç egzersizi reçete edin; dengeli ya da dengesiz zeminde yapılan tüm programlar kuvveti artırdı. Egzersize transkraniyal doğru akım uyarımı (tDCS) eklemek yalnızca hızlı açısal hızda ek tork artışı sağladı ve işlevsel sonuç ölçülmedi; tDCS'yi programa eklemeyin.</p></div>
+    <h4>Bulgu</h4><p>Toplam 90 yaşlı; aktif tDCS ile dengesiz zemin egzersizi, sahte tDCS ile dengesiz zemin egzersizi, yalnızca dengesiz zemin egzersizi, dengeli zemin egzersizi ya da egzersizsiz kontrol gruplarına randomize edildi. Saniyede 60 derecede tüm egzersiz gruplarında diz ekstansiyon ve fleksiyon torku kontrol grubuna göre arttı. Saniyede 120 derecede aktif tDCS ile dengesiz zemin egzersizi grubunun torku diğer gruplardan daha yüksekti.</p>
+    <h4>Kanıt notu</h4><p>Her grupta yaklaşık 18 kişinin yer aldığı küçük bir çalışmadır; özette gruplar arası farkın büyüklüğü verilmemiş ve çalışma Kasım 2025'te kaydedilmiştir.</p>
+    <p class="foot">Özgün başlık: Effects of tDCS combined with unstable resistance training on knee muscle strength and neuromuscular control in community-dwelling older adults: a randomized controlled trial.<br><a href="https://doi.org/10.1186/s13102-026-01990-5">DOI 10.1186/s13102-026-01990-5</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43053196/">PubMed 43053196</a><br>Okunan: yalnızca özet</p>
+  </article>
+
+  <h3 class="grp">Yeni sonuç bildirilen klinik çalışmalar (ClinicalTrials.gov) <span>1</span></h3>
+  <p class="lead">Hakemli yayın değildir, kayıt sonuçlarıdır ve tedavi değişikliği sayılmaz. Sonuç tabloları connector yanıtında yer almadığı için sayısal sonuç verilmedi; ayrıntı için kayıt sayfasına bakın.</p>
+  <article class="card L2" id="c-NCT03295994" data-layer="2" data-area="k1" data-msg="degistirme" data-change="hayir">
+    <div class="meta"><span class="chip area">Kas-iskelet</span><span class="chip">Hakemli yayın değil – kayıt sonuçları</span><span class="src">University of Michigan · tamamlandı · ARC çalışması</span></div>
+    <h3>Atravmatik rotator manşet yırtıklarında cerrahiye karşı cerrahi dışı tedavi: çok merkezli pragmatik randomize kontrollü çalışma</h3>
+    <div class="msg m-degistirme"><span class="lbl">⏸ PRATİĞİ DEĞİŞTİRME</span><p>Atravmatik rotator manşet yırtığında artroskopik tamiri fizik tedaviyle karşılaştıran bu büyük çalışmanın sonuçları kayda girdi, ancak sayısal sonuçlara ulaşılamadı. Hakemli yayın çıkana kadar mevcut yaklaşımınızı değiştirmeyin; yayımlandığında bültende ayrıntılı ele alınacaktır.</p></div>
+    <h4>Bulgu</h4><p>Bu körlenmemiş ve pragmatik çalışmaya 19 merkezden 187 hasta alındı. Hastalar 40–84 yaşındaydı ve MR ile doğrulanmış, 4 cm veya daha küçük kısmi ya da tam kat supraspinatus veya infraspinatus yırtığı vardı. Birincil sonlanım 12. aydaki Omuz Ağrı ve Özürlülük İndeksi (SPADI), ikincil sonlanım ASES puanıdır.</p>
+    <p class="foot"><a href="https://clinicaltrials.gov/study/NCT03295994">NCT03295994</a></p>
+  </article>
+</section>
+
+<section id="katman3" aria-labelledby="t-k3">
+  <h2 id="t-k3">Katman 3 · Diğer yeni makaleler <span class="n">3</span></h2>
+  <h3 class="grp" data-grp="k3">Romatoloji-kemik <span>2</span></h3>
+  <ul class="l3">
+    <li class="card3" data-layer="3" data-area="k3" data-msg="bilgi" data-change="hayir"><b>Güneydoğu Asya'da orta ve ileri yaş erişkinlerde sarkopeni: sıklık ve risk etkenleri (SR/MA)</b> <span class="src">Aging Clin Exp Res</span><br><span class="found">Ne buldu: 99.008 kişiyi içeren 36 çalışmada 45 yaş ve üzeri erişkinlerde sarkopeni sıklığı %26 bulundu; ileri yaş, düşük vücut ağırlığı, düşük baldır çevresi ve kadın cinsiyet risk etkeniydi, ancak kanıtın kesinliği düşüktü. <span class="mini m-bilgi">📌</span></span><br><span class="lk"><a href="https://doi.org/10.1007/s40520-026-03468-3">DOI 10.1007/s40520-026-03468-3</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43052499/">PubMed 43052499</a></span></li>
+    <li class="card3" data-layer="3" data-area="k3" data-msg="bilgi" data-change="hayir"><b>Solunumsal sarkopeninin sıklığı ve tanı yaklaşımları (SR)</b> <span class="src">Commun Med (Lond)</span><br><span class="found">Ne buldu: 31.210 kişiyi içeren 27 çalışmada sarkopeni ile solunum işlev bozukluğunun birlikteliği olan solunumsal sarkopeninin sıklığı %18,7 bulundu, ancak tanı ölçütleri çalışmalar arasında farklıydı. <span class="mini m-bilgi">📌</span></span><br><span class="lk"><a href="https://doi.org/10.1038/s43856-026-01781-6">DOI 10.1038/s43856-026-01781-6</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43052480/">PubMed 43052480</a></span></li>
+  </ul>
+  <h3 class="grp" data-grp="k5">Girişimsel ve fizik ajanlar <span>1</span></h3>
+  <ul class="l3">
+    <li class="card3" data-layer="3" data-area="k5" data-msg="dus" data-change="hayir"><b>Ağrının giderilmesinde lokal vibrasyonun klinik uygulamaları (kapsam derlemesi)</b> <span class="src">Eur J Phys Rehabil Med</span><br><span class="found">Ne buldu: Lokal vibrasyon en tutarlı etkiyi yaklaşık 100 Hz frekansta gösterdi ve hafif-orta şiddette akut ve kronik ağrıda ağrılı bölgeyle aynı segmente uygulandığında yanıt alındı; ancak cihazlar ve parametreler standart değildi. <span class="mini m-dus">➕</span></span><br><span class="lk"><a href="https://doi.org/10.23736/S1973-9087.26.09649-8">DOI 10.23736/S1973-9087.26.09649-8</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/43053715/">PubMed 43053715</a></span></li>
+  </ul>
+
+  <details>
+    <summary>Klinik mesajı olmayan yayınlar (2)</summary>
+    <ul>
+      <li>Akut travmatik omurilik yaralanmasında omurilik içine polimerize laminin enjeksiyonu üzerine ilk insan çalışmasına yorum · editöre mektup · <a href="https://pubmed.ncbi.nlm.nih.gov/43052361/">PubMed 43052361</a> · <a href="https://doi.org/10.1038/s41393-026-01300-3">DOI</a></li>
+      <li>Toplumlar araştırma ortağı olduğunda: etnik açıdan çeşitli araştırma ortaklıklarından dersler · yorum yazısı · <a href="https://pubmed.ncbi.nlm.nih.gov/43053288/">PubMed 43053288</a> · <a href="https://doi.org/10.1093/rheumatology/keag653">DOI</a></li>
+    </ul>
+  </details>
+</section>
+
+<section class="note" aria-labelledby="t-note">
+  <h2 id="t-note">Kapsam notu</h2>
+  <ul>
+    <li><b>Tarama penceresi:</b> PubMed giriş tarihi (edat) 2026/11/19. ClinicalTrials.gov'da sonuç ilk yayım tarihi 2026-11-19 ve sonrası. Kurum siteleri ve web kaynakları için 19 Kasım 06:00–18:00 (İstanbul). Tarama 17:38'de başladı.</li>
+    <li><b>Tekrar önleme:</b> "FTR Güncel – 19 Kasım 2026 Öğle" ve "FTR Güncel – 18 Kasım 2026 Akşam" bültenleri okundu. Bu bültenlerin ftr-ids listelerindeki 118 PMID ve NCT numarası karşılaştırıldı; bu penceredeki kayıtlarla çakışma yok.</li>
+    <li><b>PubMed:</b> 31 sorgu yapıldı (6 konu grubu ile kılavuz filtresi iki yarıda 12 sorgu, sistematik derleme filtresiyle 6, randomize çalışma filtresiyle 6, kılavuz dergileri için 2, çekirdek dergiler için 5). Hiçbir sorgu 20 sonuç sınırına ulaşmadı. 21 benzersiz kayıt bulundu: 1'i Katman 1'e, 9'u Katman 2'ye, 3'ü Katman 3'e girdi, 2'si klinik mesajı olmayan yayınlar listesine alındı. 6 kayıt konu dışı olduğu için çıkarıldı (Parkinson hastalığında melanom riski, yaşlılarda atriyal fibrilasyon taraması, bebeklerde çökme kırığı, bariatrik cerrahide blok, yenidoğan şoku, anti-U1RNP pozitif bağ dokusu hastalıkları). Bültene giren tüm makalelerin özeti okundu; hiçbirinin PubMed Central tam metni yoktu.</li>
+    <li><b>ClinicalTrials.gov:</b> 4 sorgu yapıldı (C1: 1, C2: 0, C3: 0, C4: 3 kayıt; 3 benzersiz kayıt). NCT03295994 dahil edildi. İki kayıt çıkarıldı: kanser sağkalanlarında telefonla kilo verme programı (NCT04447313) ve kısa süreli egzersizin endotel öncü hücrelerine etkisi (NCT01169831).</li>
+    <li><b>NCBI Bookshelf:</b> Pencerede eklenmiş ya da güncellenmiş FTR kılavuzu, NICE kılavuzu veya AHRQ raporu bulunamadı.</li>
+    <li><b>Kontrol edilen kurumlar:</b> TFTR (TSFTR), TSPRM, ISPRM, ESPRM, UEMS-PRM Section, AAPM&amp;R, APTA ve akademileri (JOSPT ve orthopt.org CPG kütüphanesi), World Physiotherapy, ACRM, Cochrane Rehabilitation; EULAR, ACR, TRASD, Türk Romatoloji Derneği, IOF, BHOF, Türkiye Osteoporoz Derneği, OARSI, AAOS (CPG listesi, AAOS Now), ASBMR; AHA/ASA, EAN, AAN, WFNR, IASP, EFIC, NASS, ISCoS ve Consortium for Spinal Cord Medicine, ASRA Pain Medicine; ESC, AACVPR, ERS, ATS, ACSM, ISL, AACPDM, EACD; WHO (Rehabilitation 2030, PIR), NICE, VA/DoD, T.C. Sağlık Bakanlığı, SGK (SUT), TİTCK; FDA, EMA (CHMP 9–12 Kasım toplantısı); UpToDate "What's New"; keşif için Medscape, Healio, Guideline Central, MDedge, The Rheumatologist ve Physitrack. Son 12 saatte FTR ile ilgili yeni belge saptanmadı.</li>
+    <li><b>Pencere dışı, arşive eklenen belgeler:</b> IOF MGUS pozisyon bildirisi (çevrim içi 8 Eylül 2026, IOF duyurusu 2 Kasım 2026; PubMed Central tam metninden doğrulandı) ve EULAR 2025 fiziksel aktivite önerileri güncellemesi (çevrim içi 26 Nisan 2026; PubMed özetinden doğrulandı). İkisi de Katman 1'de arşiv kartı olarak yer alıyor ve sayaçlara katılmadı.</li>
+    <li><b>Pencere dışı, bilgi için (birincil kaynaktan doğrulanamadı):</b> Haberlere göre Sağlık Bakanlığı Kamu Hastaneleri Genel Müdürlüğü'nün 21 Temmuz 2026 tarihli genelgesiyle kamu hastanelerinde eklem içi PRP ve hyaluronik asit ürünleri hastaya dışarıdan aldırılamıyor ve Sağlık Market kataloğu üzerinden temin edilmesi gerekiyor; genelge metnine ulaşılamadı. Boston Scientific Infinion CX omurilik uyarıcı elektrotları için Eylül 2026'da sınıf I geri çağırma bildirildi; FDA sayfası okunmadı. EMA'nın Kasım CHMP toplantısında FTR ile doğrudan ilgili bir onay önerisi görülmedi. Türk Romatoloji Derneği 2026 erişkin aşı önerileri ve ACSM 2026 direnç egzersizi önerileri taramada görüldü, ancak bu bültende birincil kaynaktan okunmadı.</li>
+    <li><b>Erişilemeyen ya da sınırlı kaynaklar:</b> UpToDate "What's New" sayfaları aramayla bulunamadı ve okunamadı (UpToDate erişilemedi). Türk kurumlarının (TSFTR, TSPRM, Türkiye Osteoporoz Derneği, TRASD) sitelerinde aramayla yeni duyuru bulunamadı; sitelere doğrudan bakılmadı. 19 Kasım Resmî Gazete'sinde SUT değişikliği aramada görülmedi.</li>
+    <li><b>Siteye yazma:</b> Siteye eklenen kurum kılavuzu: 2 (IOF MGUS pozisyon bildirisi 2026 ve EULAR fiziksel aktivite önerileri 2025 güncellemesi). Sitedeki mevcut 10 kayıtla çakışma yok; AHA/ASA 2026 inme rehabilitasyonu kaydı karşılaştırma kaynağı olarak kullanıldı.</li>
+    <li><b>Doğruluk:</b> Sayılar yalnızca PubMed özetlerinden, PubMed Central tam metninden, ClinicalTrials.gov kayıt metninden ya da bağlantısı verilen kurum sayfasından alındı. "Tedavi değişikliği" etiketi bu bültende kullanılmadı.</li>
+  </ul>
+  <p class="attr">Kaynak: PubMed ve ClinicalTrials.gov (U.S. National Library of Medicine). Klinik mesajlar ve karşılaştırmalar yapay zekâ ile kaynaklardan çıkarılmıştır; klinik karar için tam metne ve kılavuza başvurun.</p>
+</section>
+</div>
+
+<script type="application/json" id="ftr-ids">{"bulten": "FTR Güncel – 19 Kasım 2026 Akşam", "pmids": ["43053507", "43053043", "43052915", "43053040", "43053256", "43052835", "43052360", "43053290", "43052686", "43053196", "43052499", "43052480", "43053715", "43052361", "43053288", "42709184", "42036268"], "excluded_pmids": ["43053649", "43052606", "43052519", "43052511", "43052408", "43053294"], "dois": ["10.1016/j.jht.2026.09.024", "10.1186/s13005-026-00652-8", "10.1186/s12891-026-10273-6", "10.1186/s12916-026-05126-x", "10.1186/s40795-026-01457-3", "10.1186/s12885-026-16826-1", "10.1038/s41393-026-01295-x", "10.1093/rheumatology/keag651", "10.1111/wrr.70225", "10.1186/s13102-026-01990-5", "10.1007/s40520-026-03468-3", "10.1038/s43856-026-01781-6", "10.23736/S1973-9087.26.09649-8", "10.1038/s41393-026-01300-3", "10.1093/rheumatology/keag653", "10.1007/s00198-026-08178-0", "10.1016/j.ard.2026.03.006"], "ncts": ["NCT03295994", "NCT05915832"], "excluded_ncts": ["NCT04447313", "NCT01169831"], "kurum": ["iof-mgus-2026", "eular-pa-2025"], "onceki_ref": ["29997112"]}</script>
+
+<script>
+(function(){
+  var q=document.getElementById('q'),fl=document.getElementById('fl'),fa=document.getElementById('fa'),fm=document.getElementById('fm'),fc=document.getElementById('fc');
+  var items=[].slice.call(document.querySelectorAll('.card,.card3'));
+  function norm(s){return (s||'').toLocaleLowerCase('tr');}
+  function run(){
+    var t=norm(q.value.trim()),L=fl.value,A=fa.value,M=fm.value,C=fc.checked;
+    items.forEach(function(el){
+      var ok=(!L||el.dataset.layer===L)&&(!A||el.dataset.area===A)&&(!M||el.dataset.msg===M)&&(!C||el.dataset.change==='evet')&&(!t||norm(el.textContent).indexOf(t)>-1);
+      el.hidden=!ok;
+    });
+    document.querySelectorAll('h3.grp[data-grp]').forEach(function(h){
+      var n=h.nextElementSibling,any=false;
+      if(n&&n.tagName==='UL'){any=[].some.call(n.children,function(c){return !c.hidden;});}
+      else{while(n&&n.classList.contains('card')){if(!n.hidden)any=true;n=n.nextElementSibling;}}
+      h.hidden=!any;
+    });
+  }
+  [q,fl,fa,fm,fc].forEach(function(e){e.addEventListener('input',run);e.addEventListener('change',run);});
+})();
+</script>
+
+</body></html>
