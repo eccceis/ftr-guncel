@@ -66,7 +66,7 @@
   const st = document.createElement('style');
   st.textContent = '.upd{margin:-6px 0 16px;font-size:13px;color:#d4f0e2}.upd b{color:#fff;font-weight:700}.bt{color:var(--mute)}';
   document.head.appendChild(st);
-  const fmtFull = d => new Intl.DateTimeFormat('tr-TR', { timeZone: TZ, day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(d);
+  const fmtFull = d => new Intl.DateTimeFormat('tr-TR', { timeZone: TZ, day: 'numeric', month: 'long', year: 'numeric' }).format(d) + ', saat ' + new Intl.DateTimeFormat('tr-TR', { timeZone: TZ, hour: '2-digit', minute: '2-digit' }).format(d);
   const fmtTime = d => new Intl.DateTimeFormat('tr-TR', { timeZone: TZ, hour: '2-digit', minute: '2-digit' }).format(d);
   const getJSON = async (url, key) => {
     try { const c = sessionStorage.getItem(key); if (c) { const o = JSON.parse(c); if (Date.now() - o.t < 600000) return o.v; } } catch (e) {}
@@ -85,7 +85,7 @@
     p.textContent = 'Bültenler her gün 12:30 ve 18:00\'de hazırlanır.';
     h1.insertAdjacentElement('afterend', p);
 
-    getJSON(API + '?per_page=1', 'ftr-upd').then(v => {
+    getJSON(API + '?per_page=1&path=data', 'ftr-upd2').then(v => {
       const d = v && v[0] && v[0].commit && new Date(v[0].commit.committer.date);
       if (d && !isNaN(d)) p.innerHTML = `Son güncelleme: <b>${fmtFull(d)}</b> · Bültenler her gün 12:30 ve 18:00'de hazırlanır.`;
     }).catch(() => {});
