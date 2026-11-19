@@ -116,3 +116,30 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
+
+/* FTR Güncel – makale kartlarında "Bulgular" kutusu.
+   Kaynak: data/ozet/<PMID>.json içindeki "b" alanı; yoksa data/bulgular.json. */
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '.bulg{margin-top:8px;padding:9px 12px;border-radius:10px;background:var(--soft);border:1px solid var(--line);font-size:14.5px;line-height:1.5}.bulg .bh{display:block;font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--mute);margin-bottom:2px}';
+  document.head.appendChild(st);
+  let X = null;
+  const extra = () => X || (X = fetch('data/bulgular.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({})));
+  const oz = id => fetch(`data/ozet/${id}.json`).then(r => r.ok ? r.json() : null).catch(() => null);
+  const escH = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  async function add(card) {
+    if (card.dataset.bulg) return;
+    card.dataset.bulg = '1';
+    const a = card.querySelector('.links a[href*="pubmed.ncbi.nlm.nih.gov"]');
+    const m = a && /(\d+)\/?$/.exec(a.getAttribute('href'));
+    if (!m) return;
+    const [o, x] = await Promise.all([oz(m[1]), extra()]);
+    const b = (o && o.b) || x[m[1]];
+    const msg = card.querySelector('.msg');
+    if (!b || !msg || card.querySelector('.bulg')) return;
+    msg.insertAdjacentHTML('afterend', `<div class="bulg"><span class="bh">📊 BULGULAR</span>${escH(b)}</div>`);
+  }
+  function scan() { document.querySelectorAll('#n-list .card, #g-list .card, #s-list .card').forEach(c => { if (c.querySelector('.msg')) add(c); }); }
+  function go() { ['n-list', 'g-list', 's-list'].forEach(id => { const el = document.getElementById(id); if (el) new MutationObserver(scan).observe(el, { childList: true, subtree: true }); }); scan(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+})();
