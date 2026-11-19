@@ -143,3 +143,61 @@
   function go() { ['n-list', 'g-list', 's-list'].forEach(id => { const el = document.getElementById(id); if (el) new MutationObserver(scan).observe(el, { childList: true, subtree: true }); }); scan(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 })();
+
+/* FTR Güncel – makale tarihi.
+   Dergiler makaleyi önce çevrim içi yayımlar, basılı sayıya aylar sonra koyar. PubMed'in "yayın tarihi" basılı sayının
+   tarihidir (ör. Aralık sayısı için 01.12). Kartta çevrim içi yayın tarihi gösterilir, basılı sayı ayrıca yazılır. */
+(function () {
+  const MO = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+  const AY = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+  const pad = n => String(n).padStart(2, '0');
+  const INFO = {};
+  const st = document.createElement('style');
+  st.textContent = '.iss{color:var(--mute)}';
+  document.head.appendChild(st);
+  const epub = s => { const p = String(s || '').trim().split(/\s+/); const m = MO[p[1]], d = +p[2]; return m && d ? `${p[0]}/${pad(m)}/${pad(d)}` : ''; };
+  const today = () => { const n = new Date(); return `${n.getFullYear()}/${pad(n.getMonth() + 1)}/${pad(n.getDate())}`; };
+  function fix(res) {
+    for (const id of res.uids || []) {
+      const x = res[id];
+      if (!x || x.error) continue;
+      const s = String(x.sortpubdate || '').slice(0, 10);
+      if (!/^\d{4}\/\d{2}\/\d{2}$/.test(s)) continue;
+      let e = epub(x.epubdate), lab = 'Çevrim içi';
+      if (!e && s > today()) {
+        const h = (x.history || []).find(h => h.pubstatus === 'entrez');
+        e = h ? String(h.date).slice(0, 10) : '';
+        lab = "PubMed'e eklendi";
+      }
+      if (!/^\d{4}\/\d{2}\/\d{2}$/.test(e) || e === s) continue;
+      x.sortpubdate = e + ' 00:00';
+      INFO[id] = { lab, iss: AY[+s.slice(5, 7) - 1] + ' ' + s.slice(0, 4) };
+    }
+  }
+  const of = window.fetch;
+  window.fetch = async function (u) {
+    const r = await of.apply(this, arguments);
+    try {
+      if (!r.ok || !/esummary\.fcgi/.test(String((u && u.url) || u))) return r;
+      const j = await r.clone().json();
+      if (!j || !j.result) return r;
+      fix(j.result);
+      return new Response(JSON.stringify(j), { status: r.status, statusText: r.statusText, headers: { 'Content-Type': 'application/json' } });
+    } catch (e) { return r; }
+  };
+  function mark(card) {
+    if (card.dataset.tar) return;
+    const a = card.querySelector('.links a[href*="pubmed.ncbi.nlm.nih.gov"]');
+    const m = a && /(\d+)\/?$/.exec(a.getAttribute('href'));
+    const i = m && INFO[m[1]];
+    if (!i) return;
+    card.dataset.tar = '1';
+    const d = card.querySelector('.meta .j + span');
+    if (!d) return;
+    d.textContent = `${i.lab}: ${d.textContent}`;
+    d.insertAdjacentHTML('afterend', `<span class="iss">Basılı sayı: ${i.iss}</span>`);
+  }
+  function scan() { document.querySelectorAll('#n-list .card, #g-list .card, #s-list .card').forEach(mark); }
+  function go() { ['n-list', 'g-list', 's-list'].forEach(id => { const el = document.getElementById(id); if (el) new MutationObserver(scan).observe(el, { childList: true, subtree: true }); }); scan(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+})();
