@@ -152,5 +152,30 @@
     "pmid": "42036268",
     "added": "2026-11-19",
     "summary_tr": "✅ İnflamatuvar artrit ve osteoartritte fiziksel aktiviteyi teşvik etmek standart bakımın bir parçasıdır.\n✅ Hastaya gün boyunca oturarak geçirdiği süreyi bölmesini ayrıca önerin; oturarak geçen süreyi azaltmak aktivite düzeyinden bağımsız olarak yarar sağlar.\n✅ Programı kardiyorespiratuvar uygunluk, kas kuvveti, esneklik ve nöromotor performans alanlarını kapsayacak biçimde ve hastayla ortak karar vererek planlayın.\n➕ Aktiviteyi ölçmek ve sürdürmek için adım sayar, giyilebilir cihaz gibi teknoloji destekli davranış değiştirme yöntemlerini düşünebilirsiniz.\n🔄 Önce: EULAR 2018 önerileri 4 genel ilke ve 10 öneriyle fiziksel aktiviteyi standart bakımın parçası olarak öneriyordu; oturarak geçen süreye özgü bir öneri yoktu. Şimdi: 2025 güncellemesi 4 genel ilke ve 11 öneri içeriyor ve oturarak geçen süreyi azaltmayı ayrı bir öneri olarak ekliyor.\n📝 İkincil özetlere göre hedef doz, Dünya Sağlık Örgütü önerisiyle aynıdır: haftada en az 150 dakika orta ya da 75 dakika yüksek şiddette aerobik aktivite ve haftada en az 2 gün kas güçlendirme.\n📝 Bu özet PubMed özetine ve ikincil haber özetlerine dayanıyor; tam metin okunmadı."
+  },
+  {
+    "id": "vadod-oa-2026",
+    "org": "VA/DoD",
+    "date": "2026-06-18",
+    "kind": "Kılavuz güncellemesi",
+    "area": "k1",
+    "title": "VA/DoD Clinical Practice Guideline for the Non-Surgical Management of Hip and Knee Osteoarthritis (Version 3.0 – 2026)",
+    "title_tr": "VA/DoD 2026: kalça ve diz osteoartritinin cerrahi dışı yönetimi kılavuzu",
+    "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/OA/Osteoarthritis-CPG_2026-Guideline_final_20260618.pdf",
+    "added": "2026-11-20",
+    "summary_tr": "✅ Aşırı kilolu ya da obez diz osteoartritli hastaya kilo vermeyi önerin; bu, kılavuzdaki tek güçlü öneridir. Kalça osteoartritinde aynı öneri zayıf düzeydedir.\n✅ Kalça ve diz osteoartritinde yapılandırılmış bir fizik tedavi programı reçete edin (zayıf öneri); kılavuz belirli bir fizik tedavi türünü ya da uygulama biçimini öne çıkarmıyor.\n✅ Diz osteoartritinde hastaya uyarlanmış eğitim ve fiziksel aktivite önerin. Seçilmiş hastalarda dizlik, topikal nonsteroid antiinflamatuvar ilaç, topikal kapsaisin, yoga ya da tai chi de önerilir (zayıf öneriler).\n✅ Kalıcı ağrısı olan diz osteoartritinde eklem içi kortikosteroid, kalça osteoartritinde ise görüntüleme eşliğinde eklem içi kortikosteroid enjeksiyonu önerilir (zayıf öneri).\n❌ Kalça osteoartritinde eklem içi viskosuplementasyon yapmayın (zayıf aleyhte öneri). Diz osteoartritinde viskosuplementasyon için kanıt yetersizdir.\n❌ Kalça ve diz osteoartritinde tramadol dahil opioid başlamayın (zayıf aleyhte öneri).\n❌ Diz osteoartritinde genikülat arter embolizasyonu ve genikülat sinir bloğu uygulamayın ve kannabidiol yağı önermeyin (zayıf aleyhte öneriler).\n❌ Osteoartrit tanısı için rutin olarak MR, BT ya da ultrason istemeyin (zayıf aleyhte öneri).\n📌 PRP, kök hücre, radyofrekans ablasyon, şok dalga tedavisi, TENS, ortopedik tabanlık, akupunktur, kuru iğneleme, balneoterapi ve besin takviyeleri için kanıt yetersizdir; kılavuz bunlar için lehte ya da aleyhte öneri vermiyor.\n🔄 Önce: Bu konuda geçerli belge VA/DoD 2020 osteoartrit kılavuzuydu. Şimdi: 2026 sürümü 11 yeni öneri ekledi, 11 öneriyi yeniden yazdı, 8 öneriyi değiştirdi ve 2 öneriyi aynen korudu.\n📝 Kılavuz 31 Temmuz 2025'e kadar yayımlanan kanıtları GRADE yöntemiyle değerlendirdi. Belgenin üzerinde Mayıs 2026 yazıyor; kayıttaki tarih kılavuz dosyasının adından alındı.\nPRATİKTE: Radyofrekans ablasyon, PRP, kök hücre ve şok dalga tedavisini düşündüğünüz hastaya kanıtın yetersiz olduğunu açıklayın."
+  },
+  {
+    "id": "iof-surgery-bone-2026",
+    "org": "IOF",
+    "date": "2026-06-18",
+    "kind": "Pozisyon bildirisi",
+    "area": "k3",
+    "title": "IOF position statement: systematic bone health optimization before joint replacement and spinal fusion surgery",
+    "title_tr": "Artroplasti ve enstrümante spinal füzyon öncesinde kemik sağlığının sistematik olarak iyileştirilmesi: IOF pozisyon bildirisi",
+    "url": "https://www.osteoporosis.foundation/news/new-position-statement-calls-systematic-bone-health-optimization-joint-replacement-and-spinal",
+    "doi": "10.1007/s00198-026-08086-3",
+    "added": "2026-11-20",
+    "summary_tr": "✅ Artroplasti ya da enstrümante spinal füzyon planlanan, 65 yaş ve üzerinde olan, daha önce kırılganlık kırığı geçirmiş ya da osteoporoz risk etkeni taşıyan hastada kemik sağlığını ameliyat döneminde değerlendirin (güçlü öneri).\n✅ Düşme riskini değerlendirin ve düşme önlemeyi ameliyat dönemi bakım yoluna ekleyin (güçlü öneri).\n✅ Artroplastiden sonra osteoporozu ya da yüksek riskli kemik yapısı olan hastaya bisfosfonat başlayın; bisfosfonat kontrendikeyse denosumab kullanın (güçlü öneri).\n✅ Spinal füzyon planlanan ve ilaç tedavisi gereken hastada teriparatidi ideal olarak ameliyattan en az bir ay önce başlayın ve ameliyattan sonra 6–12 ay sürdürün (güçlü öneri).\n➕ D vitamini eksikliğinde serum 25-hidroksi D vitamini düzeyini en az 50 nmol/L (20 ng/mL) olacak biçimde düzeltin ve günlük toplam kalsiyumu tercihen besinlerle 1000–1200 mg'a tamamlayın (koşullu öneri, düşük kesinlik).\n➕ Anabolik tedavi bittikten sonra antirezorptif tedaviye geçin (koşullu öneri, düşük kesinlik).\n📌 Akut kırıkta ya da acil spinal füzyonda ameliyatı kemik değerlendirmesi için ertelemeyin; değerlendirmeye ameliyat döneminde olabildiğince erken başlayın (koşullu öneri).\n🔄 Önce: IOF'un bu konuda daha önce yayımlanmış bir bildirisi doğrulanamadı. Şimdi: IOF Kırık Çalışma Grubu, artroplasti ve spinal füzyon öncesinde kemik sağlığının sistematik olarak değerlendirilmesini, düşme önlemeyi ve ameliyat türüne göre ilaç tedavisini öneriyor.\n📝 Bildiri Osteoporosis International'da 18 Haziran 2026'da çevrim içi yayımlandı. Özet IOF'un duyuru sayfasına dayanıyor; tam metin okunmadı.\nPRATİKTE: Protez ya da füzyon ameliyatı öncesi size yönlendirilen hastada kemik değerlendirmesini ve düşme riski değerlendirmesini rehabilitasyon planınıza ekleyin."
   }
 ]
