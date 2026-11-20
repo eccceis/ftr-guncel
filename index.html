@@ -74,6 +74,11 @@ main{padding:22px max(5vw,16px) 64px}
 .msg.dur{background:light-dark(#eef1f0,#232e2c);border-color:#6a7573}
 .msg.bil{background:light-dark(#fff5d1,#33290d);border-color:#a07a00}
 .noz{font-size:13px;color:var(--mute);margin:8px 0 0}
+.abs{margin-top:10px;border:1px solid var(--line,#d0d7d5);border-radius:10px;padding:8px 12px;font-size:15px}
+.abs summary{cursor:pointer;font-weight:700;font-size:14px}
+.abs .ab-p{margin:8px 0 0;line-height:1.55;overflow-wrap:anywhere}
+.abs .ab-l{font-weight:700}
+.abs .ab-n{font-size:13px;color:var(--mute);margin:8px 0 0}
 .more{display:block;margin:22px auto 0;background:var(--em);color:#fff;font-weight:700;padding:0 30px;min-height:54px}
 .more[disabled]{opacity:.55;cursor:default}
 .picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:4px 0 6px}
@@ -151,7 +156,7 @@ footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding
   </section>
 
   <section id="s-ctl" hidden>
-    <p class="sub">PubMed'in tamamında arayın. Yaygın Türkçe FTR terimleri otomatik olarak İngilizceye çevrilir; en iyi sonuç için İngilizce terim de yazabilirsiniz.</p>
+    <p class="sub">PubMed'de FTR odaklı arayın. Yaygın Türkçe FTR terimleri İngilizceye çevrilir; CTX, MS, CP, PRP gibi kısaltmalar FTR'deki anlamlarıyla aranır (ör. CTX = kemik yıkım belirteci C-terminal telopeptit). Sonuçlar kas-iskelet, kemik, romatoloji, nörorehabilitasyon, ağrı ve rehabilitasyon konularıyla sınırlandırılır; PubMed'in tamamında aramak için "Yalnızca FTR ile ilgili sonuçlar" seçeneğini kapatın.</p>
     <form class="q" id="f">
       <input type="search" id="q" placeholder="Örn. lateral epikondilit şok dalga tedavisi" autocomplete="off" aria-label="Arama terimi">
       <button class="go" type="submit">Ara</button>
@@ -179,6 +184,7 @@ footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding
         </select></label>
       <label><input type="checkbox" id="free"> Ücretsiz tam metin</label>
       <label><input type="checkbox" id="tr" checked> Türkçe terimleri çevir</label>
+      <label><input type="checkbox" id="ftr" checked> Yalnızca FTR ile ilgili sonuçlar</label>
     </div>
     <div class="chips" id="chips"></div>
   </section>
@@ -266,9 +272,17 @@ async function ncbi(path, params) {
   Object.entries(Object.assign({ db: 'pubmed', retmode: 'json', tool: 'ftr-guncel' }, params))
     .forEach(([k, v]) => { if (v !== undefined && v !== null && v !== '') u.searchParams.set(k, v); });
   let lastErr;
+  /* Uzun sorgularda (FTR kapsamı eklenince) NCBI'nin önerdiği gibi POST kullanılır; POST başarısız olursa GET'e dönülür. */
+  let post = u.toString().length > 1900;
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const r = await fetch(u.toString());
+      let r;
+      if (post) {
+        try {
+          r = await fetch(EUTILS + path, { method: 'POST', body: u.searchParams });
+          if (!r.ok && r.status !== 429 && r.status < 500) throw new Error('HTTP ' + r.status);
+        } catch (e) { post = false; r = await fetch(u.toString()); }
+      } else r = await fetch(u.toString());
       if (r.status === 429 || r.status >= 500) { lastErr = new Error('HTTP ' + r.status); await sleep(900 + attempt * 700); continue; }
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return await r.json();
@@ -353,14 +367,171 @@ const TR_EN = {
   'hidroterapi': 'hydrotherapy', 'skolyoz': 'scoliosis', 'hipermobilite': 'hypermobility', 'vestibüler': 'vestibular', 'mobilizasyon': 'mobilization',
   'manipülasyon': 'manipulation', 'enjeksiyon': 'injection', 'lazer': 'laser', 'ultrason': 'ultrasound', 'kılavuz': 'guideline', 'tedavisi': 'treatment',
   'tedavi': 'treatment', 'tanı': 'diagnosis', 'yaşlı': 'older adults', 'çocuk': 'children', 'ağrı': 'pain', 'diz': 'knee', 'kalça': 'hip', 'omuz': 'shoulder',
-  'boyun': 'neck', 'dirsek': 'elbow', 'bilek': 'wrist', 'ayak': 'foot', 'el': 'hand', 'bel': 'low back', 've': '', 'ile': '', 'için': '', 'de': '', 'da': ''
+  'boyun': 'neck', 'dirsek': 'elbow', 'bilek': 'wrist', 'ayak': 'foot', 'el': 'hand', 'bel': 'low back', 've': '', 'ile': '', 'için': '', 'de': '', 'da': '',
+  /* kemik metabolizması ve osteoporoz tedavisi */
+  'çene osteonekrozu': 'osteonecrosis of the jaw', 'çenede osteonekroz': 'osteonecrosis of the jaw', 'çene nekrozu': 'osteonecrosis of the jaw',
+  'osteonekroz': 'osteonecrosis', 'avasküler nekroz': 'avascular necrosis', 'kemik döngüsü belirteçleri': 'bone turnover markers',
+  'kemik döngüsü belirteci': 'bone turnover markers', 'kemik yıkım belirteci': 'bone resorption markers', 'kemik yapım belirteci': 'bone formation markers',
+  'kemik mineral yoğunluğu': 'bone mineral density', 'kemik yoğunluğu': 'bone density', 'kemik sağlığı': 'bone health',
+  'bisfosfonat': 'bisphosphonate', 'bifosfonat': 'bisphosphonate', 'zoledronik asit': 'zoledronic acid', 'alendronat': 'alendronate', 'risedronat': 'risedronate',
+  'ibandronat': 'ibandronate', 'teriparatid': 'teriparatide', 'abaloparatid': 'abaloparatide', 'ilaç tatili': 'drug holiday', 'tedavi tatili': 'drug holiday',
+  'd vitamini': 'vitamin D', 'kalsiyum': 'calcium', 'vertebral kırık': 'vertebral fracture', 'vertebra kırığı': 'vertebral fracture',
+  'omurga kırığı': 'vertebral fracture', 'kifoplasti': 'kyphoplasty', 'vertebroplasti': 'vertebroplasty', 'polimiyaljia romatika': 'polymyalgia rheumatica',
+  'koah': 'COPD', 'yürüme': 'gait', 'denge': 'balance'
 };
-const TR_KEYS = Object.keys(TR_EN).sort((a, b) => b.length - a.length);
+const TR_KEYS = Object.keys(TR_EN).sort((a, b) => b.length - a.length).map(k => ({ k, w: k.split(' '), en: TR_EN[k] }));
+/* Türkçe -> İngilizce: eşleştirme Türkçe küçük harfle yapılır, eşleşmeyen kelimeler yazıldığı gibi kalır
+   (İngilizce "Isokinetic" gibi kelimelerdeki büyük I'nın "ı" olmaması için). */
 function toEnglish(q) {
-  if (!$('#tr').checked || /\[|"|\bAND\b|\bOR\b/.test(q)) return q;
-  let s = ' ' + q.toLocaleLowerCase('tr').replace(/\s+/g, ' ') + ' ';
-  for (const k of TR_KEYS) s = s.split(' ' + k + ' ').join(' ' + TR_EN[k] + ' ');
-  return s.replace(/\s+/g, ' ').trim() || q;
+  if (!$('#tr').checked) return q;
+  const orig = q.trim().split(/\s+/).filter(Boolean), low = orig.map(w => w.toLocaleLowerCase('tr'));
+  const out = [];
+  for (let i = 0; i < orig.length;) {
+    const hit = TR_KEYS.find(t => t.w.every((x, j) => low[i + j] === x));
+    if (hit) { if (hit.en) out.push(hit.en); i += hit.w.length; }
+    else { out.push(orig[i]); i++; }
+  }
+  return out.join(' ').trim() || q;
+}
+
+/* ---------- FTR'de sık kullanılan kısaltmalar: PubMed'de başka alanlardaki anlamları yerine FTR anlamıyla aranır ----------
+   Örn. CTX tek başına PubMed'de çoğunlukla CTX-M beta-laktamaz, kolera toksini (CTX faj) ya da serebrotendinöz ksantomatoz
+   sonuçları getirir; FTR'de anlamı kemik yıkım belirteci C-terminal telopeptittir.
+   up: true olanlar yalnızca büyük harfle yazıldığında kısaltma sayılır (AS, US gibi İngilizce kelimelerle karışmaması için). */
+const tiab = a => a.map(t => `${/[\s-]/.test(t) ? `"${t}"` : t}[tiab]`).join(' OR ');
+const ABBR = {
+  /* CTX tek başına kemoterapi, siklofosfamid, CTX-M beta-laktamaz ve konotoksin makalelerinde de geçtiği için kemik bağlamı şartı konur. */
+  CTX: { q: tiab(['CTX-I', 'C-terminal telopeptide', 'C-telopeptide', 'carboxy-terminal telopeptide', 'CrossLaps']) + ' OR (CTX[tiab] AND (bone[tiab] OR osteoporosis[tiab] OR "bone turnover"[tiab] OR "Bone Remodeling"[mh] OR "Bone Density"[mh]))', tr: 'C-terminal telopeptit (kemik yıkım belirteci)' },
+  P1NP: { q: tiab(['P1NP', 'PINP', 'N-terminal propeptide', 'procollagen type I N-terminal propeptide']), tr: 'P1NP (kemik yapım belirteci)' },
+  BTM: { q: tiab(['bone turnover markers', 'bone turnover marker']), tr: 'kemik döngüsü belirteçleri' },
+  ONJ: { q: tiab(['osteonecrosis of the jaw', 'ONJ', 'MRONJ', 'BRONJ']) + ' OR "Bisphosphonate-Associated Osteonecrosis of the Jaw"[mh]', tr: 'çene osteonekrozu' },
+  BMD: { q: tiab(['bone mineral density', 'BMD']) + ' OR "Bone Density"[mh]', tr: 'kemik mineral yoğunluğu' },
+  DXA: { q: tiab(['DXA', 'DEXA', 'dual-energy X-ray absorptiometry']) + ' OR "Absorptiometry, Photon"[mh]', tr: 'DXA' },
+  OP: { q: 'osteoporosis[tiab] OR Osteoporosis[mh]', tr: 'osteoporoz', up: true },
+  VCF: { q: tiab(['vertebral compression fracture', 'vertebral fracture', 'vertebral fractures']), tr: 'vertebral kompresyon kırığı' },
+  OA: { q: 'osteoarthritis[tiab] OR Osteoarthritis[mh]', tr: 'osteoartrit' },
+  KOA: { q: tiab(['knee osteoarthritis']) + ' OR "Osteoarthritis, Knee"[mh]', tr: 'diz osteoartriti' },
+  RA: { q: tiab(['rheumatoid arthritis']) + ' OR "Arthritis, Rheumatoid"[mh]', tr: 'romatoid artrit' },
+  AS: { q: tiab(['ankylosing spondylitis']) + ' OR "Spondylitis, Ankylosing"[mh]', tr: 'ankilozan spondilit', up: true },
+  AXSPA: { q: tiab(['axial spondyloarthritis', 'axSpA']), tr: 'aksiyel spondiloartrit' },
+  PSA: { q: tiab(['psoriatic arthritis']) + ' OR "Arthritis, Psoriatic"[mh]', tr: 'psoriatik artrit' },
+  JIA: { q: tiab(['juvenile idiopathic arthritis']) + ' OR "Arthritis, Juvenile"[mh]', tr: 'jüvenil idiyopatik artrit' },
+  PMR: { q: tiab(['polymyalgia rheumatica', 'physical medicine and rehabilitation', 'physical and rehabilitation medicine']), tr: 'polimiyaljia romatika / fiziksel tıp ve rehabilitasyon' },
+  FMS: { q: 'fibromyalgia[tiab] OR Fibromyalgia[mh]', tr: 'fibromiyalji' },
+  MPS: { q: tiab(['myofascial pain syndrome', 'myofascial pain']) + ' OR "Myofascial Pain Syndromes"[mh]', tr: 'miyofasyal ağrı sendromu' },
+  CRPS: { q: tiab(['complex regional pain syndrome']) + ' OR "Complex Regional Pain Syndromes"[mh]', tr: 'kompleks bölgesel ağrı sendromu' },
+  CTS: { q: tiab(['carpal tunnel syndrome']) + ' OR "Carpal Tunnel Syndrome"[mh]', tr: 'karpal tünel sendromu' },
+  LBP: { q: tiab(['low back pain']) + ' OR "Low Back Pain"[mh]', tr: 'bel ağrısı' },
+  CLBP: { q: tiab(['chronic low back pain']), tr: 'kronik bel ağrısı' },
+  LSS: { q: tiab(['lumbar spinal stenosis']), tr: 'lomber spinal stenoz' },
+  SIJ: { q: tiab(['sacroiliac joint']), tr: 'sakroiliak eklem' },
+  WAD: { q: tiab(['whiplash-associated disorders', 'whiplash']), tr: 'whiplash' },
+  TOS: { q: tiab(['thoracic outlet syndrome']), tr: 'torasik çıkış sendromu' },
+  SAPS: { q: tiab(['subacromial pain syndrome', 'subacromial impingement']), tr: 'subakromiyal ağrı sendromu' },
+  FS: { q: tiab(['frozen shoulder', 'adhesive capsulitis']), tr: 'donuk omuz', up: true },
+  PFPS: { q: tiab(['patellofemoral pain']), tr: 'patellofemoral ağrı' },
+  PFP: { q: tiab(['patellofemoral pain']), tr: 'patellofemoral ağrı' },
+  GTPS: { q: tiab(['greater trochanteric pain syndrome', 'gluteal tendinopathy']), tr: 'büyük trokanter ağrı sendromu' },
+  ITBS: { q: tiab(['iliotibial band syndrome']), tr: 'iliotibial bant sendromu' },
+  ACL: { q: tiab(['anterior cruciate ligament', 'ACL']), tr: 'ön çapraz bağ' },
+  TKA: { q: tiab(['total knee arthroplasty', 'total knee replacement']) + ' OR "Arthroplasty, Replacement, Knee"[mh]', tr: 'total diz artroplastisi' },
+  TKR: { q: tiab(['total knee arthroplasty', 'total knee replacement']), tr: 'total diz protezi' },
+  THA: { q: tiab(['total hip arthroplasty', 'total hip replacement']) + ' OR "Arthroplasty, Replacement, Hip"[mh]', tr: 'total kalça artroplastisi' },
+  THR: { q: tiab(['total hip arthroplasty', 'total hip replacement']), tr: 'total kalça protezi' },
+  DDH: { q: tiab(['developmental dysplasia of the hip']), tr: 'gelişimsel kalça displazisi' },
+  HSD: { q: tiab(['hypermobility spectrum disorder', 'hypermobility spectrum disorders']), tr: 'hipermobilite spektrum bozukluğu' },
+  HEDS: { q: tiab(['hypermobile Ehlers-Danlos syndrome']), tr: 'hipermobil Ehlers-Danlos sendromu' },
+  MS: { q: tiab(['multiple sclerosis']) + ' OR "Multiple Sclerosis"[mh]', tr: 'multipl skleroz' },
+  CP: { q: tiab(['cerebral palsy']) + ' OR "Cerebral Palsy"[mh]', tr: 'serebral palsi' },
+  SCI: { q: tiab(['spinal cord injury', 'spinal cord injuries']) + ' OR "Spinal Cord Injuries"[mh]', tr: 'omurilik yaralanması' },
+  TBI: { q: tiab(['traumatic brain injury']) + ' OR "Brain Injuries, Traumatic"[mh]', tr: 'travmatik beyin hasarı' },
+  PD: { q: tiab(["Parkinson's disease", 'Parkinson disease']) + ' OR "Parkinson Disease"[mh]', tr: 'Parkinson hastalığı' },
+  ALS: { q: tiab(['amyotrophic lateral sclerosis']), tr: 'amiyotrofik lateral skleroz' },
+  GBS: { q: tiab(['Guillain-Barre syndrome', 'Guillain-Barré syndrome']) + ' OR "Guillain-Barre Syndrome"[mh]', tr: 'Guillain-Barré sendromu' },
+  DMD: { q: tiab(['Duchenne muscular dystrophy']), tr: 'Duchenne musküler distrofi' },
+  SMA: { q: tiab(['spinal muscular atrophy']) + ' OR "Muscular Atrophy, Spinal"[mh]', tr: 'spinal musküler atrofi' },
+  HSP: { q: tiab(['hemiplegic shoulder pain', 'hereditary spastic paraplegia']), tr: 'hemiplejik omuz ağrısı / herediter spastik parapleji' },
+  CIMT: { q: tiab(['constraint-induced movement therapy']), tr: 'zorunlu kullanım hareket tedavisi' },
+  RAGT: { q: tiab(['robot-assisted gait training']), tr: 'robot destekli yürüme eğitimi' },
+  PRP: { q: tiab(['platelet-rich plasma', 'PRP']) + ' OR "Platelet-Rich Plasma"[mh]', tr: 'trombositten zengin plazma' },
+  ESWT: { q: tiab(['extracorporeal shock wave therapy', 'extracorporeal shockwave therapy', 'shock wave therapy', 'ESWT']), tr: 'ekstrakorporeal şok dalga tedavisi' },
+  TENS: { q: tiab(['transcutaneous electrical nerve stimulation', 'TENS']) + ' OR "Transcutaneous Electric Nerve Stimulation"[mh]', tr: 'TENS' },
+  NMES: { q: tiab(['neuromuscular electrical stimulation', 'NMES']), tr: 'nöromüsküler elektrik stimülasyonu' },
+  FES: { q: tiab(['functional electrical stimulation']), tr: 'fonksiyonel elektrik stimülasyonu' },
+  IFC: { q: tiab(['interferential current', 'interferential therapy']), tr: 'interferansiyel akım' },
+  LLLT: { q: tiab(['low-level laser therapy', 'photobiomodulation']) + ' OR "Low-Level Light Therapy"[mh]', tr: 'düşük düzeyli lazer tedavisi' },
+  HILT: { q: tiab(['high-intensity laser therapy']), tr: 'yüksek yoğunluklu lazer tedavisi' },
+  PBM: { q: tiab(['photobiomodulation']), tr: 'fotobiyomodülasyon' },
+  RTMS: { q: tiab(['repetitive transcranial magnetic stimulation', 'rTMS']), tr: 'tekrarlayıcı transkraniyal manyetik stimülasyon' },
+  TMS: { q: tiab(['transcranial magnetic stimulation']) + ' OR "Transcranial Magnetic Stimulation"[mh]', tr: 'transkraniyal manyetik stimülasyon' },
+  TDCS: { q: tiab(['transcranial direct current stimulation', 'tDCS']) + ' OR "Transcranial Direct Current Stimulation"[mh]', tr: 'transkraniyal doğru akım uyarımı' },
+  BTX: { q: tiab(['botulinum toxin', 'botulinum neurotoxin']) + ' OR "Botulinum Toxins"[mh]', tr: 'botulinum toksini' },
+  BONT: { q: tiab(['botulinum toxin', 'botulinum neurotoxin']) + ' OR "Botulinum Toxins"[mh]', tr: 'botulinum toksini' },
+  BTA: { q: tiab(['botulinum toxin type A', 'botulinum toxin A']), tr: 'botulinum toksini A' },
+  HA: { q: tiab(['hyaluronic acid', 'hyaluronan', 'viscosupplementation']) + ' OR "Hyaluronic Acid"[mh]', tr: 'hyaluronik asit' },
+  IA: { q: tiab(['intra-articular', 'intraarticular']), tr: 'eklem içi', up: true },
+  CSI: { q: tiab(['corticosteroid injection', 'steroid injection']), tr: 'kortikosteroid enjeksiyonu' },
+  DN: { q: tiab(['dry needling']) + ' OR "Dry Needling"[mh]', tr: 'kuru iğneleme', up: true },
+  US: { q: tiab(['ultrasound', 'ultrasonography', 'ultrasound-guided', 'sonography']), tr: 'ultrason', up: true },
+  RFA: { q: tiab(['radiofrequency ablation', 'radiofrequency']), tr: 'radyofrekans ablasyon' },
+  PRF: { q: tiab(['pulsed radiofrequency']), tr: 'pulsed radyofrekans' },
+  PNF: { q: tiab(['proprioceptive neuromuscular facilitation']), tr: 'proprioseptif nöromüsküler fasilitasyon' },
+  MLD: { q: tiab(['manual lymphatic drainage', 'manual lymph drainage']), tr: 'manuel lenf drenajı' },
+  CDT: { q: tiab(['complete decongestive therapy', 'complex decongestive therapy']), tr: 'kompleks dekonjestif tedavi' },
+  CR: { q: tiab(['cardiac rehabilitation']) + ' OR "Cardiac Rehabilitation"[mh]', tr: 'kardiyak rehabilitasyon', up: true },
+  PR: { q: tiab(['pulmonary rehabilitation']), tr: 'pulmoner rehabilitasyon', up: true },
+  VR: { q: tiab(['virtual reality']) + ' OR "Virtual Reality"[mh]', tr: 'sanal gerçeklik', up: true },
+  ROM: { q: tiab(['range of motion']) + ' OR "Range of Motion, Articular"[mh]', tr: 'eklem hareket açıklığı' },
+  ADL: { q: tiab(['activities of daily living']) + ' OR "Activities of Daily Living"[mh]', tr: 'günlük yaşam aktiviteleri' },
+  FIM: { q: tiab(['Functional Independence Measure']), tr: 'Fonksiyonel Bağımsızlık Ölçeği' },
+  MAS: { q: tiab(['Modified Ashworth Scale', 'Ashworth']), tr: 'Modifiye Ashworth Skalası' },
+  FMA: { q: tiab(['Fugl-Meyer']), tr: 'Fugl-Meyer' },
+  BBS: { q: tiab(['Berg Balance Scale']), tr: 'Berg Denge Ölçeği' },
+  TUG: { q: tiab(['Timed Up and Go']), tr: 'Süreli Kalk ve Yürü testi' },
+  ODI: { q: tiab(['Oswestry Disability Index', 'Oswestry']), tr: 'Oswestry Özürlülük İndeksi' },
+  NRS: { q: tiab(['numeric rating scale', 'numerical rating scale']), tr: 'sayısal derecelendirme ölçeği' },
+  MSK: { q: 'musculoskeletal[tiab]', tr: 'kas-iskelet' }
+};
+const abbrKey = w => {
+  const k = w.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  const n = k === 'CTXI' || k === 'BCTX' || k === 'SCTX' ? 'CTX' : k === 'PINP' ? 'P1NP' : k === 'MRONJ' || k === 'BRONJ' ? 'ONJ' : k === 'DEXA' ? 'DXA' : k;
+  const a = ABBR[n];
+  if (!a) return null;
+  if (a.up && w.replace(/[^A-Za-z0-9]/g, '') !== n) return null;
+  return n;
+};
+
+/* ---------- FTR kapsamı: konu başlıkları (MeSH) + başlık/özet kelimeleri + FTR dergileri ---------- */
+const FTR_MESH = ['Musculoskeletal Diseases', 'Bone Density', 'Bone Remodeling', 'Bone Density Conservation Agents', 'Fractures, Bone', 'Accidental Falls',
+  'Rehabilitation', 'Physical and Rehabilitation Medicine', 'Physical Therapy Modalities', 'Exercise', 'Pain', 'Stroke', 'Spinal Cord Injuries', 'Brain Injuries',
+  'Cerebral Palsy', 'Multiple Sclerosis', 'Parkinson Disease', 'Neuromuscular Diseases', 'Peripheral Nervous System Diseases', 'Muscle Spasticity', 'Deglutition Disorders', 'Lymphedema',
+  'Amputation, Surgical', 'Orthotic Devices', 'Disabled Persons', 'Activities of Daily Living', 'Athletic Injuries', 'Arthroplasty', 'Frailty', 'Gait',
+  'Postural Balance', 'Bisphosphonate-Associated Osteonecrosis of the Jaw'];
+const FTR_TIAB = ['rehabilitation', 'physiotherapy', 'physical therapy', 'physical medicine', 'exercise', 'exercises', 'osteoporosis', 'osteoporotic', 'osteopenia',
+  'bone mineral density', 'bone turnover', 'bone loss', 'fracture', 'fractures', 'osteonecrosis of the jaw', 'osteoarthritis', 'musculoskeletal', 'low back pain',
+  'neck pain', 'shoulder pain', 'knee pain', 'chronic pain', 'neuropathic pain', 'tendinopathy', 'rheumatoid arthritis', 'spondyloarthritis', 'ankylosing spondylitis',
+  'psoriatic arthritis', 'fibromyalgia', 'gout', 'polymyalgia rheumatica', 'stroke', 'spinal cord injury', 'brain injury', 'spasticity', 'cerebral palsy',
+  'multiple sclerosis', 'Parkinson', 'sarcopenia', 'frailty', 'falls', 'gait', 'arthroplasty', 'lymphedema', 'amputation', 'orthosis', 'prosthesis', 'scoliosis',
+  'sports injury', 'disability'];
+const FTR_SCOPE = `(${FTR_MESH.map(m => `"${m}"[mh]`).join(' OR ')} OR ${tiab(FTR_TIAB)} OR ${JOURNALS.map(j => `"${j}"[ta]`).join(' OR ')})`;
+/* Kapsam: konu başlıkları (MeSH; alt başlıklar otomatik dahil, ör. Musculoskeletal Diseases osteoporoz, romatizmal hastalıklar, sarkopeni ve çene osteonekrozunu kapsar),
+   henüz MeSH ile dizinlenmemiş yeni makaleler için başlık/özet kelimeleri ve FTR dergileri. */
+
+/* Kullanıcının yazdığını PubMed sorgusuna çevirir. PubMed sözdizimi ([alan], tırnak, AND/OR/NOT) yazılmışsa olduğu gibi bırakır. */
+function buildQuery(q) {
+  q = q.trim();
+  if (/\[|"|\bAND\b|\bOR\b|\bNOT\b/.test(q)) return { pq: q, shown: q, abbr: [] };
+  const words = q.split(/\s+/).filter(Boolean), useAbbr = $('#ftr').checked;
+  const pq = [], shown = [], abbr = [];
+  let buf = [];
+  const flush = () => { if (buf.length) { const e = toEnglish(buf.join(' ')); if (e) { pq.push(e); shown.push(e); } buf = []; } };
+  for (const w of words) {
+    const k = useAbbr ? abbrKey(w) : null;
+    if (k) { flush(); pq.push(`(${ABBR[k].q})`); shown.push(`${w} (${ABBR[k].tr})`); abbr.push(k); }
+    else buf.push(w);
+  }
+  flush();
+  return { pq: pq.join(' AND ') || q, shown: shown.join(' + '), abbr };
 }
 
 /* ---------- pre-generated Turkish titles and summaries (data/ozet/<pmid>.json, written by the daily bulletin) ---------- */
@@ -386,10 +557,52 @@ async function enrich(F, from, arts) {
     const btns = (o.tr && more ? '<button type="button" class="b" data-act="tr">Ayrıntılı Türkçe özet</button>' : '') + (o.en ? '<button type="button" class="b" data-act="en">English summary</button>' : '');
     if (btns) acts.insertAdjacentHTML('afterbegin', btns);
   }));
+  /* Türkçe klinik özeti olmayan makalelerde PubMed'deki özgün özet, okuyucu kutuyu açınca PubMed'den anlık getirilir (sitede saklanmaz). */
   arts.forEach((a, k) => {
     const c = F.list.querySelector(`.card[data-i="${from + k}"]`);
-    if (c && !a.oz && !c.querySelector('.noz')) c.querySelector('.acts').insertAdjacentHTML('beforebegin', '<p class="noz">Bu makale için henüz klinik özet hazırlanmadı.</p>');
+    if (!c || a.oz || c.querySelector('.abs')) return;
+    c.querySelector('.acts').insertAdjacentHTML('beforebegin', `<details class="abs" data-pmid="${esc(a.pmid)}"><summary>Özet (PubMed, İngilizce)</summary><div class="ab-b"><p class="ab-n">PubMed'den yükleniyor…</p></div></details>`);
   });
+}
+async function openAbstract(d) {
+  if (!d.open || d.dataset.done) return;
+  d.dataset.done = '1';
+  const box = d.querySelector('.ab-b'), id = d.dataset.pmid;
+  let parts;
+  try { parts = (await abstracts([id]))[id]; } catch (e) {
+    delete d.dataset.done;
+    box.innerHTML = '<p class="ab-n">Özet şu anda PubMed\'den yüklenemedi. Kutuyu kapatıp yeniden açarak tekrar deneyin ya da "Orijinal özet PubMed\'de" bağlantısını kullanın.</p>';
+    return;
+  }
+  if (!parts || !parts.length) { box.innerHTML = '<p class="ab-n">Bu makalenin PubMed\'de özeti yok; ayrıntı için başlığa ya da PubMed bağlantısına bakın.</p>'; return; }
+  const plain = parts.map(p => (p.l ? p.l + ': ' : '') + p.t).join('\n\n');
+  const gt = plain.length <= 4800 ? `<a href="https://translate.google.com/?sl=en&tl=tr&op=translate&text=${encodeURIComponent(plain)}" target="_blank" rel="noopener">Google Çeviri ile Türkçe oku</a> · ` : '';
+  box.innerHTML = parts.map(p => `<p class="ab-p">${p.l ? `<span class="ab-l">${esc(p.l)}:</span> ` : ''}${esc(p.t)}</p>`).join('') +
+    `<p class="ab-n">${gt}Kaynak: PubMed (NLM). Yazarların özgün özetidir; telif hakkı yazarlara ve yayıncıya aittir. Türkçe klinik özet yalnızca günlük bültene giren makaleler için hazırlanır.</p>`;
+}
+
+/* PubMed özgün özetleri (efetch XML) */
+const ABS = new Map();
+async function abstracts(ids) {
+  const todo = ids.filter(id => !ABS.has(id));
+  if (todo.length) {
+    const u = new URL(EUTILS + 'efetch.fcgi');
+    Object.entries({ db: 'pubmed', retmode: 'xml', rettype: 'abstract', tool: 'ftr-guncel', id: todo.join(',') }).forEach(([k, v]) => u.searchParams.set(k, v));
+    const wait = Math.max(0, nextSlot - Date.now());
+    nextSlot = Date.now() + wait + 380;
+    if (wait) await sleep(wait);
+    const r = await fetch(u.toString());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const doc = new DOMParser().parseFromString(await r.text(), 'text/xml');
+    doc.querySelectorAll('PubmedArticle').forEach(pa => {
+      const id = (pa.querySelector('MedlineCitation > PMID') || {}).textContent;
+      if (!id) return;
+      ABS.set(id.trim(), [...pa.querySelectorAll('Abstract > AbstractText')]
+        .map(n => ({ l: n.getAttribute('Label') || '', t: n.textContent.replace(/\s+/g, ' ').trim() })).filter(p => p.t));
+    });
+    todo.forEach(id => { if (!ABS.has(id)) ABS.set(id, []); });
+  }
+  const o = {}; ids.forEach(id => { o[id] = ABS.get(id); }); return o;
 }
 function msgClass(s) {
   return /^✅/.test(s) ? 'yap' : /^❌/.test(s) ? 'yapma' : /^➕/.test(s) ? 'plus' : /^⏸/.test(s) ? 'dur' : 'bil';
@@ -477,7 +690,11 @@ function onCardClick(e) {
   const label = lang === 'tr' ? 'Türkçe özet · yapay zekâ (Claude) ile PubMed özetinden üretildi, hata içerebilir' : 'English summary · AI-generated (Claude) from the PubMed abstract; may contain errors';
   out.innerHTML = lang === 'tr' ? fmtSum(a.oz.tr, label) : `<div class="panel"><span class="h">${label}</span>${esc(a.oz[lang])}</div>`;
 }
-[G, N, S].forEach(F => { F.list.addEventListener('click', onCardClick); F.more.addEventListener('click', () => load(F, false)); });
+[G, N, S].forEach(F => {
+  F.list.addEventListener('click', onCardClick);
+  F.list.addEventListener('toggle', e => { if (e.target.matches && e.target.matches('details.abs')) openAbstract(e.target); }, true);
+  F.more.addEventListener('click', () => load(F, false));
+});
 
 $('#trt').addEventListener('change', () => {
   try { localStorage.setItem('ftr-trt', $('#trt').checked ? '1' : '0'); } catch (e) {}
@@ -577,8 +794,9 @@ const CHIPS = ['Diz osteoartriti egzersiz', 'Lateral epikondilit şok dalga', '�
 let raw = '';
 function runSearch() {
   if (!raw) return;
-  const pq = toEnglish(raw);
+  const b = buildQuery(raw), pq = b.pq;
   let q = pq;
+  if ($('#ftr').checked) q = `(${q}) AND ${FTR_SCOPE}`;
   const t = FILT[$('#type').value];
   if (t) q = `(${q}) AND ${t}`;
   if ($('#free').checked) q = `(${q}) AND free full text[sb]`;
@@ -586,14 +804,14 @@ function runSearch() {
   const y = +$('#date').value;
   if (y) { input.mindate = ago(y, 'y'); input.maxdate = ymd(new Date()); input.datetype = 'pdat'; }
   S.input = input;
-  S.note = pq !== raw ? ` · PubMed sorgusu: <i>${esc(pq)}</i>` : '';
-  try { localStorage.setItem('ftr-arama', JSON.stringify({ q: raw, type: $('#type').value, date: $('#date').value, sort: $('#sort').value, free: $('#free').checked })); } catch (e) {}
+  S.note = (b.shown !== raw ? ` · aranan: <i>${esc(b.shown)}</i>` : '') + ($('#ftr').checked ? ' · yalnızca FTR ile ilgili makaleler' : ' · PubMed\'in tamamı');
+  try { localStorage.setItem('ftr-arama', JSON.stringify({ q: raw, type: $('#type').value, date: $('#date').value, sort: $('#sort').value, free: $('#free').checked, ftr: $('#ftr').checked })); } catch (e) {}
   load(S, true);
 }
 $('#chips').innerHTML = CHIPS.map(c => `<button type="button" class="chip">${esc(c)}</button>`).join('');
 $('#f').addEventListener('submit', e => { e.preventDefault(); raw = $('#q').value.trim(); if (!raw) { $('#q').focus(); return; } runSearch(); });
 $('#chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; $('#q').value = c.textContent; raw = c.textContent; runSearch(); });
-['type', 'date', 'sort', 'free'].forEach(id => $('#' + id).addEventListener('change', runSearch));
+['type', 'date', 'sort', 'free', 'tr', 'ftr'].forEach(id => $('#' + id).addEventListener('change', runSearch));
 
 /* ---------- references page ---------- */
 const W = 'Kurum sitesi (günde 2 kez, bülten)';
@@ -677,7 +895,7 @@ function renderRefs() {
       <h3>Yapay zekâ kullanımı</h3>
       <p>Türkçe makale başlıkları, Türkçe ve İngilizce özetler, klinik mesajlar (yap / yapma) ve önceki önerilerle karşılaştırmalar, günlük tarama sırasında yapay zekâ (Anthropic Claude) ile önceden üretilir. Bunlar yalnızca kaynakta yazan bilgiye dayanacak şekilde hazırlanır, ancak hata veya eksik içerebilir. Önemli bir bilgiyi kullanmadan önce birincil kaynakla doğrulayın.</p>
       <h3>Kaynaklar ve telif hakları</h3>
-      <p>Makale künyeleri PubMed'den alınır. Bu site ABD Ulusal Tıp Kütüphanesi'nin (NLM, NIH) kamuya açık verilerini (PubMed, PubMed Central, ClinicalTrials.gov, NCBI Bookshelf) kullanır; NLM bu siteden sorumlu değildir ve bu siteyi onaylamaz ya da önermez. Makale başlıkları, özetleri ve tam metinlerinin telif hakkı yazarlarına ve yayıncılarına aittir. Bu sitede özgün özetler çoğaltılmaz; her kayıtta DOI ve PubMed bağlantısıyla orijinal kaynağa yönlendirilir. Kılavuzların telif hakkı yayımlayan kuruma aittir; sitede yalnızca kendi cümlelerimizle yazılmış kısa özetler ve resmi kaynağın bağlantısı yer alır.</p>
+      <p>Makale künyeleri PubMed'den alınır. Bu site ABD Ulusal Tıp Kütüphanesi'nin (NLM, NIH) kamuya açık verilerini (PubMed, PubMed Central, ClinicalTrials.gov, NCBI Bookshelf) kullanır; NLM bu siteden sorumlu değildir ve bu siteyi onaylamaz ya da önermez. Makale başlıkları, özetleri ve tam metinlerinin telif hakkı yazarlarına ve yayıncılarına aittir. Özgün özetler bu sitede saklanmaz ve çoğaltılmaz; arama sonuçlarında, okuyucu açtığında NCBI E-utilities aracılığıyla doğrudan PubMed'den anlık olarak getirilip kaynağı belirtilerek gösterilir. Her kayıtta DOI ve PubMed bağlantısıyla orijinal kaynağa yönlendirilir. Kılavuzların telif hakkı yayımlayan kuruma aittir; sitede yalnızca kendi cümlelerimizle yazılmış kısa özetler ve resmi kaynağın bağlantısı yer alır.</p>
       <h3>Kurumlarla ilişki ve çıkar beyanı</h3>
       <p>Referanslar sayfasında adı geçen kurum ve derneklerin adları yalnızca kaynak göstermek amacıyla kullanılır. Bu sitenin söz konusu kurumlarla, ilaç ya da tıbbi cihaz firmalarıyla bir bağlantısı, sponsorluğu ya da ticari ilişkisi yoktur. Sitede reklam ve ürün tanıtımı yer almaz.</p>
       <h3>Güncellik</h3>
@@ -727,7 +945,7 @@ try {
   const tr = localStorage.getItem('ftr-trt'); if (tr !== null) $('#trt').checked = tr === '1';
   const ar = localStorage.getItem('ftr-area'); if (ar) $('#area').value = ar;
   const s = JSON.parse(localStorage.getItem('ftr-arama') || 'null');
-  if (s) { $('#q').value = s.q || ''; $('#type').value = s.type || 'all'; $('#date').value = s.date || '0'; $('#sort').value = s.sort || 'relevance'; $('#free').checked = !!s.free; }
+  if (s) { $('#q').value = s.q || ''; $('#type').value = s.type || 'all'; $('#date').value = s.date || '0'; $('#sort').value = s.sort || 'relevance'; $('#free').checked = !!s.free; if (s.ftr === false) $('#ftr').checked = false; }
 } catch (e) {}
 
 show(tabFromHash());
