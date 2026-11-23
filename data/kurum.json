@@ -191,5 +191,19 @@
     "pmid": "43067383",
     "added": "2026-11-22",
     "summary_tr": "➕ Başka bir ağrı nedeni bulunamayan ve olağan optimal tedaviye rağmen ağrısı süren diz osteoartritli hastada genikülat arter embolizasyonunu bir seçenek olarak düşünebilirsiniz.\n✅ İşlemden önce diz sinovitini Doppler ultrasonla ya da tercihen kontrastlı MR ile araştırın.\n✅ Embolizasyon kararını girişimsel radyologla birlikte verin ve işlemi çok bileşenli tedavi planının bir parçası olarak uygulayın; işlem öncesi ve sonrası değerlendirme diğer kas-iskelet hekimleriyle ortak yapılmalıdır.\n➕ Seçilmiş hastalarda işlem tekrarlanabilir.\n➕ Embolizasyondan sonra diz cerrahisi yapılabilir; rehber iki işlem arasında üç ay beklenmesini makul buluyor.\n➕ Diz protezinden sonra ağrısı süren ve eklem enfeksiyonu dahil diğer nedenleri dışlanmış seçilmiş hastalarda da embolizasyon düşünülebilir.\n🔄 Önce: NICE 2021'den bu yana genikülat arter embolizasyonunun yalnızca araştırma kapsamında yapılmasını öneriyor ve VA/DoD 2026 osteoartrit kılavuzu bu işleme karşı zayıf öneri veriyor. Şimdi: FTR derneği SOFMER'in de katıldığı altı Fransız derneği, işlemi olağan tedaviye dirençli ağrılı diz osteoartritinde endike sayıyor.\n📝 Öneriler, 16 kişilik çok disiplinli bir grubun literatür taraması ve klinik deneyimine dayanan uzman uzlaşısıdır. Özette öneri gücü ve kanıt düzeyi belirtilmemiştir ve tam metin açık erişimde değildir.\nPRATİKTE: Bu işlemi düşündüğünüz hastaya kılavuzlar arasındaki görüş ayrılığını açıkça anlatın."
+  },
+  {
+    "id": "aap-jia-ocular-2026",
+    "org": "AAP, AAO ve AAPOS",
+    "date": "2026-11-23",
+    "kind": "Klinik rapor (yeni)",
+    "area": "k6",
+    "title": "Ocular Screening in Children With Juvenile Idiopathic Arthritis or Treated With Hydroxychloroquine: Clinical Report",
+    "title_tr": "Juvenil idiyopatik artritli ya da hidroksiklorokin kullanan çocuklarda göz taraması: Amerikan Pediatri Akademisi klinik raporu",
+    "url": "https://publications.aap.org/pediatrics/article/doi/10.1542/peds.2026-079383/211370/Ocular-Screening-in-Children-With-Juvenile",
+    "doi": "10.1542/peds.2026-079383",
+    "pmid": "43068708",
+    "added": "2026-11-23",
+    "summary_tr": "✅ Juvenil idiyopatik artriti olan ve üveit riski taşıyan ya da üveit tanısı almış çocukları planlı aralıklarla göz muayenesine gönderin.\n✅ Hidroksiklorokin kullanan çocukta, çocuklara özgü veri elde edilene kadar erişkin doz sınırına uyun; günlük doz gerçek vücut ağırlığına göre 5 mg/kg'ın altında kalmalıdır. Rapor bunu önemle öneriyor.\n✅ Aileye düzenli göz taramasının hastalığa ve ilaca bağlı görme kaybını önlemek için kritik olduğunu anlatın.\n📌 Tarama önerilerine uyulduğunda bu hastalıklardaki ilaç tedavisinin görece güvenli olduğunu söyleyerek aileyi rahatlatabilirsiniz.\n🔄 Önce: Amerikan Oftalmoloji Akademisi 2016'da hidroksiklorokin dozunun gerçek kiloya göre günde en fazla 5 mg/kg olmasını erişkin verisine dayanarak önermişti; Amerikan Romatoloji Koleji (ACR) ve Artritis Vakfı ise 2019'da juvenil idiyopatik artritli çocuklarda düzenli göz taramasını güçlü öneri olarak vermişti. Şimdi: Amerikan Pediatri Akademisi, Amerikan Oftalmoloji Akademisi ve Amerikan Pediatrik Oftalmoloji ve Şaşılık Derneği'nin ortak raporu erişkin doz sınırını çocuklara da uyguluyor ve juvenil idiyopatik artrit, üveit ve hidroksiklorokin kullanımı için çocuklara özgü göz tarama önerileri veriyor.\n📝 Bu özet yalnızca PubMed özetine dayanıyor. Raporun tam metni açılamadığı için tarama aralıkları ve kullanılacak testler buraya eklenmedi; özette öneri gücü de belirtilmemiş.\nPRATİKTE: Hidroksiklorokin kullanan çocukta dozu gerçek kiloya göre kontrol edin ve her izlem vizitinde göz taramasının aksamadığını sorun."
   }
 ]
